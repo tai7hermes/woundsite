@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>計分工具 | 傷口照護循證指引</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.tool{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;margin:18px 0}
+.q{margin:14px 0;padding-bottom:12px;border-bottom:1px dashed var(--line)}
+.q .qt{font-weight:700;color:var(--navy);margin-bottom:6px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts label{display:block;border:1.5px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer;font-size:.92rem;background:#fff;transition:.12s}
+.opts input{display:none}
+.opts input:checked+span{color:#fff}
+.opts label:has(input:checked){background:var(--blue);border-color:var(--blue);color:#fff}
+.opts label:hover{border-color:var(--blue)}
+.result{border-radius:10px;padding:16px 20px;margin-top:14px;font-size:1rem;display:none}
+.result.show{display:block}
+.result .score{font-size:1.9rem;font-weight:800}
+.r-green{background:#e8f5e9;border-left:6px solid #2e7d32;color:#1b5e20}
+.r-yellow{background:#fff8e1;border-left:6px solid #f9a825;color:#7a5c00}
+.r-orange{background:#fff3e0;border-left:6px solid #ef6c00;color:#8a4500}
+.r-red{background:#ffebee;border-left:6px solid #c62828;color:#8e1b1b}
+.btnrow{margin-top:12px}
+button.calc{background:var(--navy);color:#fff;border:0;border-radius:8px;padding:10px 22px;font-size:1rem;cursor:pointer}
+button.calc:hover{background:var(--blue)}
+button.reset{background:#fff;color:var(--mid);border:1px solid var(--line);border-radius:8px;padding:10px 16px;font-size:.9rem;cursor:pointer;margin-left:8px}
+@media (prefers-color-scheme: dark){
+  .tool{background:#1e2330;border-color:#39405a}
+  .opts label{background:#252b3b;border-color:#39405a;color:#dfe3ea}
+}
+</style>
+</head>
+<body>
+<header><div class="brand">🩹 傷口照護循證指引</div></header>
+<nav><ul>
+<li><a href="index.html">首頁</a></li>
+<li><a href="classification.html">傷口分類</a></li>
+<li><a href="staging.html">分期系統</a></li>
+<li><a href="management.html">治療原則</a></li>
+<li><a href="dressings.html">敷料中心</a></li>
+<li><a href="decision.html">決策樹</a></li>
+<li><a href="selector.html">敷料選擇器</a></li>
+<li><a href="burns.html">燒傷面積</a></li>
+<li><a href="tetanus.html">破傷風</a></li>
+<li><a href="tools.html" class="active">計分工具</a></li>
+<li><a href="education.html">教學專區</a></li>
+<li><a href="library.html">指南文獻庫</a></li>
+<li><a href="about.html">關於本站</a></li>
+</ul></nav>
+<main>
+<div class="crumb">首頁 / 計分工具</div>
+<h1>WIfI／SINBAD 計分器</h1>
+<div class="warn">⚠️ 本工具為教學與臨床輔助用途，結果不能取代完整臨床評估與專業判斷。</div>
+
+<!-- ==================== SINBAD ==================== -->
+<div class="tool" id="sinbad">
+<h2 style="margin-top:0">SINBAD 計分器（糖尿病足潰瘍）</h2>
+<p class="small">6 項各 0–1 分，總分 0–6。用於溝通、稽核與預後分層（IWGDF 2023 推薦之基本分類）。</p>
+
+<div class="q"><div class="qt">S — Site 部位</div>
+<div class="opts">
+<label><input type="radio" name="s_site" value="0"><span>前足（0 分）</span></label>
+<label><input type="radio" name="s_site" value="1"><span>中足／後足（1 分）</span></label>
+</div></div>
+
+<div class="q"><div class="qt">I — Ischemia 缺血</div>
+<div class="opts">
+<label><input type="radio" name="s_isch" value="0"><span>足部血流完整，至少一條可觸脈搏（0 分）</span></label>
+<label><input type="radio" name="s_isch" value="1"><span>臨床缺血證據（1 分）</span></label>
+</div></div>
+
+<div class="q"><div class="qt">N — Neuropathy 神經病變</div>
+<div class="opts">
+<label><input type="radio" name="s_neuro" value="0"><span>保護性感覺存在（0 分）</span></label>
+<label><input type="radio" name="s_neuro" value="1"><span>保護性感覺喪失（1 分）</span></label>
+</div></div>
+
+<div class="q"><div class="qt">B — Bacterial infection 感染</div>
+<div class="opts">
+<label><input type="radio" name="s_inf" value="0"><span>無感染（0 分）</span></label>
+<label><input type="radio" name="s_inf" value="1"><span>有感染（1 分）</span></label>
+</div></div>
+
+<div class="q"><div class="qt">A — Area 面積</div>
+<div class="opts">
+<label><input type="radio" name="s_area" value="0"><span>&lt; 1 cm²（0 分）</span></label>
+<label><input type="radio" name="s_area" value="1"><span>≥ 1 cm²（1 分）</span></label>
+</div></div>
+
+<div class="q" style="border-bottom:0"><div class="qt">D — Depth 深度</div>
+<div class="opts">
+<label><input type="radio" name="s_depth" value="0"><span>限於皮膚／皮下（0 分）</span></label>
+<label><input type="radio" name="s_depth" value="1"><span>達肌肉／肌腱／骨（1 分）</span></label>
+</div></div>
+
+<div class="btnrow">
+<button class="calc" onclick="calcSINBAD()">計算 SINBAD 分數</button>
+<button class="reset" onclick="resetForm('sinbad')">重設</button>
+</div>
+<div class="result" id="sinbad_result"></div>
+<div class="ref">依據：Monteiro-Soares M, et al. IWGDF 2023 classification update. DOI:10.1002/dmrr.3648</div>
+</div>
+
+<!-- ==================== WIfI ==================== -->
+<div class="tool" id="wifi">
+<h2 style="margin-top:0">WIfI 計分器（SVS 威脅肢體分級）</h2>
+<p class="small">Wound／Ischemia／foot Infection 各 0–3 級 → 推估一年截肢風險等級與血行重建效益（SVS 2014）。</p>
+
+<div class="q"><div class="qt">W — Wound 傷口</div>
+<div class="opts">
+<label><input type="radio" name="w_w" value="0"><span>0：無潰瘍、無壞疽</span></label>
+<label><input type="radio" name="w_w" value="1"><span>1：小而淺的潰瘍，無壞疽</span></label>
+<label><input type="radio" name="w_w" value="2"><span>2：深潰瘍露出骨/關節/肌腱 ± 侷限於趾之壞疽</span></label>
+<label><input type="radio" name="w_w" value="3"><span>3：廣泛深潰瘍或延伸至前足/中足之壞疽</span></label>
+</div></div>
+
+<div class="q"><div class="qt">I — Ischemia 缺血（ABI／趾壓／TcPO₂ 擇一）</div>
+<div class="opts">
+<label><input type="radio" name="w_i" value="0"><span>0：ABI ≥ 0.80（趾壓/TcPO₂ ≥ 60 mmHg）</span></label>
+<label><input type="radio" name="w_i" value="1"><span>1：ABI 0.60–0.79（40–59 mmHg）</span></label>
+<label><input type="radio" name="w_i" value="2"><span>2：ABI 0.40–0.59（30–39 mmHg）</span></label>
+<label><input type="radio" name="w_i" value="3"><span>3：ABI &lt; 0.40（&lt; 30 mmHg）</span></label>
+</div></div>
+
+<div class="q" style="border-bottom:0"><div class="qt">fI — foot Infection 足部感染（IWGDF/IDSA 對應）</div>
+<div class="opts">
+<label><input type="radio" name="w_fi" value="0"><span>0：無感染</span></label>
+<label><input type="radio" name="w_fi" value="1"><span>1：輕度（限皮膚/皮下，紅斑 ≤ 2 cm）</span></label>
+<label><input type="radio" name="w_fi" value="2"><span>2：中度（紅斑 &gt; 2 cm 或深部構造）</span></label>
+<label><input type="radio" name="w_fi" value="3"><span>3：重度（合併全身炎症反應 SIRS）</span></label>
+</div></div>
+
+<div class="btnrow">
+<button class="calc" onclick="calcWIfI()">計算 WIfI 分期</button>
+<button class="reset" onclick="resetForm('wifi')">重設</button>
+</div>
+<div class="result" id="wifi_result"></div>
+<div class="ref">依據：Mills JL Sr, et al. SVS WIfI. J Vasc Surg. 2014;59(1):220–234. DOI:10.1016/j.jvs.2013.08.003（分期對照表依原文 Table 6 摘要）</div>
+</div>
+
+<p class="small">最後更新：2026-08-16 ・ Phase 2 v1.0</p>
+</main>
+<footer>傷口照護循證指引（MVP 原型）© 2026 ・ <a href="index.html">回首頁</a></footer>
+
+<script>
+function getVal(name){
+  const el = document.querySelector('input[name="'+name+'"]:checked');
+  return el ? parseInt(el.value) : null;
+}
+function resetForm(toolId){
+  document.querySelectorAll('#'+toolId+' input[type=radio]').forEach(r=>r.checked=false);
+  const res = document.querySelector('#'+toolId+' .result');
+  res.className='result'; res.innerHTML='';
+}
+
+/* ---------- SINBAD ---------- */
+function calcSINBAD(){
+  const keys=['s_site','s_isch','s_neuro','s_inf','s_area','s_depth'];
+  const vals=keys.map(getVal);
+  const res=document.getElementById('sinbad_result');
+  if(vals.includes(null)){
+    res.className='result show r-yellow';
+    res.innerHTML='⚠️ 請完成全部 6 個項目再計算。';
+    return;
+  }
+  const total=vals.reduce((a,b)=>a+b,0);
+  let cls, msg;
+  if(total<=1){cls='r-green'; msg='低分組：預後相對較佳。仍需完整照護（減壓、血糖、追蹤）。';}
+  else if(total===2){cls='r-yellow'; msg='中間分數：注意各陽性項目之對應處置。';}
+  else{cls='r-red'; msg='≥3 分：文獻顯示癒合較慢、預後較差之高風險組。建議積極處置陽性項目（血管評估／感染治療／減壓），並考慮轉介多專科足部團隊。';}
+  const detail=['部位','缺血','神經病變','感染','面積','深度'].map((n,i)=>vals[i]?'<span class="tag red">'+n+' +1</span>':'').join(' ');
+  res.className='result show '+cls;
+  res.innerHTML='<div class="score">SINBAD ＝ '+total+' / 6</div><div style="margin:6px 0">'+detail+'</div><div>'+msg+'</div>';
+}
+
+/* ---------- WIfI ---------- */
+/* Clinical stage lookup per SVS 2014 Table (amputation-risk stage 1-4).
+   Index order: [W][I][fI] → stage (1=Very Low, 2=Low, 3=Moderate, 4=High) */
+const WIFI_STAGE = {
+  '0':{'0':{'0':1,'1':1,'2':2,'3':3},'1':{'0':1,'1':2,'2':3,'3':3},'2':{'0':2,'1':2,'2':3,'3':4},'3':{'0':2,'1':3,'2':3,'3':4}},
+  '1':{'0':{'0':1,'1':1,'2':2,'3':3},'1':{'0':2,'1':2,'2':3,'3':4},'2':{'0':3,'1':3,'2':4,'3':4},'3':{'0':3,'1':3,'2':4,'3':4}},
+  '2':{'0':{'0':2,'1':2,'2':3,'3':4},'1':{'0':3,'1':3,'2':4,'3':4},'2':{'0':3,'1':4,'2':4,'3':4},'3':{'0':4,'1':4,'2':4,'3':4}},
+  '3':{'0':{'0':3,'1':3,'2':4,'3':4},'1':{'0':4,'1':4,'2':4,'3':4},'2':{'0':4,'1':4,'2':4,'3':4},'3':{'0':4,'1':4,'2':4,'3':4}}
+};
+const STAGE_INFO={
+  1:{name:'Stage 1（極低風險 Very Low）',cls:'r-green',msg:'一年截肢風險極低。依病因治療與追蹤；血行重建效益通常低。'},
+  2:{name:'Stage 2（低風險 Low）',cls:'r-yellow',msg:'一年截肢風險低。最佳化傷口照護與危險因子控制；選擇性評估血管介入。'},
+  3:{name:'Stage 3（中風險 Moderate）',cls:'r-orange',msg:'一年截肢風險中等。建議血管團隊評估；中重度缺血者血行重建效益中–高。'},
+  4:{name:'Stage 4（高風險 High）',cls:'r-red',msg:'一年截肢風險高。儘速多專科處置（血行重建＋感染源控制＋清創）；重度感染合併缺血為急症。'}
+};
+function calcWIfI(){
+  const w=getVal('w_w'), i=getVal('w_i'), fi=getVal('w_fi');
+  const res=document.getElementById('wifi_result');
+  if(w===null||i===null||fi===null){
+    res.className='result show r-yellow';
+    res.innerHTML='⚠️ 請完成 W、I、fI 三個項目再計算。';
+    return;
+  }
+  const st=WIFI_STAGE[w][i][fi];
+  const info=STAGE_INFO[st];
+  res.className='result show '+info.cls;
+  res.innerHTML='<div class="score">W'+w+' I'+i+' fI'+fi+' → '+info.name+'</div>'+
+    '<div>'+info.msg+'</div>'+
+    '<div class="small" style="margin-top:6px">註：分期對照為 SVS 2014 共識表之摘要；個案仍需結合臨床整體評估。</div>';
+}
+</script>
+</body>
+</html>

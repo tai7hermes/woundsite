@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自我測驗 | 傷口照護循證指引</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.quizbox{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px;margin:16px 0}
+.qnum{font-size:.85rem;color:var(--mid);margin-bottom:6px}
+.qtext{font-size:1.08rem;font-weight:700;color:var(--navy);margin-bottom:14px;line-height:1.6}
+.qopts{display:grid;gap:10px}
+.qopts button{background:#fff;border:1.5px solid var(--line);border-radius:8px;padding:12px 16px;font-size:.95rem;cursor:pointer;text-align:left;transition:.12s;color:var(--dark);line-height:1.5}
+.qopts button:hover{border-color:var(--blue)}
+.qopts button.correct{background:#e8f5e9;border-color:#2e7d32;color:#1b5e20;font-weight:700}
+.qopts button.wrong{background:#ffebee;border-color:#c62828;color:#8e1b1b}
+.qopts button:disabled{cursor:default}
+.explain{display:none;background:#fff8e1;border-left:5px solid #f9a825;border-radius:0 8px 8px 0;padding:12px 16px;margin-top:12px;font-size:.9rem}
+.explain.show{display:block}
+.qctrl{display:flex;align-items:center;gap:12px;margin-top:16px}
+.qctrl button{background:var(--navy);color:#fff;border:0;border-radius:8px;padding:10px 22px;font-size:.95rem;cursor:pointer}
+.qctrl button:disabled{opacity:.4;cursor:default}
+.qctrl button:hover:not(:disabled){background:var(--blue)}
+.progress{flex:1;background:var(--sky);border-radius:10px;height:10px;overflow:hidden}
+.progress .bar{height:100%;background:var(--blue);width:0%;transition:.3s}
+.scorecard{text-align:center;padding:30px 20px}
+.scorecard .big{font-size:3rem;font-weight:800;color:var(--navy)}
+.scorecard .msg{font-size:1.1rem;margin:10px 0 18px}
+.scorecard button{background:var(--navy);color:#fff;border:0;border-radius:8px;padding:12px 26px;font-size:1rem;cursor:pointer}
+.filterrow{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.filterrow label{display:block;border:1.5px solid var(--line);border-radius:20px;padding:6px 16px;cursor:pointer;font-size:.88rem;background:#fff}
+.filterrow input{display:none}
+.filterrow label:has(input:checked){background:var(--blue);border-color:var(--blue);color:#fff}
+@media (prefers-color-scheme: dark){
+  .quizbox{background:#1e2330;border-color:#39405a}
+  .qopts button{background:#252b3b;border-color:#39405a;color:#dfe3ea}
+  .filterrow label{background:#252b3b;border-color:#39405a;color:#dfe3ea}
+}
+</style>
+</head>
+<body>
+<header><div class="brand">🩹 傷口照護循證指引</div></header>
+<nav><ul>
+<li><a href="index.html">首頁</a></li>
+<li><a href="classification.html">傷口分類</a></li>
+<li><a href="staging.html">分期系統</a></li>
+<li><a href="management.html">治療原則</a></li>
+<li><a href="dressings.html">敷料中心</a></li>
+<li><a href="decision.html">決策樹</a></li>
+<li><a href="selector.html">敷料選擇器</a></li>
+<li><a href="burns.html">燒傷面積</a></li>
+<li><a href="tetanus.html">破傷風</a></li>
+<li><a href="tools.html">計分工具</a></li>
+<li><a href="education.html" class="active">教學專區</a></li>
+<li><a href="library.html">指南文獻庫</a></li>
+<li><a href="about.html">關於本站</a></li>
+</ul></nav>
+<main>
+<div class="crumb">首頁 / <a href="education.html">教學專區</a> / 自我測驗</div>
+<h1>自我測驗（21 題題庫）</h1>
+<p>選擇範圍後開始；每題作答立即回饋，完成後顯示總分。<a href="cases.html">→ 想要情境式學習？前往案例研討</a></p>
+
+<div class="quizbox" id="setup">
+<div class="qtext">選擇測驗範圍</div>
+<div class="filterrow" id="catRow">
+<label><input type="checkbox" value="分期" checked><span>分期系統</span></label>
+<label><input type="checkbox" value="糖足" checked><span>糖尿病足</span></label>
+<label><input type="checkbox" value="壓瘡" checked><span>壓瘡</span></label>
+<label><input type="checkbox" value="血管" checked><span>動靜脈</span></label>
+<label><input type="checkbox" value="敷料" checked><span>敷料</span></label>
+<label><input type="checkbox" value="急症" checked><span>燒傷/破傷風/急症</span></label>
+</div>
+<div class="qctrl"><button onclick="startQuiz()">開始測驗</button></div>
+</div>
+
+<div class="quizbox" id="quiz" style="display:none">
+<div class="qnum" id="qnum"></div>
+<div class="qtext" id="qtext"></div>
+<div class="qopts" id="qopts"></div>
+<div class="explain" id="qexplain"></div>
+<div class="qctrl">
+<div class="progress"><div class="bar" id="bar"></div></div>
+<button id="nextBtn" onclick="nextQ()" disabled>下一題 →</button>
+</div>
+</div>
+
+<div class="quizbox scorecard" id="score" style="display:none"></div>
+
+<p class="small">題庫 v1.0（21 題）・依據文獻見<a href="library.html">文獻庫</a>・最後更新：2026-08-16</p>
+</main>
+<footer>傷口照護循證指引（MVP 原型）© 2026 ・ <a href="index.html">回首頁</a></footer>
+
+<script>
+const QB=[
+{c:'分期',q:'NPIAP 壓瘡分期中，「全皮層缺損並可見皮下脂肪，但無筋膜、肌肉或骨外露」屬於？',o:['Stage 2','Stage 3','Stage 4','Unstageable'],a:1,e:'Stage 3＝全層缺損見脂肪；Stage 4 需露出筋膜/肌肉/肌腱/骨。'},
+{c:'分期',q:'黏膜（如鼻胃管壓迫鼻黏膜）之壓力性損傷應如何分期？',o:['依 Stage 1–4','一律 Stage 2','不可分期，僅記錄為黏膜壓損','記為 DTPI'],a:2,e:'NPIAP 明訂黏膜壓損「不可分期」（解剖構造不同）。'},
+{c:'分期',q:'CEAP 分類中 C5 代表？',o:['活動性靜脈潰瘍','已癒合靜脈潰瘍','靜脈曲張','水腫'],a:1,e:'C5＝癒合之靜脈潰瘍；C6＝活動性（C6r 復發）。'},
+{c:'分期',q:'Gustilo IIIB 開放性骨折的定義關鍵是？',o:['傷口 <1cm','合併血管損傷','骨外露且需皮瓣重建','單純 1–10cm 傷口'],a:2,e:'IIIB＝廣泛軟組織缺損、骨外露需皮瓣；IIIC＝合併需修復的血管損傷。'},
+{c:'糖足',q:'IWGDF 2023 建議作為糖足潰瘍「溝通與稽核」的基本分類是？',o:['Wagner','University of Texas','SINBAD','PEDIS'],a:2,e:'SINBAD 簡單、不需特殊儀器，IWGDF 2023 推薦為基本分類；缺血肢體另用 WIfI。'},
+{c:'糖足',q:'糖足足底潰瘍最有效且不可被敷料取代的處置是？',o:['含銀敷料','減壓（不可拆卸行走裝置）','每日換藥','高壓氧'],a:1,e:'IWGDF：offloading 是核心，敷料不能取代（DOI:10.1002/dmrr.3647）。'},
+{c:'糖足',q:'臨床「未感染」的糖足潰瘍，抗生素使用原則是？',o:['預防性使用 1 週','培養再決定','不使用抗生素','局部抗生素藥膏'],a:2,e:'IWGDF/IDSA：未感染潰瘍不給抗生素——避免抗藥性與副作用。'},
+{c:'糖足',q:'糖足感染要升級為「重度」的關鍵是？',o:['紅斑 >2cm','深及骨頭','出現全身炎症反應（SIRS）','膿性分泌物'],a:2,e:'重度＝合併 SIRS；紅斑>2cm 或深部侵犯是「中度」。'},
+{c:'壓瘡',q:'壓瘡「極大量滲液」時指南特定支持的敷料是？',o:['水膠','水膠體','超吸收敷料','薄膜'],a:2,e:'EPUAP 2019：very heavy exudate → superabsorbent。'},
+{c:'壓瘡',q:'高風險病人骨突處「預防」壓瘡，證據支持的敷料是？',o:['多層矽膠泡棉','水膠','藻酸鹽','活性碳'],a:0,e:'預防性多層矽膠泡棉（薦骨/足跟）有隨機試驗證據支持。'},
+{c:'血管',q:'靜脈性潰瘍開始壓力治療前，必須先做的檢查是？',o:['傷口培養','ABI／動脈評估','D-dimer','靜脈攝影'],a:1,e:'鐵律：壓迫前先排除顯著動脈疾病；ABI<0.6 一般禁全壓迫。'},
+{c:'血管',q:'WIfI 系統的三個構面是？',o:['Wound/Infection/Ischemia','Wound/Ischemia/foot Infection','Width/Ischemia/Infection','Wound/Inflammation/Function'],a:1,e:'W 傷口、I 缺血、fI 足部感染，各 0–3 級（SVS 2014）。'},
+{c:'血管',q:'穩定乾性缺血壞死（趾端乾痂、灌流未重建）的正確處置是？',o:['水膠促自溶','立即床邊清創','保持乾燥保護、先血管評估','密閉水膠體'],a:2,e:'灌流未恢復前促濕/清創會引發感染惡化；保持乾燥並優先血行重建（Federman 2024）。'},
+{c:'敷料',q:'深腔傷口填塞的正確作法是？',o:['塞得越緊越好','藻酸鹽繩/凝膠纖維帶「鬆填」且記錄數量','用乾紗布塞滿','不可填塞'],a:1,e:'鬆填避免壓迫組織；記錄填入數量防遺留。'},
+{c:'敷料',q:'抗菌敷料（銀/碘）的使用原則是？',o:['所有慢性傷口常規使用','限期使用（約 2 週）後再評估','永久使用直到癒合','只能用於燒傷'],a:1,e:'「2 週挑戰」原則：有效續用一輪、無效停用換策略；不作常規預防。'},
+{c:'敷料',q:'皮膚撕裂（skin tear）最適合的主敷料是？',o:['強黏水膠體','矽膠接觸層（標示拆除方向）','透氣薄膜','乾紗布'],a:1,e:'ISTAP：低創傷矽膠敷料、拆除方向順皮瓣；避免強黏產品。'},
+{c:'急症',q:'成人 Rule of 9s：單側下肢全部燒傷佔 TBSA？',o:['9%','13.5%','18%','27%'],a:2,e:'成人單側下肢 18%（前後各 9%）。嬰兒下肢比例較小、頭部較大。'},
+{c:'急症',q:'Parkland 公式 70kg、TBSA 20% 的 24 小時輸液總量是？',o:['2,800 mL','5,600 mL','8,400 mL','11,200 mL'],a:1,e:'4×70×20＝5,600 mL；前 8 小時（自受傷起算）給 2,800 mL，依尿量滴定。'},
+{c:'急症',q:'汙染穿刺傷、基礎疫苗 ≥3 劑、最後一劑 12 年前，破傷風預防應？',o:['疫苗＋TIG','只給疫苗','只給 TIG','都不用'],a:1,e:'≥3 劑者不需 TIG；>10 年（汙染傷口 >5 年）需追加疫苗。TIG 只給「<3 劑/不明＋非乾淨傷口」。'},
+{c:'急症',q:'ABA 燒傷中心轉診準則中，部分層燒傷的 TBSA 門檻是？',o:['>5%','>10%','>20%','>30%'],a:1,e:'部分層 >10% TBSA 即符合轉診；另任何全層、特殊部位/機轉也符合。'},
+{c:'急症',q:'活動期壞疽性膿皮症（PG）「最應避免」的處置是？',o:['系統性免疫調節','積極外科清創','低創傷敷料','疼痛控制'],a:1,e:'Pathergy：清創/創傷會使 PG 惡化；先切片與免疫治療。'}
+];
+
+let pool=[], idx=0, scoreN=0, answered=false;
+
+function startQuiz(){
+  const cats=[...document.querySelectorAll('#catRow input:checked')].map(x=>x.value);
+  pool=QB.filter(q=>cats.includes(q.c));
+  if(pool.length===0){alert('請至少勾選一個範圍');return;}
+  // shuffle
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+  idx=0;scoreN=0;
+  document.getElementById('setup').style.display='none';
+  document.getElementById('score').style.display='none';
+  document.getElementById('quiz').style.display='block';
+  showQ();
+}
+function showQ(){
+  answered=false;
+  const q=pool[idx];
+  document.getElementById('qnum').textContent='第 '+(idx+1)+' / '+pool.length+' 題 ・ 分類：'+q.c;
+  document.getElementById('qtext').textContent=q.q;
+  document.getElementById('bar').style.width=(idx/pool.length*100)+'%';
+  const opts=document.getElementById('qopts');
+  opts.innerHTML='';
+  q.o.forEach((t,i)=>{
+    const b=document.createElement('button');
+    b.textContent=String.fromCharCode(65+i)+'. '+t;
+    b.onclick=()=>answer(i,b);
+    opts.appendChild(b);
+  });
+  const ex=document.getElementById('qexplain');
+  ex.className='explain';ex.innerHTML='';
+  document.getElementById('nextBtn').disabled=true;
+  document.getElementById('nextBtn').textContent=(idx===pool.length-1)?'看成績 →':'下一題 →';
+}
+function answer(i,btn){
+  if(answered)return;
+  answered=true;
+  const q=pool[idx];
+  const btns=[...document.getElementById('qopts').children];
+  btns.forEach(b=>b.disabled=true);
+  if(i===q.a){btn.classList.add('correct');scoreN++;}
+  else{btn.classList.add('wrong');btns[q.a].classList.add('correct');}
+  const ex=document.getElementById('qexplain');
+  ex.innerHTML='💡 '+q.e;
+  ex.className='explain show';
+  document.getElementById('nextBtn').disabled=false;
+}
+function nextQ(){
+  if(idx<pool.length-1){idx++;showQ();}
+  else{
+    document.getElementById('quiz').style.display='none';
+    const sc=document.getElementById('score');
+    const pct=Math.round(scoreN/pool.length*100);
+    let msg;
+    if(pct>=90)msg='🏆 優秀！指南掌握度非常高。';
+    else if(pct>=70)msg='👍 不錯！複習錯題解析可以更完整。';
+    else if(pct>=50)msg='📖 建議搭配速查卡與各章節再複習。';
+    else msg='💪 從「傷口分類」與「分期系統」章節開始系統性閱讀吧。';
+    sc.innerHTML='<div class="big">'+scoreN+' / '+pool.length+'</div><div class="msg">正確率 '+pct+'%<br>'+msg+'</div><button onclick="location.reload()">再測一次</button>';
+    sc.style.display='block';
+  }
+}
+</script>
+</body>
+</html>

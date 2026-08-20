@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>破傷風決策表 | 傷口照護循證指引</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.tool{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;margin:16px 0}
+.q{margin:14px 0;padding-bottom:12px;border-bottom:1px dashed var(--line)}
+.q:last-of-type{border-bottom:0}
+.q .qt{font-weight:700;color:var(--navy);margin-bottom:6px}
+.q .qh{font-size:.83rem;color:var(--mid);margin-bottom:8px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts label{display:block;border:1.5px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer;font-size:.92rem;background:#fff;transition:.12s}
+.opts input{display:none}
+.opts label:has(input:checked){background:var(--blue);border-color:var(--blue);color:#fff}
+.opts label:hover{border-color:var(--blue)}
+.btnrow{margin-top:14px}
+button.calc{background:var(--navy);color:#fff;border:0;border-radius:8px;padding:10px 22px;font-size:1rem;cursor:pointer}
+button.calc:hover{background:var(--blue)}
+button.reset{background:#fff;color:var(--mid);border:1px solid var(--line);border-radius:8px;padding:10px 16px;font-size:.9rem;cursor:pointer;margin-left:8px}
+.result{border-radius:10px;padding:18px 22px;margin-top:16px;display:none}
+.result.show{display:block}
+.result h2{margin:0 0 10px;border:0;padding:0}
+.rx{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0}
+.rx .item{border-radius:10px;padding:14px 18px;flex:1;min-width:200px;text-align:center}
+.rx .yes{background:#e8f5e9;border:2px solid #2e7d32;color:#1b5e20}
+.rx .no{background:#f5f5f5;border:2px solid #bbb;color:#777}
+.rx .item .big{font-size:1.25rem;font-weight:800;display:block;margin-bottom:4px}
+.r-green{background:#e8f5e9;border-left:6px solid #2e7d32}
+.r-blue{background:var(--pale);border-left:6px solid var(--blue)}
+.r-orange{background:#fff3e0;border-left:6px solid #ef6c00}
+@media (prefers-color-scheme: dark){
+  .tool{background:#1e2330;border-color:#39405a}
+  .opts label{background:#252b3b;border-color:#39405a;color:#dfe3ea}
+  .rx .no{background:#252b3b;border-color:#555;color:#999}
+}
+</style>
+</head>
+<body>
+<header><div class="brand">🩹 傷口照護循證指引</div></header>
+<nav><ul>
+<li><a href="index.html">首頁</a></li>
+<li><a href="classification.html">傷口分類</a></li>
+<li><a href="staging.html">分期系統</a></li>
+<li><a href="management.html">治療原則</a></li>
+<li><a href="dressings.html">敷料中心</a></li>
+<li><a href="decision.html">決策樹</a></li>
+<li><a href="selector.html">敷料選擇器</a></li>
+<li><a href="burns.html">燒傷面積</a></li>
+<li><a href="tetanus.html" class="active">破傷風</a></li>
+<li><a href="tools.html">計分工具</a></li>
+<li><a href="education.html">教學專區</a></li>
+<li><a href="library.html">指南文獻庫</a></li>
+<li><a href="about.html">關於本站</a></li>
+</ul></nav>
+<main>
+<div class="crumb">首頁 / 破傷風決策表</div>
+<h1>破傷風預防決策器</h1>
+<div class="warn">⚠️ 所有傷口的第一步都是<b>徹底清潔與清創</b>。本工具依 CDC 傷口處置建議產出疫苗／免疫球蛋白建議；孕婦、免疫不全與特殊情況請並行專科判斷。</div>
+
+<div class="tool">
+
+<div class="q"><div class="qt">1. 傷口型態</div>
+<div class="qh">「破傷風高風險傷口」＝汙染（土壤/糞便/唾液）、穿刺傷、撕脫傷、壓砸傷、燒燙/凍傷、壞死組織、彈傷，以及超過 6 小時未處理的傷口。</div>
+<div class="opts">
+<label><input type="radio" name="wound" value="clean"><span>乾淨的小傷口（clean, minor）</span></label>
+<label><input type="radio" name="wound" value="dirty"><span>其他所有傷口（汙染/穿刺/壓砸/燒傷…）</span></label>
+</div></div>
+
+<div class="q"><div class="qt">2. 破傷風疫苗接種史（完成基礎 3 劑以上？）</div>
+<div class="qh">台灣常規：幼兒 DTaP 多劑＋國小追加，多數成人已完成基礎劑；不確定者視同「未完成／不明」。</div>
+<div class="opts">
+<label><input type="radio" name="hx" value="lt3"><span>未完成 3 劑／接種史不明</span></label>
+<label><input type="radio" name="hx" value="ge3"><span>已完成 ≥3 劑</span></label>
+</div></div>
+
+<div class="q"><div class="qt">3. 距離「最後一劑」破傷風疫苗多久？</div>
+<div class="qh">接種史不明者此題可略過（將以最保守處理）。</div>
+<div class="opts">
+<label><input type="radio" name="last" value="lt5"><span>&lt; 5 年</span></label>
+<label><input type="radio" name="last" value="y5to10"><span>5–10 年</span></label>
+<label><input type="radio" name="last" value="gt10"><span>&gt; 10 年</span></label>
+<label><input type="radio" name="last" value="unk"><span>不記得</span></label>
+</div></div>
+
+<div class="q"><div class="qt">4. 特殊狀況（可複選）</div>
+<div class="opts">
+<label><input type="checkbox" name="sp" value="immuno"><span>免疫不全／HIV（CD4 低）</span></label>
+<label><input type="checkbox" name="sp" value="preg"><span>懷孕</span></label>
+<label><input type="checkbox" name="sp" value="noTdap"><span>成人後從未接種過 Tdap（含百日咳）</span></label>
+</div></div>
+
+<div class="btnrow">
+<button class="calc" onclick="calcTet()">產生建議</button>
+<button class="reset" onclick="resetTet()">重設</button>
+</div>
+
+<div class="result" id="tetResult"></div>
+</div>
+
+<h2>CDC 標準對照表（速查）</h2>
+<table>
+<tr><th rowspan="2">疫苗史</th><th colspan="2">乾淨小傷口</th><th colspan="2">其他所有傷口※</th></tr>
+<tr><th>疫苗（Td/Tdap）</th><th>TIG</th><th>疫苗（Td/Tdap）</th><th>TIG</th></tr>
+<tr><td>&lt;3 劑或不明</td><td>✅ 給</td><td>❌ 不用</td><td>✅ 給</td><td>✅ <b>給</b></td></tr>
+<tr><td>≥3 劑，最後一劑 &lt;5 年</td><td>❌ 不用</td><td>❌ 不用</td><td>❌ 不用</td><td>❌ 不用</td></tr>
+<tr><td>≥3 劑，最後一劑 5–10 年</td><td>❌ 不用</td><td>❌ 不用</td><td>✅ 給</td><td>❌ 不用</td></tr>
+<tr><td>≥3 劑，最後一劑 &gt;10 年</td><td>✅ 給</td><td>❌ 不用</td><td>✅ 給</td><td>❌ 不用</td></tr>
+</table>
+<p class="small">※ 汙染、穿刺、撕脫、壓砸、燒燙/凍傷、壞死、彈傷等。TIG＝破傷風免疫球蛋白（人類，通常 250 IU IM，與疫苗不同部位）。成人疫苗優先選 Tdap（若從未打過含百日咳之成人劑型），其餘用 Td。</p>
+<div class="ref">依據：CDC — Tetanus: For Clinicians／Wound management guidance；WHO tetanus position paper（詳<a href="library.html">文獻庫</a>）</div>
+
+<p class="small">最後更新：2026-08-16 ・ Phase 2 v1.4（Phase 2 全部工具完成 🎉）</p>
+</main>
+<footer>傷口照護循證指引（MVP 原型）© 2026 ・ <a href="index.html">回首頁</a></footer>
+
+<script>
+function calcTet(){
+  const wound=document.querySelector('input[name=wound]:checked');
+  const hx=document.querySelector('input[name=hx]:checked');
+  const last=document.querySelector('input[name=last]:checked');
+  const res=document.getElementById('tetResult');
+  if(!wound||!hx){
+    res.className='result show r-orange';
+    res.innerHTML='⚠️ 請至少完成第 1、2 題。';
+    return;
+  }
+  const w=wound.value, h=hx.value;
+  const l=last?last.value:'unk';
+  const sp=[...document.querySelectorAll('input[name=sp]:checked')].map(x=>x.value);
+
+  let vaccine=false, tig=false, cls='r-green', extra=[];
+
+  if(h==='lt3'){
+    vaccine=true;
+    tig=(w==='dirty');
+    cls=tig?'r-orange':'r-blue';
+  }else{
+    // >=3 doses
+    if(w==='clean'){
+      vaccine=(l==='gt10'||l==='unk');
+    }else{
+      vaccine=(l==='y5to10'||l==='gt10'||l==='unk');
+    }
+    tig=false;
+    cls=vaccine?'r-blue':'r-green';
+  }
+
+  // special situations
+  if(sp.includes('immuno')&&w==='dirty'){
+    if(!tig){extra.push('免疫不全者遇高風險傷口：即使已完成基礎劑，仍<b>考慮加給 TIG</b>（抗體反應可能不足，CDC 建議個案化）。');}
+  }
+  if(sp.includes('noTdap')&&vaccine){
+    extra.push('本次疫苗建議使用 <b>Tdap</b>（補足百日咳成分，成人一生至少一劑）。');
+  }
+  if(sp.includes('preg')){
+    extra.push('孕婦：Tdap 建議於<b>每次懷孕 28–36 週</b>接種（不論過去接種史）；本次如需破傷風保護可直接用 Tdap。');
+  }
+
+  let html='<h2>'+(vaccine||tig?'💉 需要處置':'✅ 免疫保護足夠')+'</h2>';
+  html+='<div class="rx">';
+  html+='<div class="item '+(vaccine?'yes':'no')+'"><span class="big">'+(vaccine?'✅ 接種疫苗':'❌ 疫苗免')+'</span>'+(vaccine?(sp.includes('noTdap')?'Tdap':'Td／Tdap'):'')+'</div>';
+  html+='<div class="item '+(tig?'yes':'no')+'"><span class="big">'+(tig?'✅ 給 TIG':'❌ TIG 免')+'</span>'+(tig?'250 IU IM（與疫苗不同部位）':'')+'</div>';
+  html+='</div>';
+  if(h==='lt3'){html+='<p>接種史不完整：本次接種後請<b>安排完成基礎系列</b>（0、4 週後、6–12 個月後共 3 劑）。</p>';}
+  if(extra.length){html+='<ul style="padding-left:20px">'+extra.map(x=>'<li>'+x+'</li>').join('')+'</ul>';}
+  html+='<p class="small">傷口本身：徹底沖洗＋清創是破傷風預防的根本；高風險傷口留意延遲縫合。</p>';
+
+  res.className='result show '+cls;
+  res.innerHTML=html;
+  res.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function resetTet(){
+  document.querySelectorAll('#tetResult, input[type=radio], input[type=checkbox]').forEach(x=>{if(x.tagName==='INPUT')x.checked=false;});
+  const res=document.getElementById('tetResult');
+  res.className='result'; res.innerHTML='';
+}
+</script>
+</body>
+</html>

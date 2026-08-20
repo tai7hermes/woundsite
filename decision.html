@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>傷口決策樹 | 傷口照護循證指引</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.dt-box{background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px;margin:18px 0;min-height:260px}
+.dt-q{font-size:1.2rem;font-weight:700;color:var(--navy);margin-bottom:6px}
+.dt-hint{font-size:.88rem;color:var(--mid);margin-bottom:14px}
+.dt-opts{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.dt-opts button{background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:14px 16px;font-size:.98rem;cursor:pointer;text-align:left;transition:.12s;color:var(--dark);line-height:1.5}
+.dt-opts button:hover{border-color:var(--blue);background:var(--pale)}
+.dt-opts button b{color:var(--navy)}
+.dt-opts button .sub{display:block;font-size:.8rem;color:var(--mid);margin-top:2px}
+.dt-path{margin:10px 0;font-size:.82rem}
+.dt-path span{display:inline-block;background:var(--sky);color:var(--navy);border-radius:14px;padding:2px 10px;margin:2px 3px 2px 0}
+.dt-result{border-radius:10px;padding:18px 22px}
+.dt-result h2{margin:0 0 8px;border:0;padding:0}
+.dt-result .links a{display:inline-block;background:var(--navy);color:#fff;border-radius:8px;padding:8px 16px;margin:6px 8px 0 0;font-size:.9rem}
+.dt-result .links a:hover{background:var(--blue);text-decoration:none}
+.dt-ctrl{margin-top:16px}
+.dt-ctrl button{background:#fff;border:1px solid var(--line);color:var(--mid);border-radius:8px;padding:8px 16px;font-size:.88rem;cursor:pointer;margin-right:8px}
+.dt-ctrl button:hover{border-color:var(--blue);color:var(--blue)}
+.res-green{background:#e8f5e9;border-left:6px solid #2e7d32}
+.res-blue{background:var(--pale);border-left:6px solid var(--blue)}
+.res-orange{background:#fff3e0;border-left:6px solid #ef6c00}
+.res-red{background:#ffebee;border-left:6px solid #c62828}
+@media (prefers-color-scheme: dark){
+  .dt-box{background:#1e2330;border-color:#39405a}
+  .dt-opts button{background:#252b3b;border-color:#39405a;color:#dfe3ea}
+  .dt-opts button:hover{background:#2c3550}
+}
+</style>
+</head>
+<body>
+<header><div class="brand">🩹 傷口照護循證指引</div></header>
+<nav><ul>
+<li><a href="index.html">首頁</a></li>
+<li><a href="classification.html">傷口分類</a></li>
+<li><a href="staging.html">分期系統</a></li>
+<li><a href="management.html">治療原則</a></li>
+<li><a href="dressings.html">敷料中心</a></li>
+<li><a href="decision.html" class="active">決策樹</a></li>
+<li><a href="selector.html">敷料選擇器</a></li>
+<li><a href="burns.html">燒傷面積</a></li>
+<li><a href="tetanus.html">破傷風</a></li>
+<li><a href="tools.html">計分工具</a></li>
+<li><a href="education.html">教學專區</a></li>
+<li><a href="library.html">指南文獻庫</a></li>
+<li><a href="about.html">關於本站</a></li>
+</ul></nav>
+<main>
+<div class="crumb">首頁 / 傷口決策樹</div>
+<h1>傷口決策樹：這是什麼傷口？</h1>
+<div class="warn">⚠️ 本工具為分類導引之教學輔助；紅旗徵象（大出血、壞死性筋膜炎疑慮、重度感染合併缺血、SIRS）請直接啟動急症流程。</div>
+
+<div class="dt-path" id="dtPath"></div>
+<div class="dt-box" id="dtBox"></div>
+<div class="dt-ctrl">
+<button onclick="goBack()" id="btnBack" disabled>← 上一步</button>
+<button onclick="restart()">↺ 重新開始</button>
+</div>
+
+<p class="small">最後更新：2026-08-16 ・ Phase 2 v1.1 ・ 依據：EWMA Lower Leg Ulcer 2023、IWGDF 2023、EPUAP/NPIAP/PPPIA 2019、WHS 2023–2024、ISTAP 2018、ISBI 2016/2018、CDC/WHO（詳<a href="library.html">文獻庫</a>）</p>
+</main>
+<footer>傷口照護循證指引（MVP 原型）© 2026 ・ <a href="index.html">回首頁</a></footer>
+
+<script>
+/* ---------- 決策樹定義 ---------- */
+const NODES = {
+  start:{
+    q:'傷口的病程？',
+    hint:'慢性傷口一般指經適當治療 4–6 週仍未癒合，或癒合停滯的傷口。',
+    opts:[
+      {t:'<b>急性傷口</b><span class="sub">新發生：外傷、燒傷、手術、咬傷…</span>', next:'acute'},
+      {t:'<b>慢性／不癒合傷口</b><span class="sub">4–6 週未癒或反覆復發</span>', next:'chronic'}
+    ]
+  },
+  /* ---------- 急性 ---------- */
+  acute:{
+    q:'急性傷口的成因？',
+    opts:[
+      {t:'<b>燒燙傷／化學／電燒傷</b>', next:'r_burn'},
+      {t:'<b>手術傷口</b><span class="sub">術後切口的分級或癒合問題</span>', next:'r_surgical'},
+      {t:'<b>動物或人咬傷／髒污穿刺傷</b>', next:'r_bite'},
+      {t:'<b>一般外傷</b><span class="sub">撕裂、切割、擦傷、撕脫、壓砸</span>', next:'acute_trauma'}
+    ]
+  },
+  acute_trauma:{
+    q:'外傷是否合併以下狀況？',
+    opts:[
+      {t:'<b>合併骨折或骨外露</b>', next:'r_fracture'},
+      {t:'<b>老年／脆弱皮膚的皮瓣狀撕裂</b><span class="sub">薄皮膚被剪力掀起成瓣</span>', next:'r_skintear'},
+      {t:'<b>皆無</b><span class="sub">單純軟組織外傷</span>', next:'r_trauma'}
+    ]
+  },
+  /* ---------- 慢性 ---------- */
+  chronic:{
+    q:'傷口位置與病人背景？',
+    opts:[
+      {t:'<b>足部潰瘍＋糖尿病</b>', next:'r_dfu'},
+      {t:'<b>骨突處＋活動受限／臥床／輪椅</b><span class="sub">薦骨、坐骨、足跟、大轉子…或醫療裝置下</span>', next:'r_pi'},
+      {t:'<b>小腿潰瘍（非糖足、非骨突處）</b>', next:'leg'},
+      {t:'<b>放射治療照野內</b>', next:'r_radiation'},
+      {t:'<b>已知惡性腫瘤、蕈狀增生外觀</b>', next:'r_malignant'},
+      {t:'<b>以上皆不符／型態怪異</b><span class="sub">位置非典型、劇痛、邊緣紫紅、治療無反應</span>', next:'r_atypical'}
+    ]
+  },
+  leg:{
+    q:'小腿潰瘍：血管評估結果？',
+    hint:'所有小腿潰瘍在壓迫治療前都必須先做動脈評估（ABI／脈搏）。',
+    opts:[
+      {t:'<b>動脈性表現</b><span class="sub">ABI 低、遠端/足趾、蒼白床、劇痛、脈搏消失</span>', next:'r_arterial'},
+      {t:'<b>靜脈性表現</b><span class="sub">內踝上方、水腫、色素沉著、滲液多、ABI 正常</span>', next:'r_venous'},
+      {t:'<b>動靜脈表現皆有</b><span class="sub">靜脈外觀但 ABI 下降（約 0.5–0.8）</span>', next:'r_mixed'},
+      {t:'<b>皆不典型</b>', next:'r_atypical'}
+    ]
+  },
+  /* ---------- 結果節點 ---------- */
+  r_burn:{result:true, cls:'res-orange', icon:'🔥', name:'燒傷',
+    body:'先冷卻（流動冷水約 20 分鐘，勿用冰）→ 評估深度（淺層/部分層/全層）與面積 → 依 ABA 準則評估燒傷中心轉診 → 非黏附覆蓋±抗菌燒傷敷料；深度傷口早期切痂植皮。',
+    links:[['classification.html','分類：燒傷'],['staging.html','燒傷厚度分級'],['dressings.html','敷料中心']],
+    ref:'ISBI 2016/2018；ABA；WHO'},
+  r_surgical:{result:true, cls:'res-blue', icon:'🔪', name:'手術傷口',
+    body:'依 CDC 四級汙染分級（Clean／Clean-contaminated／Contaminated／Dirty）記錄；監測 SSI 徵象。裂開或感染之切口轉為開放性傷口處理（清創＋依滲出選敷料±NPWT）。',
+    links:[['classification.html','分類：手術傷口'],['staging.html','CDC 汙染分級']],
+    ref:'CDC NHSN SSI Manual'},
+  r_bite:{result:true, cls:'res-orange', icon:'🐕', name:'咬傷／髒污穿刺傷',
+    body:'立即大量清水/肥皂水沖洗 → 評估破傷風疫苗史（Td/Tdap±TIG）→ 動物咬傷評估狂犬病 PEP → 高感染風險傷口通常延遲縫合，考慮預防性抗生素（如人咬、手部、深穿刺）。',
+    links:[['classification.html','分類：破傷風/咬傷']],
+    ref:'CDC tetanus／rabies PEP'},
+  r_fracture:{result:true, cls:'res-red', icon:'🦴', name:'開放性骨折',
+    body:'Gustilo–Anderson 分級（I／II／IIIA-C）→ 儘早靜脈抗生素＋破傷風預防 → 手術沖洗清創 → 骨固定與軟組織覆蓋計畫（IIIB 需皮瓣、IIIC 合併血管修復）。',
+    links:[['classification.html','分類：開放性骨折'],['staging.html','Gustilo 分級']],
+    ref:'Gustilo 1976/1984；AO'},
+  r_skintear:{result:true, cls:'res-blue', icon:'🩹', name:'皮膚撕裂（Skin Tear）',
+    body:'ISTAP 分型（Type 1–3）→ 輕柔沖洗、止血 → 可存活皮瓣復位 → 矽膠接觸層／低創傷敷料，敷料上標示拆除方向（順皮瓣）→ 避免強黏性產品。',
+    links:[['classification.html','分類：皮膚撕裂'],['staging.html','ISTAP 分型'],['dressings.html','矽膠接觸層']],
+    ref:'ISTAP 2018；Van Tiggelen 2020'},
+  r_trauma:{result:true, cls:'res-green', icon:'🚑', name:'一般外傷性傷口',
+    body:'評估（機轉/深度/神經血管肌腱/異物）→ 等張液充分沖洗 → 必要清創 → 依汙染與時間選擇一期縫合、延遲縫合或二期癒合 → 破傷風評估；單純傷口不常規使用抗生素。',
+    links:[['classification.html','分類：外傷性傷口']],
+    ref:'Nicks 2010；Forsch 2017；WHO'},
+  r_dfu:{result:true, cls:'res-red', icon:'🦶', name:'糖尿病足潰瘍（DFU）',
+    body:'四大評估：神經（單絲）＋血管（ABI，缺血用 WIfI）＋感染（IWGDF/IDSA 分級；未感染不給抗生素）＋骨髓炎 → 分類用 SINBAD → 核心治療：減壓（不可被敷料取代）＋清創＋感染控制；標準照護最佳化後才考慮進階治療。',
+    links:[['management.html','糖足治療路徑'],['tools.html','SINBAD／WIfI 計分器'],['staging.html','分期系統']],
+    ref:'IWGDF 2023；IWGDF/IDSA 2023；Lavery 2024 WHS'},
+  r_pi:{result:true, cls:'res-orange', icon:'🛏️', name:'壓力性損傷',
+    body:'NPIAP 分期（1–4／Unstageable／DTPI；黏膜不可分期）→ 核心治療：減壓翻身＋支持面＋營養 → 清創、感染/骨髓炎處理 → 依分期與滲出選敷料（見對照表）→ 大面積 Stage 3–4 備妥後考慮 NPWT。',
+    links:[['staging.html','NPIAP 分期'],['management.html','壓瘡治療路徑'],['dressings.html','分期×敷料對照']],
+    ref:'EPUAP/NPIAP/PPPIA 2019；Gould 2024 WHS'},
+  r_arterial:{result:true, cls:'res-red', icon:'🫀', name:'動脈性潰瘍',
+    body:'客觀灌流評估（ABI/趾壓/TcPO₂）＋WIfI 分期 → 可行時優先血行重建 → 灌流未恢復前：穩定乾性壞死保持乾燥保護、勿積極清創 → 避免不當壓迫。',
+    links:[['tools.html','WIfI 計分器'],['management.html','動脈治療路徑']],
+    ref:'Federman 2024 WHS；Conte 2019 GVG；Mills 2014'},
+  r_venous:{result:true, cls:'res-green', icon:'🦵', name:'靜脈性潰瘍',
+    body:'CEAP 分類（C6 活動性潰瘍）→ 核心治療：壓力治療（多層彈繃/壓力襪）→ 滲液管理與周邊皮膚保護 → 評估靜脈介入（矯正逆流）→ 長期壓力襪防復發。',
+    links:[['staging.html','CEAP 分類'],['management.html','靜脈治療路徑'],['dressings.html','高吸收敷料']],
+    ref:'Marston 2016 WHS；Franks 2016 EWMA；Lurie 2020'},
+  r_mixed:{result:true, cls:'res-orange', icon:'⚖️', name:'混合型動靜脈潰瘍',
+    body:'先確立動脈嚴重度（ABI／WIfI）：顯著缺血先處理動脈問題；ABI 允許時採「調降強度之壓迫」並密切監測；動脈改善後回歸靜脈治療路徑。',
+    links:[['management.html','治療原則'],['tools.html','WIfI 計分器']],
+    ref:'EWMA Lower Leg Ulcer 2023；WOCN LEAD 2024'},
+  r_radiation:{result:true, cls:'res-orange', icon:'☢️', name:'放射性傷口',
+    body:'急性放射性皮膚炎依 MASCC 2023／CTCAE v5.0 分級 → 溫和清潔與保濕、避免刺激 → 慢性放射性潰瘍：務必排除復發惡性（切片）與骨壞死；照護以低創傷敷料為主。',
+    links:[['classification.html','分類：放射性傷口']],
+    ref:'Behroozian 2023 MASCC；NCI CTCAE'},
+  r_malignant:{result:true, cls:'res-red', icon:'🎗️', name:'惡性／蕈狀傷口（緩和導向）',
+    body:'確認腫瘤診斷與治療計畫 → 傷口目標轉為症狀控制：滲液（超吸收）、異味（活性碳/抗菌）、出血（藻酸鹽/止血）、疼痛（低創傷更換）、周邊皮膚保護 → 以生活品質為核心。',
+    links:[['management.html','緩和路徑'],['dressings.html','症狀導向敷料']],
+    ref:'EWMA Palliative 2025；NCI PDQ'},
+  r_atypical:{result:true, cls:'res-red', icon:'🔬', name:'非典型傷口——需要切片！',
+    body:'紅旗：位置非典型、型態怪異、邊緣紫紅/潛行、劇痛不成比例、治療 4–6 週無反應 → 切片＋病因檢查（PG、血管炎、鈣化防禦、惡性、感染性）→ 活動期 PG 避免積極清創（pathergy）→ 疾病特異治療優先。',
+    links:[['classification.html','分類：非典型傷口'],['management.html','非典型路徑']],
+    ref:'Isoherranen 2019 EWMA；Maverakis 2020；Nigwekar 2018'}
+};
+
+/* ---------- 引擎 ---------- */
+let stack = ['start'];
+let labels = [];
+
+function render(){
+  const id = stack[stack.length-1];
+  const n = NODES[id];
+  const box = document.getElementById('dtBox');
+  document.getElementById('btnBack').disabled = stack.length<=1;
+  document.getElementById('dtPath').innerHTML = labels.map(l=>'<span>'+l+'</span>').join(' ▸ ');
+  if(n.result){
+    box.innerHTML = '<div class="dt-result '+n.cls+'">'+
+      '<h2>'+n.icon+' 判定方向：'+n.name+'</h2>'+
+      '<p>'+n.body+'</p>'+
+      '<div class="links">'+n.links.map(l=>'<a href="'+l[0]+'">'+l[1]+' →</a>').join('')+'</div>'+
+      '<p class="small" style="margin-top:10px">依據：'+n.ref+'</p></div>';
+  }else{
+    box.innerHTML = '<div class="dt-q">'+n.q+'</div>'+
+      (n.hint?'<div class="dt-hint">💡 '+n.hint+'</div>':'')+
+      '<div class="dt-opts">'+n.opts.map((o,i)=>'<button onclick="choose(\''+id+'\','+i+')">'+o.t+'</button>').join('')+'</div>';
+  }
+}
+function choose(id, i){
+  const o = NODES[id].opts[i];
+  const tmp = document.createElement('div'); tmp.innerHTML = o.t;
+  labels.push(tmp.querySelector('b') ? tmp.querySelector('b').textContent : tmp.textContent.trim());
+  stack.push(o.next);
+  render();
+}
+function goBack(){
+  if(stack.length>1){ stack.pop(); labels.pop(); render(); }
+}
+function restart(){ stack=['start']; labels=[]; render(); }
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>案例研討與自我測驗 | 傷口照護循證指引</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.case{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;margin:16px 0}
+.case .vignette{background:var(--pale);border-left:5px solid var(--blue);border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:12px;font-size:.95rem}
+.qblock{margin:14px 0;padding:12px 0;border-top:1px dashed var(--line)}
+.qblock .qt{font-weight:700;color:var(--navy);margin-bottom:8px}
+.choice{display:block;border:1.5px solid var(--line);border-radius:8px;padding:10px 14px;margin:6px 0;cursor:pointer;font-size:.93rem;background:#fff;transition:.12s}
+.choice:hover{border-color:var(--blue)}
+.choice.correct{background:#e8f5e9;border-color:#2e7d32;color:#1b5e20}
+.choice.wrong{background:#ffebee;border-color:#c62828;color:#8e1b1b}
+.choice.disabled{pointer-events:none;opacity:.75}
+.expl{display:none;background:#fff8e1;border-left:5px solid #f9a825;border-radius:0 8px 8px 0;padding:10px 14px;margin-top:8px;font-size:.88rem}
+.expl.show{display:block}
+.scorebar{position:sticky;bottom:0;background:var(--navy);color:#fff;border-radius:10px;padding:12px 20px;margin-top:20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.scorebar .big{font-size:1.4rem;font-weight:800}
+.scorebar button{background:#fff;color:var(--navy);border:0;border-radius:8px;padding:8px 18px;font-size:.9rem;cursor:pointer;font-weight:700}
+.jump{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.jump a{background:var(--sky);color:var(--navy);border-radius:16px;padding:4px 14px;font-size:.85rem}
+@media (prefers-color-scheme: dark){
+  .case{background:#1e2330;border-color:#39405a}
+  .choice{background:#252b3b;border-color:#39405a;color:#dfe3ea}
+  .case .vignette{background:#232a3a}
+}
+</style>
+</head>
+<body>
+<header><div class="brand">🩹 傷口照護循證指引</div></header>
+<nav><ul>
+<li><a href="index.html">首頁</a></li>
+<li><a href="classification.html">傷口分類</a></li>
+<li><a href="staging.html">分期系統</a></li>
+<li><a href="management.html">治療原則</a></li>
+<li><a href="dressings.html">敷料中心</a></li>
+<li><a href="decision.html">決策樹</a></li>
+<li><a href="selector.html">敷料選擇器</a></li>
+<li><a href="burns.html">燒傷面積</a></li>
+<li><a href="tetanus.html">破傷風</a></li>
+<li><a href="tools.html">計分工具</a></li>
+<li><a href="education.html">教學專區</a></li>
+<li><a href="library.html">指南文獻庫</a></li>
+<li><a href="about.html">關於本站</a></li>
+</ul></nav>
+<main>
+<div class="crumb">首頁 / <a href="education.html">教學專區</a> / 案例研討與自我測驗</div>
+<h1>案例研討與自我測驗</h1>
+<p>6 個臨床案例、共 12 題。點選答案立即回饋與解析；答完可看總分。搭配<a href="decision.html">決策樹</a>與<a href="tools.html">計分器</a>複習效果最佳。</p>
+<div class="jump">
+<a href="#c1">案例 1 糖足</a><a href="#c2">案例 2 壓瘡</a><a href="#c3">案例 3 靜脈</a>
+<a href="#c4">案例 4 動脈</a><a href="#c5">案例 5 非典型</a><a href="#c6">案例 6 急診外傷</a>
+</div>
+
+<!-- Case 1 -->
+<div class="case" id="c1">
+<h2 style="margin-top:0">案例 1：糖尿病足潰瘍</h2>
+<div class="vignette">62 歲男性，第 2 型糖尿病 15 年（HbA1c 9.2%）。右足底第一蹠骨頭下 2×2 cm 潰瘍 6 週，深及肌腱。周圍紅斑約 1.5 cm，無全身症狀。單絲測驗 10 點全無感覺；足背脈搏可觸及。傷口面積 4 cm²。</div>
+<div class="qblock"><div class="qt">Q1. 此病人的 SINBAD 分數為？</div>
+<div data-q="1">
+<label class="choice" data-a="0">2 分</label>
+<label class="choice" data-a="1">4 分</label>
+<label class="choice" data-a="0">6 分</label>
+<label class="choice" data-a="0">3 分</label>
+</div>
+<div class="expl">✅ 正解：<b>4 分</b>。部位前足 0、缺血 0（脈搏可觸）、神經病變 1、感染 1（局部紅斑 ≤2cm＝輕度感染仍計 1）、面積 ≥1cm² 得 1、深度達肌腱 1 → 0+0+1+1+1+1＝4。≥3 分屬預後較差組。（Monteiro-Soares 2023）</div>
+</div>
+<div class="qblock"><div class="qt">Q2. 下列何者是此病人「不可被敷料取代」的核心治療？</div>
+<div data-q="2">
+<label class="choice" data-a="0">含銀抗菌敷料</label>
+<label class="choice" data-a="0">高壓氧治療</label>
+<label class="choice" data-a="1">減壓（全接觸石膏或不可拆卸行走靴）</label>
+<label class="choice" data-a="0">每日水膠換藥</label>
+</div>
+<div class="expl">✅ 正解：<b>減壓</b>。IWGDF Offloading 2023 明訂足底潰瘍第一線為不可拆卸之膝下減壓裝置；任何敷料都不能取代減壓。輕度感染以口服抗生素＋清創處理，含銀敷料非核心。（Bus 2023, DOI:10.1002/dmrr.3647）</div>
+</div>
+</div>
+
+<!-- Case 2 -->
+<div class="case" id="c2">
+<h2 style="margin-top:0">案例 2：壓力性損傷</h2>
+<div class="vignette">84 歲臥床女性，薦骨 5×4 cm 傷口：全皮層缺損，可見皮下脂肪與少量黃色腐肉，中量滲液，無骨骼肌腱外露，周邊無明顯感染徵象。</div>
+<div class="qblock"><div class="qt">Q3. NPIAP 分期為？</div>
+<div data-q="3">
+<label class="choice" data-a="0">Stage 2</label>
+<label class="choice" data-a="1">Stage 3</label>
+<label class="choice" data-a="0">Stage 4</label>
+<label class="choice" data-a="0">Unstageable</label>
+</div>
+<div class="expl">✅ 正解：<b>Stage 3</b>——全皮層缺損見脂肪、未露筋膜/肌腱/骨。腐肉只有部分遮蔽、深度可判定，故非 Unstageable。（EPUAP/NPIAP/PPPIA 2019）</div>
+</div>
+<div class="qblock"><div class="qt">Q4. 依 2019 指南，此傷口（Stage 3、中量滲液）最合適的敷料是？</div>
+<div data-q="4">
+<label class="choice" data-a="0">透氣薄膜</label>
+<label class="choice" data-a="0">水膠</label>
+<label class="choice" data-a="1">鈣藻酸鹽</label>
+<label class="choice" data-a="0">乾紗布每日更換</label>
+</div>
+<div class="expl">✅ 正解：<b>鈣藻酸鹽</b>。指南特定條文：Stage 3–4 中度滲出→鈣藻酸鹽；低滲出→水膠；中大量→泡棉。乾紗布非濕潤癒合。同時勿忘核心：減壓＋支持面＋營養。（EPUAP 2019；Gould 2024）</div>
+</div>
+</div>
+
+<!-- Case 3 -->
+<div class="case" id="c3">
+<h2 style="margin-top:0">案例 3：小腿潰瘍</h2>
+<div class="vignette">58 歲女性，左內踝上方 6×3 cm 淺潰瘍 3 個月，大量滲液，周邊色素沉著與水腫，久站加重。足背脈搏正常。</div>
+<div class="qblock"><div class="qt">Q5. 開始壓力治療前，最必要的檢查是？</div>
+<div data-q="5">
+<label class="choice" data-a="0">傷口細菌培養</label>
+<label class="choice" data-a="1">ABI（踝肱指數）</label>
+<label class="choice" data-a="0">下肢靜脈超音波</label>
+<label class="choice" data-a="0">HbA1c</label>
+</div>
+<div class="expl">✅ 正解：<b>ABI</b>。所有小腿潰瘍壓迫前必先排除顯著動脈疾病，避免壓迫造成缺血惡化。靜脈超音波用於後續介入評估，非壓迫前的安全門檻。（Marston 2016；WOCN）</div>
+</div>
+<div class="qblock"><div class="qt">Q6. ABI 1.05，確立靜脈性潰瘍。此傷口的核心治療是？</div>
+<div data-q="6">
+<label class="choice" data-a="0">長期口服抗生素</label>
+<label class="choice" data-a="0">含銀敷料連用 3 個月</label>
+<label class="choice" data-a="0">臥床休息避免行走</label>
+<label class="choice" data-a="1">多層壓力繃帶系統</label>
+</div>
+<div class="expl">✅ 正解：<b>壓力治療</b>（多層彈繃/壓力襪）。配合高吸收敷料管理滲液、周邊皮膚保護；癒後長期壓力襪防復發（C5→C6r 風險）。抗生素僅用於感染；行走配合小腿肌肉幫浦反而有益。（Franks 2016；Lurie 2020）</div>
+</div>
+</div>
+
+<!-- Case 4 -->
+<div class="case" id="c4">
+<h2 style="margin-top:0">案例 4：動脈性潰瘍</h2>
+<div class="vignette">71 歲男性，抽菸 50 包年。右足外側乾性黑色壞死 2×2 cm，界線清楚無滲液無臭味。足部冰冷、足背脈搏消失，ABI 0.35，夜間垂足才能入睡。無發燒。</div>
+<div class="qblock"><div class="qt">Q7. 目前最優先的處置是？</div>
+<div data-q="7">
+<label class="choice" data-a="0">床邊尖銳清創移除黑痂</label>
+<label class="choice" data-a="0">水膠敷料促進自溶清創</label>
+<label class="choice" data-a="1">血管評估並轉介血行重建</label>
+<label class="choice" data-a="0">彈性繃帶壓迫消腫</label>
+</div>
+<div class="expl">✅ 正解：<b>血行重建評估</b>。WIfI I3（ABI<0.40）重度缺血：穩定乾性壞死應保持乾燥保護；灌流未恢復前清創或水膠促自溶都可能使壞死擴大變濕性壞疽；壓迫為禁忌。（Federman 2024；Conte 2019 GVG）</div>
+</div>
+</div>
+
+<!-- Case 5 -->
+<div class="case" id="c5">
+<h2 style="margin-top:0">案例 5：非典型傷口</h2>
+<div class="vignette">45 歲女性，潰瘍性結腸炎病史。左小腿前側快速擴大之劇痛潰瘍 2 週，邊緣紫紅色潛行狀。上週於外院清創後反而明顯擴大。無發燒。</div>
+<div class="qblock"><div class="qt">Q8. 最可能的診斷是？</div>
+<div data-q="8">
+<label class="choice" data-a="0">壞死性筋膜炎</label>
+<label class="choice" data-a="1">壞疽性膿皮症（Pyoderma gangrenosum）</label>
+<label class="choice" data-a="0">靜脈性潰瘍</label>
+<label class="choice" data-a="0">鈣化防禦（Calciphylaxis）</label>
+</div>
+<div class="expl">✅ 正解：<b>PG</b>。線索：發炎性腸病＋劇痛＋紫紅潛行邊緣＋清創後惡化（pathergy 現象）。壞死性筋膜炎會有毒性病容/快速全身惡化；鈣化防禦多見於洗腎患者。（Maverakis 2020）</div>
+</div>
+<div class="qblock"><div class="qt">Q9. 下列何者是「錯誤」的處置？</div>
+<div data-q="9">
+<label class="choice" data-a="0">傷口邊緣切片＋病理檢查</label>
+<label class="choice" data-a="1">積極大範圍手術清創</label>
+<label class="choice" data-a="0">全身性免疫調節治療（類固醇等）</label>
+<label class="choice" data-a="0">低創傷敷料＋疼痛控制</label>
+</div>
+<div class="expl">✅ 正解（錯誤選項）：<b>積極清創</b>。PG 活動期清創會誘發 pathergy 使潰瘍擴大——本例外院清創後惡化即為典型。正確：切片確診、免疫調節、低創傷照護。（Isoherranen 2019 EWMA）</div>
+</div>
+</div>
+
+<!-- Case 6 -->
+<div class="case" id="c6">
+<h2 style="margin-top:0">案例 6：急診外傷</h2>
+<div class="vignette">35 歲工人，鏽鐵釘穿刺左足底 3 小時，傷口深約 2 cm 帶泥土。破傷風疫苗：兒時完成基礎劑，最後一劑是 8 年前國中追加，成年後未再接種。</div>
+<div class="qblock"><div class="qt">Q10. 破傷風預防應給予？</div>
+<div data-q="10">
+<label class="choice" data-a="0">不需任何處置</label>
+<label class="choice" data-a="1">Tdap 疫苗，不需 TIG</label>
+<label class="choice" data-a="0">Tdap＋TIG</label>
+<label class="choice" data-a="0">只給 TIG</label>
+</div>
+<div class="expl">✅ 正解：<b>Tdap、免 TIG</b>。汙染穿刺傷＝高風險傷口；已完成基礎 ≥3 劑、最後一劑 5–10 年 → 追加疫苗、不需 TIG（TIG 僅用於「<3 劑或不明」的高風險傷口）。成人未打過 Tdap 優先選 Tdap。（CDC）</div>
+</div>
+<div class="qblock"><div class="qt">Q11. 此穿刺傷的傷口處置，下列何者最適當？</div>
+<div data-q="11">
+<label class="choice" data-a="0">立即一期緊密縫合</label>
+<label class="choice" data-a="1">充分沖洗探查、移除異物，開放引流觀察</label>
+<label class="choice" data-a="0">直接石膏固定</label>
+<label class="choice" data-a="0">僅表面消毒貼 OK 繃</label>
+</div>
+<div class="expl">✅ 正解：<b>沖洗＋探查＋開放</b>。汙染深穿刺傷屬高感染風險：徹底沖洗、確認無殘留異物（必要時影像）、不做一期緊密縫合；足底穿刺留意假單胞菌骨髓炎風險，惡化需回診。（Nicks 2010；WHO）</div>
+</div>
+<div class="qblock"><div class="qt">Q12. 若此傷口 48 小時後紅腫化膿、紅斑 3 cm 且病人發燒 38.6°C 心搏 110，感染分級與處置為？</div>
+<div data-q="12">
+<label class="choice" data-a="0">輕度感染：口服抗生素即可</label>
+<label class="choice" data-a="0">中度感染：門診口服＋隔日追蹤</label>
+<label class="choice" data-a="1">重度感染（合併 SIRS）：住院靜脈抗生素＋外科評估</label>
+<label class="choice" data-a="0">無感染：僅換藥觀察</label>
+</div>
+<div class="expl">✅ 正解：<b>重度感染</b>。發燒＋心搏過速＝全身炎症反應（SIRS ≥2 項）→ IWGDF/IDSA 定義之重度：需住院、靜脈抗生素、外科評估引流/清創與深部培養。（Senneville 2023）</div>
+</div>
+</div>
+
+<div class="scorebar" id="scorebar">
+<div>已作答 <span class="big" id="done">0</span>/12</div>
+<div>答對 <span class="big" id="score">0</span></div>
+<div id="grade"></div>
+<button onclick="resetQuiz()">↺ 重新測驗</button>
+</div>
+
+<p class="small" style="margin-top:14px">案例為教學用虛構情境；解析依據之完整文獻見<a href="library.html">指南文獻庫</a>。最後更新：2026-08-16 ・ Phase 3 v1.1</p>
+</main>
+<footer>傷口照護循證指引（MVP 原型）© 2026 ・ <a href="education.html">回教學專區</a></footer>
+
+<script>
+let answered = {}, correct = 0;
+document.querySelectorAll('[data-q]').forEach(group => {
+  const qid = group.dataset.q;
+  group.querySelectorAll('.choice').forEach(ch => {
+    ch.addEventListener('click', () => {
+      if (answered[qid]) return;
+      answered[qid] = true;
+      const isRight = ch.dataset.a === '1';
+      if (isRight) { correct++; ch.classList.add('correct'); }
+      else {
+        ch.classList.add('wrong');
+        group.querySelectorAll('.choice').forEach(c => { if (c.dataset.a === '1') c.classList.add('correct'); });
+      }
+      group.querySelectorAll('.choice').forEach(c => c.classList.add('disabled'));
+      group.parentElement.querySelector('.expl').classList.add('show');
+      updateBar();
+    });
+  });
+});
+function updateBar(){
+  const done = Object.keys(answered).length;
+  document.getElementById('done').textContent = done;
+  document.getElementById('score').textContent = correct;
+  const g = document.getElementById('grade');
+  if (done === 12) {
+    const pct = Math.round(correct/12*100);
+    let msg;
+    if (pct >= 90) msg = '🏆 優異！';
+    else if (pct >= 75) msg = '👍 良好，複習答錯題的解析。';
+    else if (pct >= 60) msg = '📖 及格邊緣，建議重讀治療原則與分期系統。';
+    else msg = '💪 再接再厲——從決策樹與速查卡開始複習。';
+    g.innerHTML = '<b>' + pct + '%</b>　' + msg;
+  }
+}
+function resetQuiz(){
+  answered = {}; correct = 0;
+  document.querySelectorAll('.choice').forEach(c => c.classList.remove('correct','wrong','disabled'));
+  document.querySelectorAll('.expl').forEach(e => e.classList.remove('show'));
+  document.getElementById('grade').innerHTML = '';
+  updateBar();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+</script>
+</body>
+</html>
