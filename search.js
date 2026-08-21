@@ -1,17 +1,17 @@
 /* WoundSite 全站搜尋 (方案A: 純前端索引) */
 (function(){
   // ---------- inject search bar above <nav> ----------
-  var nav = document.querySelector('nav');
-  if (!nav) return;
+  var header = document.querySelector('header');
+  if (!header) return;
   var bar = document.createElement('div');
   bar.className = 'searchbar';
   bar.innerHTML = '<div class="searchbar-inner">'
     + '<span class="sicon">🔍</span>'
-    + '<input type="search" id="siteSearchInput" placeholder="搜尋全站：傷口、分期、敷料、警訊…（中英文皆可）" autocomplete="off">'
+    + '<input type="search" id="siteSearchInput" placeholder="搜尋全站…" autocomplete="off">'
     + '<button id="siteSearchClear" title="清除" style="display:none">✕</button>'
     + '</div>'
     + '<div id="siteSearchResults" class="sresults" style="display:none"></div>';
-  nav.parentNode.insertBefore(bar, nav);
+  header.appendChild(bar);
 
   var input = document.getElementById('siteSearchInput');
   var clearBtn = document.getElementById('siteSearchClear');
