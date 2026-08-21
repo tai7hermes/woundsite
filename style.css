@@ -8,7 +8,7 @@ body{font-family:"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif;co
 a{color:var(--blue);text-decoration:none}
 a:hover{text-decoration:underline}
 header{background:var(--navy);color:#fff;padding:14px 20px;position:sticky;top:0;z-index:10}
-header .brand{font-size:1.15rem;font-weight:700}
+header .brand{font-size:1.6rem;font-weight:800;letter-spacing:.02em}
 header .brand span{color:#9fc0ee;font-weight:400;font-size:.85rem;margin-left:8px}
 nav{background:var(--blue)}
 nav ul{display:flex;flex-wrap:wrap;list-style:none;max-width:1100px;margin:0 auto}
@@ -89,4 +89,7 @@ header{display:flex;align-items:center;justify-content:space-between;gap:14px;fl
 @media (max-width:640px){
   .searchbar{flex:1 1 100%;}
   .sresults{right:auto;left:0;width:min(560px,94vw)}
+}
+@media (max-width:640px){
+  header .brand{font-size:1.25rem}
 }
