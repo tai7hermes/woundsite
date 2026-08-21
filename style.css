@@ -15,6 +15,10 @@ nav ul{display:flex;flex-wrap:wrap;list-style:none;max-width:1100px;margin:0 aut
 nav ul + ul{border-top:1px solid rgba(255,255,255,.18)}
 nav a{display:block;padding:9px 16px;color:#fff;font-size:.95rem}
 nav a.active,nav a:hover{background:var(--navy);text-decoration:none}
+nav ul.pub{background:#fce4ec}
+nav ul.pub li.lbl{padding:9px 16px;font-weight:700;color:#880e4f;font-size:.95rem}
+nav ul.pub a{color:#880e4f}
+nav ul.pub a.active,nav ul.pub a:hover{background:#f48fb1;color:#4a0e2b}
 main{max-width:1100px;margin:24px auto;padding:0 16px}
 h1{color:var(--navy);font-size:1.6rem;margin:18px 0 10px;border-left:6px solid var(--blue);padding-left:12px}
 h2{color:var(--navy);font-size:1.25rem;margin:26px 0 8px;border-bottom:2px solid var(--sky);padding-bottom:4px}
