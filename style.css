@@ -12,7 +12,8 @@ header .brand{font-size:1.15rem;font-weight:700}
 header .brand span{color:#9fc0ee;font-weight:400;font-size:.85rem;margin-left:8px}
 nav{background:var(--blue)}
 nav ul{display:flex;flex-wrap:wrap;list-style:none;max-width:1100px;margin:0 auto}
-nav a{display:block;padding:10px 16px;color:#fff;font-size:.95rem}
+nav ul + ul{border-top:1px solid rgba(255,255,255,.18)}
+nav a{display:block;padding:9px 16px;color:#fff;font-size:.95rem}
 nav a.active,nav a:hover{background:var(--navy);text-decoration:none}
 main{max-width:1100px;margin:24px auto;padding:0 16px}
 h1{color:var(--navy);font-size:1.6rem;margin:18px 0 10px;border-left:6px solid var(--blue);padding-left:12px}
