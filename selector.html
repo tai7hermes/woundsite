@@ -48,6 +48,7 @@ button.reset{background:#fff;color:var(--mid);border:1px solid var(--line);borde
 <div class="crumb">首頁 / 敷料選擇器</div>
 <h1>敷料選擇器：該用什麼敷料？</h1>
 <div class="warn">⚠️ 敷料是配角——請先確認病因治療已到位（糖足減壓、靜脈壓迫、動脈重建、壓瘡減壓）。本工具輸出為「類別」建議；品牌例僅供辨識，非優劣排序。</div>
+<div class="key">八字口訣（詳<a href="dressing_principles.html">敷料與濕敷換藥</a>）：<b>乾要保濕・濕要吸收・髒要清創・臭要控菌・深要填塞・痛要不沾・皮膚要保護・缺血先看血流</b>。選擇順序：先排除嚴重缺血與感染 → 滲液量 → 深度死腔 → 疼痛出血與周邊皮膚 → 頻率與追蹤。</div>
 
 <div class="sel-box">
 
@@ -94,7 +95,7 @@ button.reset{background:#fff;color:var(--mid);border:1px solid var(--line);borde
 
 <div class="rec" id="rec"></div>
 
-<p class="small">依據：EPUAP/NPIAP/PPPIA 2019、IWGDF Interventions 2023、EWMA/WOCN 文件、ISTAP 2018（彙整，詳<a href="library.html">文獻庫</a>）。最後更新：2026-08-28 ・ Phase 2 v1.2</p>
+<p class="small">依據：EPUAP/NPIAP/PPPIA 2019、IWGDF Interventions 2023、EWMA/WOCN 文件、ISTAP 2018（彙整，詳<a href="library.html">文獻庫</a>）。最後更新：2026-08-31 ・ Phase 2 v1.2</p>
 </main>
 <footer>傷口照護循證指引（MVP 原型）© 2026 ・ <a href="index.html">回首頁</a></footer>
 
@@ -187,7 +188,7 @@ function recommend(){
 
   /* ---------- flags 加配 ---------- */
   if(flags.includes('infect')){
-    html+=card('限期抗菌敷料（銀／碘／PHMB）','2 週原則：使用後再評估，有效則續用一輪，無效即停換策略。不作常規預防。全身性感染徵象→系統性抗生素（IWGDF/IDSA）。','silver');
+    html+=card('限期抗菌敷料（銀／碘／PHMB）','限期使用，1–2 週重新評估：有效則續用一輪，無效即停換策略；不作常規預防。全身性感染徵象→系統性抗生素（IWGDF/IDSA 2023）。','silver');
   }
   if(flags.includes('odor')){
     html+=card('活性碳敷料（±抗菌）','異味控制；惡性傷口常需合併滲液管理。','charcoal');
@@ -200,7 +201,7 @@ function recommend(){
   }
 
   /* ---------- 通用提醒 ---------- */
-  html+='<div class="notebox">📋 <b>再評估</b>：每次換藥觀察滲出/組織/感染變化並調整類別；使用濕紗布者若每日須換 3–4 次仍乾掉或滲漏，改用高吸收敷料；4 週無進展→重新評估病因與是否切片（<a href="decision.html">決策樹</a>）。健保給付與院內品項請依貴院處方集。</div>';
+  html+='<div class="notebox">📋 <b>再評估</b>：每一次換藥都是一次重新評估——觀察滲出/組織/感染變化並調整類別；使用濕紗布者若每日須換 3–4 次仍乾掉或滲漏，改用高吸收敷料；<b>2–4 週未明顯改善→重新評估血流、感染、壓力、營養、惡性變化與敷料策略</b>（<a href="decision.html">決策樹</a>／<a href="dressing_principles.html">敷料使用原則</a>）。健保給付與院內品項請依貴院處方集。</div>';
 
   rec.className='rec show';
   rec.innerHTML=html;
