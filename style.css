@@ -93,3 +93,9 @@ header{display:flex;align-items:center;justify-content:space-between;gap:14px;fl
 @media (max-width:640px){
   header .brand{font-size:1.25rem}
 }
+/* ---------- language switcher ---------- */
+.langsw{display:flex;align-items:center;gap:6px;font-size:.85rem;margin-left:auto;margin-right:14px}
+.langsw a{color:#bcd0ec;padding:2px 6px;border-radius:6px}
+.langsw a:hover{background:rgba(255,255,255,.15);text-decoration:none;color:#fff}
+.langsw .active{color:#fff;font-weight:800;background:rgba(255,255,255,.18);padding:2px 6px;border-radius:6px}
+.langsw i{color:rgba(255,255,255,.35);font-style:normal}
