@@ -50,9 +50,9 @@ def lang_switcher(page, current):
             return f'<span class="active">{label}</span>'
         return f'<a href="{href}">{label}</a>'
     return ('<div class="langsw">'
+            + item('EN', en, current == 'en') + '<i>|</i>'
             + item('繁', tw, current == 'tw') + '<i>|</i>'
-            + item('简', cn, current == 'cn') + '<i>|</i>'
-            + item('EN', en, current == 'en')
+            + item('简', cn, current == 'cn')
             + '</div>')
 
 
