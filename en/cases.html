@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Studies & Self-Assessment | Wound Care Evidence-Based Guide</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+.case{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;margin:16px 0}
+.case .vignette{background:var(--pale);border-left:5px solid var(--blue);border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:12px;font-size:.95rem}
+.qblock{margin:14px 0;padding:12px 0;border-top:1px dashed var(--line)}
+.qblock .qt{font-weight:700;color:var(--navy);margin-bottom:8px}
+.choice{display:block;border:1.5px solid var(--line);border-radius:8px;padding:10px 14px;margin:6px 0;cursor:pointer;font-size:.93rem;background:#fff;transition:.12s}
+.choice:hover{border-color:var(--blue)}
+.choice.correct{background:#e8f5e9;border-color:#2e7d32;color:#1b5e20}
+.choice.wrong{background:#ffebee;border-color:#c62828;color:#8e1b1b}
+.choice.disabled{pointer-events:none;opacity:.75}
+.expl{display:none;background:#fff8e1;border-left:5px solid #f9a825;border-radius:0 8px 8px 0;padding:10px 14px;margin-top:8px;font-size:.88rem}
+.expl.show{display:block}
+.scorebar{position:sticky;bottom:0;background:var(--navy);color:#fff;border-radius:10px;padding:12px 20px;margin-top:20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.scorebar .big{font-size:1.4rem;font-weight:800}
+.scorebar button{background:#fff;color:var(--navy);border:0;border-radius:8px;padding:8px 18px;font-size:.9rem;cursor:pointer;font-weight:700}
+.jump{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.jump a{background:var(--sky);color:var(--navy);border-radius:16px;padding:4px 14px;font-size:.85rem}
+@media (prefers-color-scheme: dark){
+  .case{background:#1e2330;border-color:#39405a}
+  .choice{background:#252b3b;border-color:#39405a;color:#dfe3ea}
+  .case .vignette{background:#232a3a}
+}
+</style>
+</head>
+<body>
+<header><div class="brand">🩹 Wound Care Evidence-Based Guide</div><div class="langsw"><a href="../cases.html">繁</a><i>|</i><a href="../cn/cases.html">简</a><i>|</i><span class="active">EN</span></div></header>
+<nav><ul><li><a href="index.html">Home</a></li><li><a href="healing.html">Wound Healing</a></li><li><a href="acute.html">Acute Wounds</a></li><li><a href="chronic.html">Chronic Wounds</a></li><li><a href="staging.html">Staging Systems</a></li><li><a href="management.html">Treatment & Alerts</a></li><li><a href="dressing_principles.html">Dressings & Wet Gauze</a></li><li><a href="dressings.html">Dressing Center</a></li></ul>
+<ul><li><a href="tools.html">Calculators</a></li><li><a href="burns.html">Burn TBSA</a></li><li><a href="decision.html">Decision Tree</a></li><li><a href="selector.html">Dressing Selector</a></li><li><a href="tetanus.html">Tetanus</a></li></ul>
+<ul><li><a href="library.html">Guidelines Library</a></li><li><a href="education.html" class="active">Education</a></li><li><a href="updates.html">Guideline Updates</a></li><li><a href="about.html">About</a></li></ul>
+<ul class="pub"><li class="lbl">🩷 Patient Education</li><li><a href="public_healing.html">Wound Healing</a></li><li><a href="public_acute.html">Common Acute Wounds</a></li><li><a href="public_chronic.html">Common Chronic Wounds</a></li><li><a href="public_dressing_change.html">Dressings & Wet Gauze</a></li><li><a href="public_warning.html">Warning Signs</a></li><li><a href="public_triage.html">When to Seek Care</a></li></ul></nav>
+<main>
+<div class="crumb">Home / <a href="education.html">Education</a> / Case Studies & Self-Assessment</div>
+<h1>Case Studies & Self-Assessment</h1>
+<p>6 clinical cases, 12 questions in total. Click an answer for instant feedback and explanation; your total score appears when you finish. Best reviewed alongside the <a href="decision.html">decision tree</a> and <a href="tools.html">calculators</a>.</p>
+<div class="jump">
+<a href="#c1">Case 1 Diabetic foot</a><a href="#c2">Case 2 Pressure injury</a><a href="#c3">Case 3 Venous</a>
+<a href="#c4">Case 4 Arterial</a><a href="#c5">Case 5 Atypical</a><a href="#c6">Case 6 ED trauma</a>
+</div>
+
+<!-- Case 1 -->
+<div class="case" id="c1">
+<h2 style="margin-top:0">Case 1: Diabetic Foot Ulcer</h2>
+<div class="vignette">62-year-old man with type 2 diabetes for 15 years (HbA1c 9.2%). A 2×2 cm ulcer under the right first metatarsal head for 6 weeks, extending to tendon. Surrounding erythema of about 1.5 cm, no systemic symptoms. Monofilament testing: no sensation at all 10 points; dorsalis pedis pulse palpable. Wound area 4 cm².</div>
+<div class="qblock"><div class="qt">Q1. What is this patient's SINBAD score?</div>
+<div data-q="1">
+<label class="choice" data-a="0">2 points</label>
+<label class="choice" data-a="1">4 points</label>
+<label class="choice" data-a="0">6 points</label>
+<label class="choice" data-a="0">3 points</label>
+</div>
+<div class="expl">✅ Correct answer: <b>4 points</b>. Site forefoot 0, ischemia 0 (pulse palpable), neuropathy 1, infection 1 (local erythema ≤2 cm = mild infection still scores 1), area ≥1 cm² scores 1, depth to tendon 1 → 0+0+1+1+1+1 = 4. A score ≥3 falls in the poorer-prognosis group. (Monteiro-Soares 2023)</div>
+</div>
+<div class="qblock"><div class="qt">Q2. Which of the following is the core treatment for this patient that "cannot be replaced by any dressing"?</div>
+<div data-q="2">
+<label class="choice" data-a="0">Silver antimicrobial dressing</label>
+<label class="choice" data-a="0">Hyperbaric oxygen therapy</label>
+<label class="choice" data-a="1">Offloading (total contact cast or non-removable walker boot)</label>
+<label class="choice" data-a="0">Daily hydrogel dressing changes</label>
+</div>
+<div class="expl">✅ Correct answer: <b>Offloading</b>. IWGDF Offloading 2023 explicitly states that first-line care for plantar ulcers is a non-removable knee-high offloading device; no dressing can replace offloading. Mild infection is managed with oral antibiotics plus debridement — silver dressings are not core therapy. (Bus 2023, DOI:10.1002/dmrr.3647)</div>
+</div>
+</div>
+
+<!-- Case 2 -->
+<div class="case" id="c2">
+<h2 style="margin-top:0">Case 2: Pressure Injury</h2>
+<div class="vignette">84-year-old bedridden woman with a 5×4 cm sacral wound: full-thickness skin loss with visible subcutaneous fat and a small amount of yellow slough, moderate exudate, no exposed bone or tendon, no obvious signs of periwound infection.</div>
+<div class="qblock"><div class="qt">Q3. What is the NPIAP stage?</div>
+<div data-q="3">
+<label class="choice" data-a="0">Stage 2</label>
+<label class="choice" data-a="1">Stage 3</label>
+<label class="choice" data-a="0">Stage 4</label>
+<label class="choice" data-a="0">Unstageable</label>
+</div>
+<div class="expl">✅ Correct answer: <b>Stage 3</b> — full-thickness loss with visible fat but no exposed fascia/tendon/bone. Slough covers only part of the wound and depth can be determined, so it is not Unstageable. (EPUAP/NPIAP/PPPIA 2019)</div>
+</div>
+<div class="qblock"><div class="qt">Q4. Per the 2019 guideline, the most appropriate dressing for this wound (Stage 3, moderate exudate) is?</div>
+<div data-q="4">
+<label class="choice" data-a="0">Transparent film</label>
+<label class="choice" data-a="0">Hydrogel</label>
+<label class="choice" data-a="1">Calcium alginate</label>
+<label class="choice" data-a="0">Dry gauze changed daily</label>
+</div>
+<div class="expl">✅ Correct answer: <b>Calcium alginate</b>. Specific guideline statements: Stage 3–4 with moderate exudate → calcium alginate; low exudate → hydrogel; moderate-to-heavy → foam. Dry gauze is not moist wound healing. Also never forget the core measures: offloading + support surfaces + nutrition. (EPUAP 2019; Gould 2024)</div>
+</div>
+</div>
+
+<!-- Case 3 -->
+<div class="case" id="c3">
+<h2 style="margin-top:0">Case 3: Lower Leg Ulcer</h2>
+<div class="vignette">58-year-old woman with a 6×3 cm shallow ulcer above the left medial malleolus for 3 months, heavy exudate, periwound hyperpigmentation and edema, worse with prolonged standing. Dorsalis pedis pulse normal.</div>
+<div class="qblock"><div class="qt">Q5. Before starting compression therapy, the most essential test is?</div>
+<div data-q="5">
+<label class="choice" data-a="0">Wound bacterial culture</label>
+<label class="choice" data-a="1">ABI (ankle-brachial index)</label>
+<label class="choice" data-a="0">Lower-limb venous ultrasound</label>
+<label class="choice" data-a="0">HbA1c</label>
+</div>
+<div class="expl">✅ Correct answer: <b>ABI</b>. Every lower-leg ulcer requires exclusion of significant arterial disease before compression, to avoid compression worsening ischemia. Venous ultrasound guides later intervention planning — it is not the safety gate before compression. (Marston 2016; WOCN)</div>
+</div>
+<div class="qblock"><div class="qt">Q6. ABI is 1.05 and a venous ulcer is confirmed. The core treatment for this wound is?</div>
+<div data-q="6">
+<label class="choice" data-a="0">Long-term oral antibiotics</label>
+<label class="choice" data-a="0">Silver dressings for 3 consecutive months</label>
+<label class="choice" data-a="0">Bed rest and avoiding walking</label>
+<label class="choice" data-a="1">Multilayer compression bandage system</label>
+</div>
+<div class="expl">✅ Correct answer: <b>Compression therapy</b> (multilayer bandaging / compression stockings). Combine with highly absorbent dressings for exudate management and periwound skin protection; after healing, long-term compression stockings prevent recurrence (C5→C6r risk). Antibiotics only for infection; walking engages the calf muscle pump and is actually beneficial. (Franks 2016; Lurie 2020)</div>
+</div>
+</div>
+
+<!-- Case 4 -->
+<div class="case" id="c4">
+<h2 style="margin-top:0">Case 4: Arterial Ulcer</h2>
+<div class="vignette">71-year-old man, 50 pack-year smoker. Dry black necrosis 2×2 cm on the lateral right foot, well demarcated, no exudate, no odor. Foot cold, dorsalis pedis pulse absent, ABI 0.35, can only sleep with the foot dangling at night. No fever.</div>
+<div class="qblock"><div class="qt">Q7. The current top priority is?</div>
+<div data-q="7">
+<label class="choice" data-a="0">Bedside sharp debridement to remove the black eschar</label>
+<label class="choice" data-a="0">Hydrogel dressing to promote autolytic debridement</label>
+<label class="choice" data-a="1">Vascular assessment and referral for revascularization</label>
+<label class="choice" data-a="0">Elastic bandage compression to reduce swelling</label>
+</div>
+<div class="expl">✅ Correct answer: <b>Revascularization assessment</b>. WIfI I3 (ABI &lt;0.40), severe ischemia: stable dry necrosis should be kept dry and protected; before perfusion is restored, debridement or hydrogel-promoted autolysis can enlarge the necrosis and convert it to wet gangrene; compression is contraindicated. (Federman 2024; Conte 2019 GVG)</div>
+</div>
+</div>
+
+<!-- Case 5 -->
+<div class="case" id="c5">
+<h2 style="margin-top:0">Case 5: Atypical Wound</h2>
+<div class="vignette">45-year-old woman with a history of ulcerative colitis. Rapidly enlarging, severely painful ulcer on the left anterior lower leg for 2 weeks, with violaceous undermined borders. It clearly enlarged after debridement at another hospital last week. No fever.</div>
+<div class="qblock"><div class="qt">Q8. The most likely diagnosis is?</div>
+<div data-q="8">
+<label class="choice" data-a="0">Necrotizing fasciitis</label>
+<label class="choice" data-a="1">Pyoderma gangrenosum</label>
+<label class="choice" data-a="0">Venous ulcer</label>
+<label class="choice" data-a="0">Calciphylaxis</label>
+</div>
+<div class="expl">✅ Correct answer: <b>PG</b>. Clues: inflammatory bowel disease + severe pain + violaceous undermined borders + worsening after debridement (pathergy phenomenon). Necrotizing fasciitis presents with toxic appearance and rapid systemic deterioration; calciphylaxis is mostly seen in dialysis patients. (Maverakis 2020)</div>
+</div>
+<div class="qblock"><div class="qt">Q9. Which of the following is the "incorrect" management?</div>
+<div data-q="9">
+<label class="choice" data-a="0">Wound-edge biopsy + pathology</label>
+<label class="choice" data-a="1">Aggressive wide surgical debridement</label>
+<label class="choice" data-a="0">Systemic immunomodulatory therapy (corticosteroids, etc.)</label>
+<label class="choice" data-a="0">Atraumatic dressings + pain control</label>
+</div>
+<div class="expl">✅ Correct answer (the incorrect option): <b>Aggressive debridement</b>. Debriding active PG triggers pathergy and enlarges the ulcer — this case worsening after outside-hospital debridement is classic. Correct approach: biopsy for diagnosis, immunomodulation, atraumatic wound care. (Isoherranen 2019 EWMA)</div>
+</div>
+</div>
+
+<!-- Case 6 -->
+<div class="case" id="c6">
+<h2 style="margin-top:0">Case 6: ED Trauma</h2>
+<div class="vignette">35-year-old worker, rusty nail puncture of the left sole 3 hours ago, wound about 2 cm deep with soil contamination. Tetanus vaccination: completed the primary series in childhood; last dose was a booster in junior high school 8 years ago, none since adulthood.</div>
+<div class="qblock"><div class="qt">Q10. Tetanus prophylaxis should be?</div>
+<div data-q="10">
+<label class="choice" data-a="0">Nothing needed</label>
+<label class="choice" data-a="1">Tdap vaccine, no TIG needed</label>
+<label class="choice" data-a="0">Tdap + TIG</label>
+<label class="choice" data-a="0">TIG only</label>
+</div>
+<div class="expl">✅ Correct answer: <b>Tdap, no TIG</b>. Contaminated puncture wound = high-risk wound; primary series ≥3 doses completed with the last dose 5–10 years ago → booster vaccine, no TIG (TIG is only for high-risk wounds with "&lt;3 doses or unknown history"). Adults who have never received Tdap should preferentially get Tdap. (CDC)</div>
+</div>
+<div class="qblock"><div class="qt">Q11. For wound management of this puncture wound, which is most appropriate?</div>
+<div data-q="11">
+<label class="choice" data-a="0">Immediate tight primary closure</label>
+<label class="choice" data-a="1">Thorough irrigation and exploration, foreign-body removal, leave open with drainage and observation</label>
+<label class="choice" data-a="0">Direct cast immobilization</label>
+<label class="choice" data-a="0">Surface antisepsis and an adhesive bandage only</label>
+</div>
+<div class="expl">✅ Correct answer: <b>Irrigation + exploration + leave open</b>. A contaminated deep puncture wound is high infection risk: irrigate thoroughly, confirm no retained foreign body (imaging if needed), and do not perform tight primary closure. For plantar punctures, beware of Pseudomonas osteomyelitis — return promptly if worsening. (Nicks 2010; WHO)</div>
+</div>
+<div class="qblock"><div class="qt">Q12. If 48 hours later the wound is red, swollen and purulent with 3 cm of erythema, and the patient has a fever of 38.6°C and heart rate 110, the infection grade and management are?</div>
+<div data-q="12">
+<label class="choice" data-a="0">Mild infection: oral antibiotics suffice</label>
+<label class="choice" data-a="0">Moderate infection: outpatient oral antibiotics + next-day follow-up</label>
+<label class="choice" data-a="1">Severe infection (with SIRS): admission, IV antibiotics + surgical evaluation</label>
+<label class="choice" data-a="0">No infection: dressing changes and observation only</label>
+</div>
+<div class="expl">✅ Correct answer: <b>Severe infection</b>. Fever + tachycardia = systemic inflammatory response (SIRS ≥2 criteria) → severe by IWGDF/IDSA definition: admission, IV antibiotics, surgical evaluation for drainage/debridement and deep cultures. (Senneville 2023)</div>
+</div>
+</div>
+
+<div class="scorebar" id="scorebar">
+<div>Answered <span class="big" id="done">0</span>/12</div>
+<div>Correct <span class="big" id="score">0</span></div>
+<div id="grade"></div>
+<button onclick="resetQuiz()">↺ Restart</button>
+</div>
+
+<p class="small" style="margin-top:14px">Cases are fictional teaching scenarios; full references behind the explanations are in the <a href="library.html">Guidelines Library</a>. Last updated: 2026-08-16 ・ Phase 3 v1.1</p>
+</main>
+<footer>Wound Care Evidence-Based Guide © 2026 ・ <a href="education.html">Back to Education</a></footer>
+
+<script>
+let answered = {}, correct = 0;
+document.querySelectorAll('[data-q]').forEach(group => {
+  const qid = group.dataset.q;
+  group.querySelectorAll('.choice').forEach(ch => {
+    ch.addEventListener('click', () => {
+      if (answered[qid]) return;
+      answered[qid] = true;
+      const isRight = ch.dataset.a === '1';
+      if (isRight) { correct++; ch.classList.add('correct'); }
+      else {
+        ch.classList.add('wrong');
+        group.querySelectorAll('.choice').forEach(c => { if (c.dataset.a === '1') c.classList.add('correct'); });
+      }
+      group.querySelectorAll('.choice').forEach(c => c.classList.add('disabled'));
+      group.parentElement.querySelector('.expl').classList.add('show');
+      updateBar();
+    });
+  });
+});
+function updateBar(){
+  const done = Object.keys(answered).length;
+  document.getElementById('done').textContent = done;
+  document.getElementById('score').textContent = correct;
+  const g = document.getElementById('grade');
+  if (done === 12) {
+    const pct = Math.round(correct/12*100);
+    let msg;
+    if (pct >= 90) msg = '🏆 Excellent!';
+    else if (pct >= 75) msg = '👍 Good — review the explanations for the questions you missed.';
+    else if (pct >= 60) msg = '📖 Borderline pass — consider re-reading the treatment principles and staging systems.';
+    else msg = '💪 Keep going — start reviewing from the decision tree and quick-reference cards.';
+    g.innerHTML = '<b>' + pct + '%</b>　' + msg;
+  }
+}
+function resetQuiz(){
+  answered = {}; correct = 0;
+  document.querySelectorAll('.choice').forEach(c => c.classList.remove('correct','wrong','disabled'));
+  document.querySelectorAll('.expl').forEach(e => e.classList.remove('show'));
+  document.getElementById('grade').innerHTML = '';
+  updateBar();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+</script>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

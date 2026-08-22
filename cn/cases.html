@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>案例研讨与自我测验 | 伤口照护循证指南</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+.case{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;margin:16px 0}
+.case .vignette{background:var(--pale);border-left:5px solid var(--blue);border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:12px;font-size:.95rem}
+.qblock{margin:14px 0;padding:12px 0;border-top:1px dashed var(--line)}
+.qblock .qt{font-weight:700;color:var(--navy);margin-bottom:8px}
+.choice{display:block;border:1.5px solid var(--line);border-radius:8px;padding:10px 14px;margin:6px 0;cursor:pointer;font-size:.93rem;background:#fff;transition:.12s}
+.choice:hover{border-color:var(--blue)}
+.choice.correct{background:#e8f5e9;border-color:#2e7d32;color:#1b5e20}
+.choice.wrong{background:#ffebee;border-color:#c62828;color:#8e1b1b}
+.choice.disabled{pointer-events:none;opacity:.75}
+.expl{display:none;background:#fff8e1;border-left:5px solid #f9a825;border-radius:0 8px 8px 0;padding:10px 14px;margin-top:8px;font-size:.88rem}
+.expl.show{display:block}
+.scorebar{position:sticky;bottom:0;background:var(--navy);color:#fff;border-radius:10px;padding:12px 20px;margin-top:20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.scorebar .big{font-size:1.4rem;font-weight:800}
+.scorebar button{background:#fff;color:var(--navy);border:0;border-radius:8px;padding:8px 18px;font-size:.9rem;cursor:pointer;font-weight:700}
+.jump{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.jump a{background:var(--sky);color:var(--navy);border-radius:16px;padding:4px 14px;font-size:.85rem}
+@media (prefers-color-scheme: dark){
+  .case{background:#1e2330;border-color:#39405a}
+  .choice{background:#252b3b;border-color:#39405a;color:#dfe3ea}
+  .case .vignette{background:#232a3a}
+}
+</style>
+</head>
+<body>
+<header><div class="brand">🩹 伤口照护循证指南</div><div class="langsw"><a href="../cases.html">繁</a><i>|</i><span class="active">简</span><i>|</i><a href="../en/cases.html">EN</a></div></header>
+<nav><ul><li><a href="index.html">首页</a></li><li><a href="healing.html">愈合原理</a></li><li><a href="acute.html">急性伤口</a></li><li><a href="chronic.html">慢性伤口</a></li><li><a href="staging.html">分期系统</a></li><li><a href="management.html">治疗与警示</a></li><li><a href="dressing_principles.html">敷料与湿敷换药</a></li><li><a href="dressings.html">敷料中心</a></li></ul>
+<ul><li><a href="tools.html">计分工具</a></li><li><a href="burns.html">烧伤面积</a></li><li><a href="decision.html">决策树</a></li><li><a href="selector.html">敷料选择器</a></li><li><a href="tetanus.html">破伤风</a></li></ul>
+<ul><li><a href="library.html">指南文献库</a></li><li><a href="education.html" class="active">教学专区</a></li><li><a href="updates.html">指南更新追踪</a></li><li><a href="about.html">关于本站</a></li></ul>
+<ul class="pub"><li class="lbl">🩷 民众伤口卫教</li><li><a href="public_healing.html">伤口愈合</a></li><li><a href="public_acute.html">常见急性伤口</a></li><li><a href="public_chronic.html">常见慢性伤口</a></li><li><a href="public_dressing_change.html">敷料与湿敷换药</a></li><li><a href="public_warning.html">伤口恶化警讯</a></li><li><a href="public_triage.html">三级就医警示</a></li></ul></nav>
+<main>
+<div class="crumb">首页 / <a href="education.html">教学专区</a> / 案例研讨与自我测验</div>
+<h1>案例研讨与自我测验</h1>
+<p>6 个临床案例、共 12 题。点击答案立即回馈与解析；答完可看总分。搭配<a href="decision.html">决策树</a>与<a href="tools.html">计分器</a>复习效果最佳。</p>
+<div class="jump">
+<a href="#c1">案例 1 糖足</a><a href="#c2">案例 2 压疮</a><a href="#c3">案例 3 静脉</a>
+<a href="#c4">案例 4 动脉</a><a href="#c5">案例 5 非典型</a><a href="#c6">案例 6 急诊外伤</a>
+</div>
+
+<!-- Case 1 -->
+<div class="case" id="c1">
+<h2 style="margin-top:0">案例 1：糖尿病足溃疡</h2>
+<div class="vignette">62 岁男性，第 2 型糖尿病 15 年（HbA1c 9.2%）。右足底第一跖骨头下 2×2 cm 溃疡 6 周，深及肌腱。周围红斑约 1.5 cm，无全身症状。单丝测验 10 点全无感觉；足背脉搏可触及。伤口面积 4 cm²。</div>
+<div class="qblock"><div class="qt">Q1. 此病人的 SINBAD 分数为？</div>
+<div data-q="1">
+<label class="choice" data-a="0">2 分</label>
+<label class="choice" data-a="1">4 分</label>
+<label class="choice" data-a="0">6 分</label>
+<label class="choice" data-a="0">3 分</label>
+</div>
+<div class="expl">✅ 正解：<b>4 分</b>。部位前足 0、缺血 0（脉搏可触）、神经病变 1、感染 1（局部红斑 ≤2cm＝轻度感染仍计 1）、面积 ≥1cm² 得 1、深度达肌腱 1 → 0+0+1+1+1+1＝4。≥3 分属预后较差组。（Monteiro-Soares 2023）</div>
+</div>
+<div class="qblock"><div class="qt">Q2. 下列何者是此病人「不可被敷料取代」的内核治疗？</div>
+<div data-q="2">
+<label class="choice" data-a="0">含银抗菌敷料</label>
+<label class="choice" data-a="0">高压氧治疗</label>
+<label class="choice" data-a="1">减压（全接触石膏或不可拆卸行走靴）</label>
+<label class="choice" data-a="0">每日水胶换药</label>
+</div>
+<div class="expl">✅ 正解：<b>减压</b>。IWGDF Offloading 2023 明订足底溃疡第一线为不可拆卸之膝下减压设备；任何敷料都不能取代减压。轻度感染以口服抗生素＋清创处理，含银敷料非内核。（Bus 2023, DOI:10.1002/dmrr.3647）</div>
+</div>
+</div>
+
+<!-- Case 2 -->
+<div class="case" id="c2">
+<h2 style="margin-top:0">案例 2：压力性损伤</h2>
+<div class="vignette">84 岁卧床女性，荐骨 5×4 cm 伤口：全皮层缺损，可见皮下脂肪与少量黄色腐肉，中量渗液，无骨骼肌腱外露，周边无明显感染征象。</div>
+<div class="qblock"><div class="qt">Q3. NPIAP 分期为？</div>
+<div data-q="3">
+<label class="choice" data-a="0">Stage 2</label>
+<label class="choice" data-a="1">Stage 3</label>
+<label class="choice" data-a="0">Stage 4</label>
+<label class="choice" data-a="0">Unstageable</label>
+</div>
+<div class="expl">✅ 正解：<b>Stage 3</b>——全皮层缺损见脂肪、未露筋膜/肌腱/骨。腐肉只有部分屏蔽、深度可判定，故非 Unstageable。（EPUAP/NPIAP/PPPIA 2019）</div>
+</div>
+<div class="qblock"><div class="qt">Q4. 依 2019 指南，此伤口（Stage 3、中量渗液）最合适的敷料是？</div>
+<div data-q="4">
+<label class="choice" data-a="0">透气薄膜</label>
+<label class="choice" data-a="0">水胶</label>
+<label class="choice" data-a="1">钙藻酸盐</label>
+<label class="choice" data-a="0">干纱布每日更换</label>
+</div>
+<div class="expl">✅ 正解：<b>钙藻酸盐</b>。指南特定条文：Stage 3–4 中度渗出→钙藻酸盐；低渗出→水胶；中大量→泡棉。干纱布非湿润愈合。同时勿忘内核：减压＋支持面＋营养。（EPUAP 2019；Gould 2024）</div>
+</div>
+</div>
+
+<!-- Case 3 -->
+<div class="case" id="c3">
+<h2 style="margin-top:0">案例 3：小腿溃疡</h2>
+<div class="vignette">58 岁女性，左内踝上方 6×3 cm 浅溃疡 3 个月，大量渗液，周边色素沉着与水肿，久站加重。足背脉搏正常。</div>
+<div class="qblock"><div class="qt">Q5. 开始压力治疗前，最必要的检查是？</div>
+<div data-q="5">
+<label class="choice" data-a="0">伤口细菌培养</label>
+<label class="choice" data-a="1">ABI（踝肱指数）</label>
+<label class="choice" data-a="0">下肢静脉超音波</label>
+<label class="choice" data-a="0">HbA1c</label>
+</div>
+<div class="expl">✅ 正解：<b>ABI</b>。所有小腿溃疡压迫前必先排除显著动脉疾病，避免压迫造成缺血恶化。静脉超音波用于后续介入评估，非压迫前的安全门槛。（Marston 2016；WOCN）</div>
+</div>
+<div class="qblock"><div class="qt">Q6. ABI 1.05，确立静脉性溃疡。此伤口的内核治疗是？</div>
+<div data-q="6">
+<label class="choice" data-a="0">长期口服抗生素</label>
+<label class="choice" data-a="0">含银敷料连用 3 个月</label>
+<label class="choice" data-a="0">卧床休息避免行走</label>
+<label class="choice" data-a="1">多层压力绷带系统</label>
+</div>
+<div class="expl">✅ 正解：<b>压力治疗</b>（多层弹绷/压力袜）。配合高吸收敷料管理渗液、周边皮肤保护；愈后长期压力袜防复发（C5→C6r 风险）。抗生素仅用于感染；行走配合小腿肌肉帮浦反而有益。（Franks 2016；Lurie 2020）</div>
+</div>
+</div>
+
+<!-- Case 4 -->
+<div class="case" id="c4">
+<h2 style="margin-top:0">案例 4：动脉性溃疡</h2>
+<div class="vignette">71 岁男性，抽烟 50 包年。右足外侧干性黑色坏死 2×2 cm，界线清楚无渗液无臭味。足部冰冷、足背脉搏消失，ABI 0.35，夜间垂足才能入睡。无发烧。</div>
+<div class="qblock"><div class="qt">Q7. 目前最优先的处置是？</div>
+<div data-q="7">
+<label class="choice" data-a="0">床边尖锐清创移除黑痂</label>
+<label class="choice" data-a="0">水胶敷料促进自溶清创</label>
+<label class="choice" data-a="1">血管评估并转介血行重建</label>
+<label class="choice" data-a="0">弹性绷带压迫消肿</label>
+</div>
+<div class="expl">✅ 正解：<b>血行重建评估</b>。WIfI I3（ABI<0.40）重度缺血：稳定干性坏死应保持干燥保护；灌流未恢复前清创或水胶促自溶都可能使坏死扩大变湿性坏疽；压迫为禁忌。（Federman 2024；Conte 2019 GVG）</div>
+</div>
+</div>
+
+<!-- Case 5 -->
+<div class="case" id="c5">
+<h2 style="margin-top:0">案例 5：非典型伤口</h2>
+<div class="vignette">45 岁女性，溃疡性结肠炎病史。左小腿前侧快速扩大之剧痛溃疡 2 周，边缘紫红色潜行状。上周于外院清创后反而明显扩大。无发烧。</div>
+<div class="qblock"><div class="qt">Q8. 最可能的诊断是？</div>
+<div data-q="8">
+<label class="choice" data-a="0">坏死性筋膜炎</label>
+<label class="choice" data-a="1">坏疽性脓皮症（Pyoderma gangrenosum）</label>
+<label class="choice" data-a="0">静脉性溃疡</label>
+<label class="choice" data-a="0">钙化防御（Calciphylaxis）</label>
+</div>
+<div class="expl">✅ 正解：<b>PG</b>。线索：发炎性肠病＋剧痛＋紫红潜行边缘＋清创后恶化（pathergy 现象）。坏死性筋膜炎会有毒性病容/快速全身恶化；钙化防御多见于洗肾患者。（Maverakis 2020）</div>
+</div>
+<div class="qblock"><div class="qt">Q9. 下列何者是「错误」的处置？</div>
+<div data-q="9">
+<label class="choice" data-a="0">伤口边缘切片＋病理检查</label>
+<label class="choice" data-a="1">积极大范围手术清创</label>
+<label class="choice" data-a="0">全身性免疫调节治疗（类固醇等）</label>
+<label class="choice" data-a="0">低创伤敷料＋疼痛控制</label>
+</div>
+<div class="expl">✅ 正解（错误选项）：<b>积极清创</b>。PG 活动期清创会诱发 pathergy 使溃疡扩大——本例外院清创后恶化即为典型。正确：切片确诊、免疫调节、低创伤照护。（Isoherranen 2019 EWMA）</div>
+</div>
+</div>
+
+<!-- Case 6 -->
+<div class="case" id="c6">
+<h2 style="margin-top:0">案例 6：急诊外伤</h2>
+<div class="vignette">35 岁工人，锈铁钉穿刺左足底 3 小时，伤口深约 2 cm 带泥土。破伤风疫苗：儿时完成基础剂，最后一剂是 8 年前国中追加，成年后未再接种。</div>
+<div class="qblock"><div class="qt">Q10. 破伤风预防应给予？</div>
+<div data-q="10">
+<label class="choice" data-a="0">不需任何处置</label>
+<label class="choice" data-a="1">Tdap 疫苗，不需 TIG</label>
+<label class="choice" data-a="0">Tdap＋TIG</label>
+<label class="choice" data-a="0">只给 TIG</label>
+</div>
+<div class="expl">✅ 正解：<b>Tdap、免 TIG</b>。污染穿刺伤＝高风险伤口；已完成基础 ≥3 剂、最后一剂 5–10 年 → 追加疫苗、不需 TIG（TIG 仅用于「<3 剂或不明」的高风险伤口）。成人未打过 Tdap 优先选 Tdap。（CDC）</div>
+</div>
+<div class="qblock"><div class="qt">Q11. 此穿刺伤的伤口处置，下列何者最适当？</div>
+<div data-q="11">
+<label class="choice" data-a="0">立即一期紧密缝合</label>
+<label class="choice" data-a="1">充分冲洗探查、移除异物，开放引流观察</label>
+<label class="choice" data-a="0">直接石膏固定</label>
+<label class="choice" data-a="0">仅表面消毒贴 OK 绷</label>
+</div>
+<div class="expl">✅ 正解：<b>冲洗＋探查＋开放</b>。污染深穿刺伤属高感染风险：彻底冲洗、确认无残留异物（必要时影像）、不做一期紧密缝合；足底穿刺留意假单胞菌骨髓炎风险，恶化需回诊。（Nicks 2010；WHO）</div>
+</div>
+<div class="qblock"><div class="qt">Q12. 若此伤口 48 小时后红肿化脓、红斑 3 cm 且病人发烧 38.6°C 心搏 110，感染分级与处置为？</div>
+<div data-q="12">
+<label class="choice" data-a="0">轻度感染：口服抗生素即可</label>
+<label class="choice" data-a="0">中度感染：门诊口服＋隔日追踪</label>
+<label class="choice" data-a="1">重度感染（合并 SIRS）：住院静脉抗生素＋外科评估</label>
+<label class="choice" data-a="0">无感染：仅换药观察</label>
+</div>
+<div class="expl">✅ 正解：<b>重度感染</b>。发烧＋心搏过速＝全身炎症反应（SIRS ≥2 项）→ IWGDF/IDSA 定义之重度：需住院、静脉抗生素、外科评估引流/清创与深部培养。（Senneville 2023）</div>
+</div>
+</div>
+
+<div class="scorebar" id="scorebar">
+<div>已作答 <span class="big" id="done">0</span>/12</div>
+<div>答对 <span class="big" id="score">0</span></div>
+<div id="grade"></div>
+<button onclick="resetQuiz()">↺ 重新测验</button>
+</div>
+
+<p class="small" style="margin-top:14px">案例为教学用虚构情境；解析依据之完整文献见<a href="library.html">指南文献库</a>。最后更新：2026-08-16 ・ Phase 3 v1.1</p>
+</main>
+<footer>伤口照护循证指南（MVP 原型）© 2026 ・ <a href="education.html">回教学专区</a></footer>
+
+<script>
+let answered = {}, correct = 0;
+document.querySelectorAll('[data-q]').forEach(group => {
+  const qid = group.dataset.q;
+  group.querySelectorAll('.choice').forEach(ch => {
+    ch.addEventListener('click', () => {
+      if (answered[qid]) return;
+      answered[qid] = true;
+      const isRight = ch.dataset.a === '1';
+      if (isRight) { correct++; ch.classList.add('correct'); }
+      else {
+        ch.classList.add('wrong');
+        group.querySelectorAll('.choice').forEach(c => { if (c.dataset.a === '1') c.classList.add('correct'); });
+      }
+      group.querySelectorAll('.choice').forEach(c => c.classList.add('disabled'));
+      group.parentElement.querySelector('.expl').classList.add('show');
+      updateBar();
+    });
+  });
+});
+function updateBar(){
+  const done = Object.keys(answered).length;
+  document.getElementById('done').textContent = done;
+  document.getElementById('score').textContent = correct;
+  const g = document.getElementById('grade');
+  if (done === 12) {
+    const pct = Math.round(correct/12*100);
+    let msg;
+    if (pct >= 90) msg = '🏆 优异！';
+    else if (pct >= 75) msg = '👍 良好，复习答错题的解析。';
+    else if (pct >= 60) msg = '📖 及格边缘，建议重读治疗原则与分期系统。';
+    else msg = '💪 再接再厉——从决策树与速查卡开始复习。';
+    g.innerHTML = '<b>' + pct + '%</b>　' + msg;
+  }
+}
+function resetQuiz(){
+  answered = {}; correct = 0;
+  document.querySelectorAll('.choice').forEach(c => c.classList.remove('correct','wrong','disabled'));
+  document.querySelectorAll('.expl').forEach(e => e.classList.remove('show'));
+  document.getElementById('grade').innerHTML = '';
+  updateBar();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+</script>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

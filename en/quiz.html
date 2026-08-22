@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Self-Assessment Quiz | Wound Care Evidence-Based Guide</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+.quizbox{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px;margin:16px 0}
+.qnum{font-size:.85rem;color:var(--mid);margin-bottom:6px}
+.qtext{font-size:1.08rem;font-weight:700;color:var(--navy);margin-bottom:14px;line-height:1.6}
+.qopts{display:grid;gap:10px}
+.qopts button{background:#fff;border:1.5px solid var(--line);border-radius:8px;padding:12px 16px;font-size:.95rem;cursor:pointer;text-align:left;transition:.12s;color:var(--dark);line-height:1.5}
+.qopts button:hover{border-color:var(--blue)}
+.qopts button.correct{background:#e8f5e9;border-color:#2e7d32;color:#1b5e20;font-weight:700}
+.qopts button.wrong{background:#ffebee;border-color:#c62828;color:#8e1b1b}
+.qopts button:disabled{cursor:default}
+.explain{display:none;background:#fff8e1;border-left:5px solid #f9a825;border-radius:0 8px 8px 0;padding:12px 16px;margin-top:12px;font-size:.9rem}
+.explain.show{display:block}
+.qctrl{display:flex;align-items:center;gap:12px;margin-top:16px}
+.qctrl button{background:var(--navy);color:#fff;border:0;border-radius:8px;padding:10px 22px;font-size:.95rem;cursor:pointer}
+.qctrl button:disabled{opacity:.4;cursor:default}
+.qctrl button:hover:not(:disabled){background:var(--blue)}
+.progress{flex:1;background:var(--sky);border-radius:10px;height:10px;overflow:hidden}
+.progress .bar{height:100%;background:var(--blue);width:0%;transition:.3s}
+.scorecard{text-align:center;padding:30px 20px}
+.scorecard .big{font-size:3rem;font-weight:800;color:var(--navy)}
+.scorecard .msg{font-size:1.1rem;margin:10px 0 18px}
+.scorecard button{background:var(--navy);color:#fff;border:0;border-radius:8px;padding:12px 26px;font-size:1rem;cursor:pointer}
+.filterrow{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.filterrow label{display:block;border:1.5px solid var(--line);border-radius:20px;padding:6px 16px;cursor:pointer;font-size:.88rem;background:#fff}
+.filterrow input{display:none}
+.filterrow label:has(input:checked){background:var(--blue);border-color:var(--blue);color:#fff}
+@media (prefers-color-scheme: dark){
+  .quizbox{background:#1e2330;border-color:#39405a}
+  .qopts button{background:#252b3b;border-color:#39405a;color:#dfe3ea}
+  .filterrow label{background:#252b3b;border-color:#39405a;color:#dfe3ea}
+}
+</style>
+</head>
+<body>
+<header><div class="brand">🩹 Wound Care Evidence-Based Guide</div><div class="langsw"><a href="../quiz.html">繁</a><i>|</i><a href="../cn/quiz.html">简</a><i>|</i><span class="active">EN</span></div></header>
+<nav><ul><li><a href="index.html">Home</a></li><li><a href="healing.html">Wound Healing</a></li><li><a href="acute.html">Acute Wounds</a></li><li><a href="chronic.html">Chronic Wounds</a></li><li><a href="staging.html">Staging Systems</a></li><li><a href="management.html">Treatment & Alerts</a></li><li><a href="dressing_principles.html">Dressings & Wet Gauze</a></li><li><a href="dressings.html">Dressing Center</a></li></ul>
+<ul><li><a href="tools.html">Calculators</a></li><li><a href="burns.html">Burn TBSA</a></li><li><a href="decision.html">Decision Tree</a></li><li><a href="selector.html">Dressing Selector</a></li><li><a href="tetanus.html">Tetanus</a></li></ul>
+<ul><li><a href="library.html">Guidelines Library</a></li><li><a href="education.html" class="active">Education</a></li><li><a href="updates.html">Guideline Updates</a></li><li><a href="about.html">About</a></li></ul>
+<ul class="pub"><li class="lbl">🩷 Patient Education</li><li><a href="public_healing.html">Wound Healing</a></li><li><a href="public_acute.html">Common Acute Wounds</a></li><li><a href="public_chronic.html">Common Chronic Wounds</a></li><li><a href="public_dressing_change.html">Dressings & Wet Gauze</a></li><li><a href="public_warning.html">Warning Signs</a></li><li><a href="public_triage.html">When to Seek Care</a></li></ul></nav>
+<main>
+<div class="crumb">Home / <a href="education.html">Education</a> / Self-Assessment Quiz</div>
+<h1>Self-Assessment Quiz (21-Question Bank)</h1>
+<p>Pick your scope and start; each question gives instant feedback, and your total score is shown at the end. <a href="cases.html">→ Prefer scenario-based learning? Go to Case Studies</a></p>
+
+<div class="quizbox" id="setup">
+<div class="qtext">Choose quiz scope</div>
+<div class="filterrow" id="catRow">
+<label><input type="checkbox" value="Staging" checked><span>Staging systems</span></label>
+<label><input type="checkbox" value="Diabetic foot" checked><span>Diabetic foot</span></label>
+<label><input type="checkbox" value="Pressure injury" checked><span>Pressure injury</span></label>
+<label><input type="checkbox" value="Vascular" checked><span>Arterial & venous</span></label>
+<label><input type="checkbox" value="Dressings" checked><span>Dressings</span></label>
+<label><input type="checkbox" value="Emergency" checked><span>Burns / tetanus / emergencies</span></label>
+</div>
+<div class="qctrl"><button onclick="startQuiz()">Start Quiz</button></div>
+</div>
+
+<div class="quizbox" id="quiz" style="display:none">
+<div class="qnum" id="qnum"></div>
+<div class="qtext" id="qtext"></div>
+<div class="qopts" id="qopts"></div>
+<div class="explain" id="qexplain"></div>
+<div class="qctrl">
+<div class="progress"><div class="bar" id="bar"></div></div>
+<button id="nextBtn" onclick="nextQ()" disabled>Next →</button>
+</div>
+</div>
+
+<div class="quizbox scorecard" id="score" style="display:none"></div>
+
+<p class="small">Question bank v1.0 (21 questions) ・ Supporting references in the <a href="library.html">library</a> ・ Last updated: 2026-08-16</p>
+</main>
+<footer>Wound Care Evidence-Based Guide © 2026 ・ <a href="index.html">Home</a></footer>
+
+<script>
+const QB=[
+{c:'Staging',q:'In NPIAP pressure injury staging, "full-thickness skin loss with visible subcutaneous fat but no exposed fascia, muscle, or bone" is?',o:['Stage 2','Stage 3','Stage 4','Unstageable'],a:1,e:'Stage 3 = full-thickness loss with visible fat; Stage 4 requires exposed fascia/muscle/tendon/bone.'},
+{c:'Staging',q:'How should a mucosal pressure injury (e.g., NG tube pressure on nasal mucosa) be staged?',o:['Use Stage 1–4','Always Stage 2','Cannot be staged — document as mucosal pressure injury only','Record as DTPI'],a:2,e:'NPIAP explicitly states mucosal pressure injuries "cannot be staged" (different anatomy).'},
+{c:'Staging',q:'In the CEAP classification, C5 means?',o:['Active venous ulcer','Healed venous ulcer','Varicose veins','Edema'],a:1,e:'C5 = healed venous ulcer; C6 = active (C6r recurrent).'},
+{c:'Staging',q:'The defining key of a Gustilo IIIB open fracture is?',o:['Wound <1 cm','Associated vascular injury','Exposed bone requiring flap reconstruction','Simple 1–10 cm wound'],a:2,e:'IIIB = extensive soft-tissue loss with exposed bone requiring a flap; IIIC = vascular injury requiring repair.'},
+{c:'Diabetic foot',q:'Which classification does IWGDF 2023 recommend as the basic system for "communication and audit" of diabetic foot ulcers?',o:['Wagner','University of Texas','SINBAD','PEDIS'],a:2,e:'SINBAD is simple and needs no special equipment; IWGDF 2023 recommends it as the basic classification, with WIfI added for the ischemic limb.'},
+{c:'Diabetic foot',q:'The most effective treatment for plantar diabetic foot ulcers that no dressing can replace is?',o:['Silver dressing','Offloading (non-removable walking device)','Daily dressing changes','Hyperbaric oxygen'],a:1,e:'IWGDF: offloading is the core treatment — dressings cannot replace it (DOI:10.1002/dmrr.3647).'},
+{c:'Diabetic foot',q:'For a clinically "uninfected" diabetic foot ulcer, the principle for antibiotic use is?',o:['Prophylactic use for 1 week','Culture first, then decide','No antibiotics','Topical antibiotic ointment'],a:2,e:'IWGDF/IDSA: do not give antibiotics for uninfected ulcers — avoids resistance and adverse effects.'},
+{c:'Diabetic foot',q:'The key criterion that upgrades a diabetic foot infection to "severe" is?',o:['Erythema >2 cm','Extension to bone','Systemic inflammatory response (SIRS)','Purulent discharge'],a:2,e:'Severe = accompanied by SIRS; erythema >2 cm or deep-tissue involvement is "moderate".'},
+{c:'Pressure injury',q:'For "very heavy exudate" in pressure injuries, the dressing specifically supported by the guideline is?',o:['Hydrogel','Hydrocolloid','Superabsorbent dressing','Film'],a:2,e:'EPUAP 2019: very heavy exudate → superabsorbent.'},
+{c:'Pressure injury',q:'For "prevention" of pressure injuries over bony prominences in high-risk patients, the evidence-supported dressing is?',o:['Multilayer silicone foam','Hydrogel','Alginate','Activated charcoal'],a:0,e:'Prophylactic multilayer silicone foam (sacrum/heels) is supported by randomized trial evidence.'},
+{c:'Vascular',q:'Before starting compression therapy for a venous ulcer, the mandatory first test is?',o:['Wound culture','ABI / arterial assessment','D-dimer','Venography'],a:1,e:'Iron rule: exclude significant arterial disease before compression; ABI <0.6 generally contraindicates full compression.'},
+{c:'Vascular',q:'The three dimensions of the WIfI system are?',o:['Wound/Infection/Ischemia','Wound/Ischemia/foot Infection','Width/Ischemia/Infection','Wound/Inflammation/Function'],a:1,e:'W wound, I ischemia, fI foot infection — each graded 0–3 (SVS 2014).'},
+{c:'Vascular',q:'The correct management of stable dry ischemic necrosis (dry toe eschar, perfusion not yet restored) is?',o:['Hydrogel to promote autolysis','Immediate bedside debridement','Keep dry and protected, vascular assessment first','Occlusive hydrocolloid'],a:2,e:'Promoting moisture/debridement before perfusion is restored triggers infection and deterioration; keep dry and prioritize revascularization (Federman 2024).'},
+{c:'Dressings',q:'The correct technique for packing a deep cavity wound is?',o:['Pack as tightly as possible','Alginate rope/gelling fiber ribbon packed "loosely" with the count documented','Stuff full with dry gauze','Never pack'],a:1,e:'Loose packing avoids tissue compression; documenting the number of pieces prevents retained packing.'},
+{c:'Dressings',q:'The principle for using antimicrobial dressings (silver/iodine) is?',o:['Routine use on all chronic wounds','Time-limited use (about 2 weeks) then reassess','Permanent use until healed','Burns only'],a:1,e:'The "2-week challenge" principle: continue another course if effective, stop and change strategy if not; never routine prophylaxis.'},
+{c:'Dressings',q:'The most suitable primary dressing for a skin tear is?',o:['Strongly adhesive hydrocolloid','Silicone contact layer (removal direction marked)','Transparent film','Dry gauze'],a:1,e:'ISTAP: atraumatic silicone dressings, removed in the direction of the skin flap; avoid strongly adhesive products.'},
+{c:'Emergency',q:'Adult Rule of 9s: a fully burned single lower limb is what % of TBSA?',o:['9%','13.5%','18%','27%'],a:2,e:'One adult lower limb = 18% (9% front + 9% back). Infants have proportionally smaller legs and a larger head.'},
+{c:'Emergency',q:'Parkland formula for 70 kg, TBSA 20% — total fluid in the first 24 hours is?',o:['2,800 mL','5,600 mL','8,400 mL','11,200 mL'],a:1,e:'4×70×20 = 5,600 mL; give 2,800 mL in the first 8 hours (counted from time of injury), titrated to urine output.'},
+{c:'Emergency',q:'Contaminated puncture wound, primary series ≥3 doses, last dose 12 years ago — tetanus prophylaxis should be?',o:['Vaccine + TIG','Vaccine only','TIG only','Neither'],a:1,e:'With ≥3 doses, no TIG is needed; booster if >10 years (>5 years for contaminated wounds). TIG only for "<3 doses/unknown + non-clean wound".'},
+{c:'Emergency',q:'In the ABA burn center referral criteria, the TBSA threshold for partial-thickness burns is?',o:['>5%','>10%','>20%','>30%'],a:1,e:'Partial-thickness >10% TBSA qualifies for referral; any full-thickness burn or special sites/mechanisms also qualify.'},
+{c:'Emergency',q:'In active pyoderma gangrenosum (PG), the management that "must be avoided most" is?',o:['Systemic immunomodulation','Aggressive surgical debridement','Atraumatic dressings','Pain control'],a:1,e:'Pathergy: debridement/trauma worsens PG; biopsy and immunotherapy come first.'}
+];
+
+let pool=[], idx=0, scoreN=0, answered=false;
+
+function startQuiz(){
+  const cats=[...document.querySelectorAll('#catRow input:checked')].map(x=>x.value);
+  pool=QB.filter(q=>cats.includes(q.c));
+  if(pool.length===0){alert('Please select at least one scope');return;}
+  // shuffle
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+  idx=0;scoreN=0;
+  document.getElementById('setup').style.display='none';
+  document.getElementById('score').style.display='none';
+  document.getElementById('quiz').style.display='block';
+  showQ();
+}
+function showQ(){
+  answered=false;
+  const q=pool[idx];
+  document.getElementById('qnum').textContent='Question '+(idx+1)+' / '+pool.length+' ・ Category: '+q.c;
+  document.getElementById('qtext').textContent=q.q;
+  document.getElementById('bar').style.width=(idx/pool.length*100)+'%';
+  const opts=document.getElementById('qopts');
+  opts.innerHTML='';
+  q.o.forEach((t,i)=>{
+    const b=document.createElement('button');
+    b.textContent=String.fromCharCode(65+i)+'. '+t;
+    b.onclick=()=>answer(i,b);
+    opts.appendChild(b);
+  });
+  const ex=document.getElementById('qexplain');
+  ex.className='explain';ex.innerHTML='';
+  document.getElementById('nextBtn').disabled=true;
+  document.getElementById('nextBtn').textContent=(idx===pool.length-1)?'See score →':'Next →';
+}
+function answer(i,btn){
+  if(answered)return;
+  answered=true;
+  const q=pool[idx];
+  const btns=[...document.getElementById('qopts').children];
+  btns.forEach(b=>b.disabled=true);
+  if(i===q.a){btn.classList.add('correct');scoreN++;}
+  else{btn.classList.add('wrong');btns[q.a].classList.add('correct');}
+  const ex=document.getElementById('qexplain');
+  ex.innerHTML='💡 '+q.e;
+  ex.className='explain show';
+  document.getElementById('nextBtn').disabled=false;
+}
+function nextQ(){
+  if(idx<pool.length-1){idx++;showQ();}
+  else{
+    document.getElementById('quiz').style.display='none';
+    const sc=document.getElementById('score');
+    const pct=Math.round(scoreN/pool.length*100);
+    let msg;
+    if(pct>=90)msg='🏆 Excellent! Very strong command of the guidelines.';
+    else if(pct>=70)msg='👍 Good! Reviewing the explanations for missed questions will round it out.';
+    else if(pct>=50)msg='📖 Consider reviewing with the quick-reference cards and the topic chapters.';
+    else msg='💪 Start systematic reading with the "Wound Classification" and "Staging Systems" chapters.';
+    sc.innerHTML='<div class="big">'+scoreN+' / '+pool.length+'</div><div class="msg">Accuracy '+pct+'%<br>'+msg+'</div><button onclick="location.reload()">Try Again</button>';
+    sc.style.display='block';
+  }
+}
+</script>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>
