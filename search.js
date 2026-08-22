@@ -113,3 +113,18 @@
   });
   input.addEventListener('focus', function(){ if (input.value.trim()) render(input.value); });
 })();
+
+// 語言切換器：記錄使用者手動選擇（autolang 之後永久尊重此偏好）
+(function(){
+  var sw = document.querySelector('.langsw');
+  if (!sw) return;
+  sw.addEventListener('click', function(ev){
+    var a = ev.target.closest('a');
+    if (!a) return;
+    var href = a.getAttribute('href') || '';
+    var lang = 'tw';
+    if (href.indexOf('en/') !== -1) lang = 'en';
+    else if (href.indexOf('cn/') !== -1) lang = 'cn';
+    try { localStorage.setItem('ws_lang', lang); } catch(e){}
+  });
+})();

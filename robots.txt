@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://wound7.com/sitemap.xml

@@ -5,6 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>傷口照護循證指引 | 首頁</title>
 <link rel="stylesheet" href="style.css">
+<script id="autolang">
+(function(){
+  try{
+    if(navigator.webdriver||/bot|crawl|spider|slurp|bing|duckduck|baidu|yandex|facebookexternalhit|preview/i.test(navigator.userAgent))return;
+    var pref=localStorage.getItem('ws_lang');
+    if(pref)return; // 使用者已手動選過語言，永久尊重
+    if(localStorage.getItem('ws_autolang_done'))return; // 只在首次造訪判斷一次
+    localStorage.setItem('ws_autolang_done','1');
+    if(document.referrer&&document.referrer.indexOf(location.host)!==-1)return; // 站內返回首頁不跳
+    var langs=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||'']).map(function(x){return String(x).toLowerCase();});
+    for(var i=0;i<langs.length;i++){
+      var l=langs[i];
+      if(l.indexOf('zh')===0){
+        if(l==='zh-cn'||l==='zh-sg'||l==='zh-my'||l.indexOf('zh-hans')===0){location.replace('cn/index.html');}
+        return; // zh-TW/HK/Hant 留在繁中
+      }
+      if(l.indexOf('en')===0){location.replace('en/index.html');return;}
+    }
+  }catch(e){}
+})();
+</script>
+<link rel="alternate" hreflang="zh-Hant" href="https://wound7.com/">
+<link rel="alternate" hreflang="zh-Hans" href="https://wound7.com/cn/">
+<link rel="alternate" hreflang="en" href="https://wound7.com/en/">
+<link rel="alternate" hreflang="x-default" href="https://wound7.com/">
 </head>
 <body>
 <header><div class="brand">🩹 傷口照護循證指引</div><div class="langsw"><a href="en/index.html">EN</a><i>|</i><span class="active">繁</span><i>|</i><a href="cn/index.html">简</a></div></header>

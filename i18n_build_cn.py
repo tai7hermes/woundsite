@@ -39,6 +39,26 @@ ASSET_REWRITES = [
     ('href="cards/', 'href="../cards/'),
 ]
 
+SITE = 'https://wound7.com'
+
+
+def hreflang_block(page):
+    """4 alternate links per Google i18n spec; x-default -> TC main site."""
+    root = '' if page != 'index.html' else ''
+    tw = f'{SITE}/{page}' if page != 'index.html' else f'{SITE}/'
+    en = f'{SITE}/en/{page}' if page != 'index.html' else f'{SITE}/en/'
+    cn = f'{SITE}/cn/{page}' if page != 'index.html' else f'{SITE}/cn/'
+    return (f'<link rel="alternate" hreflang="zh-Hant" href="{tw}">\n'
+            f'<link rel="alternate" hreflang="zh-Hans" href="{cn}">\n'
+            f'<link rel="alternate" hreflang="en" href="{en}">\n'
+            f'<link rel="alternate" hreflang="x-default" href="{tw}">')
+
+
+def inject_hreflang(html, page):
+    """Remove old hreflang lines, insert fresh block before </head>."""
+    html = re.sub(r'\s*<link rel="alternate" hreflang="[^"]*" href="[^"]*">', '', html)
+    return html.replace('</head>', hreflang_block(page) + '\n</head>', 1)
+
 
 def lang_switcher(page, current):
     """current in {'tw','cn','en'}; page like 'acute.html'"""
@@ -71,6 +91,8 @@ def rewrite_internal_links(html, phase_set):
 
 def build_cn(page):
     src = open(page, encoding='utf-8').read()
+    # strip the root-only auto-language-redirect script (must not propagate to cn/)
+    src = re.sub(r'<script id="autolang">.*?</script>\n?', '', src, flags=re.S)
     # protect script blocks? OpenCC only maps CJK; JS strings contain Chinese to convert too (good for tools pages later)
     out = CC.convert(src)
     for a, b in TERM_FIX:
@@ -82,6 +104,7 @@ def build_cn(page):
     # remove any switcher copied from the TC source, then inject the cn one
     out = re.sub(r'<div class="langsw">.*?</div>', '', out, flags=re.S)
     out = re.sub(r'(<header><div class="brand">[^<]*</div>)', r'\1' + lang_switcher(page, 'cn'), out, count=1)
+    out = inject_hreflang(out, page)
     # add disclaimer note about partial translation for non-phase links
     os.makedirs('cn', exist_ok=True)
     open(os.path.join('cn', page), 'w', encoding='utf-8').write(out)
@@ -89,16 +112,41 @@ def build_cn(page):
 
 
 def inject_switcher_tw(page):
-    """Add/refresh language switcher on the TC original page."""
+    """Add/refresh language switcher + hreflang on the TC original page."""
     s = open(page, encoding='utf-8').read()
     s = re.sub(r'<div class="langsw">.*?</div>', '', s, flags=re.S)
     s = re.sub(r'(<header><div class="brand">[^<]*</div>)', r'\1' + lang_switcher(page, 'tw'), s, count=1)
+    s = inject_hreflang(s, page)
     open(page, 'w', encoding='utf-8').write(s)
+
+
+def inject_hreflang_en(page):
+    """en/ pages are hand-translated; only refresh their hreflang block."""
+    p = os.path.join('en', page)
+    if not os.path.exists(p):
+        return
+    s = open(p, encoding='utf-8').read()
+    open(p, 'w', encoding='utf-8').write(inject_hreflang(s, page))
+
+
+def write_sitemap():
+    urls = []
+    for page in PHASE_PAGES:
+        for prefix in ('', 'en/', 'cn/'):
+            loc = f'{SITE}/{prefix}' if page == 'index.html' else f'{SITE}/{prefix}{page}'
+            urls.append(f'  <url><loc>{loc}</loc></url>')
+    xml = ('<?xml version="1.0" encoding="UTF-8"?>\n'
+           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+           + '\n'.join(urls) + '\n</urlset>\n')
+    open('sitemap.xml', 'w', encoding='utf-8').write(xml)
+    return len(urls)
 
 
 if __name__ == '__main__':
     for p in PHASE_PAGES:
         n = build_cn(p)
         inject_switcher_tw(p)
-        print(f'cn/{p} built ({n//1024} KB); switcher injected into {p}')
+        inject_hreflang_en(p)
+        print(f'cn/{p} built ({n//1024} KB); switcher+hreflang injected into {p} & en/{p}')
+    print(f'sitemap.xml: {write_sitemap()} URLs')
     print('done')

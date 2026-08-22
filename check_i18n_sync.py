@@ -36,6 +36,8 @@ def tag_signature(path):
     s = open(path, encoding='utf-8').read()
     # langsw 區塊的 span/a 位置因 active 語言不同而合法差異，比對前剝除
     s = re.sub(r'<div class="langsw">.*?</div>', '', s, flags=re.S)
+    # 根首頁專屬的 autolang 自動語言偵測 script 屬合法差異，比對前剝除
+    s = re.sub(r'<script id="autolang">.*?</script>', '', s, flags=re.S)
     p.feed(s)
     return p.sig
 
