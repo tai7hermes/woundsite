@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Burn TBSA Estimation | Wound Care Evidence-Based Guide</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+.tool{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;margin:16px 0}
+.agegrp{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.agegrp label{display:block;border:1.5px solid var(--line);border-radius:8px;padding:8px 16px;cursor:pointer;font-size:.95rem;background:#fff}
+.agegrp input{display:none}
+.agegrp label:has(input:checked){background:var(--blue);border-color:var(--blue);color:#fff}
+table.bsa{font-size:.9rem}
+table.bsa td{vertical-align:middle}
+table.bsa .region{font-weight:600;color:var(--navy)}
+table.bsa .pct{color:var(--mid);font-size:.82rem;white-space:nowrap}
+.sl{display:flex;align-items:center;gap:10px}
+.sl input[type=range]{flex:1;accent-color:var(--blue)}
+.sl .val{min-width:52px;text-align:right;font-weight:700;color:var(--navy)}
+.totalbar{position:sticky;bottom:0;background:var(--navy);color:#fff;border-radius:10px;padding:14px 20px;margin-top:16px;display:flex;flex-wrap:wrap;align-items:center;gap:14px;box-shadow:0 -2px 12px rgba(0,0,0,.15)}
+.totalbar .big{font-size:1.7rem;font-weight:800}
+.totalbar .parkland{font-size:.9rem;line-height:1.5}
+.badge{border-radius:16px;padding:2px 12px;font-size:.82rem;font-weight:700}
+.b-green{background:#2e7d32}.b-yellow{background:#f9a825;color:#4d3800}.b-red{background:#c62828}
+.refer{background:#fff3e0;border-left:6px solid #ef6c00;border-radius:0 8px 8px 0;padding:12px 16px;margin:12px 0;font-size:.9rem}
+button.reset{background:#fff;color:var(--mid);border:1px solid var(--line);border-radius:8px;padding:8px 16px;font-size:.9rem;cursor:pointer}
+.wt{display:flex;align-items:center;gap:8px;margin:10px 0}
+.wt input{width:90px;padding:6px 10px;border:1.5px solid var(--line);border-radius:8px;font-size:1rem}
+@media (prefers-color-scheme: dark){
+  .tool{background:#1e2330;border-color:#39405a}
+  .agegrp label{background:#252b3b;border-color:#39405a;color:#dfe3ea}
+  .wt input{background:#252b3b;color:#dfe3ea;border-color:#39405a}
+}
+</style>
+</head>
+<body>
+<header><div class="brand">🩹 Wound Care Evidence-Based Guide</div><div class="langsw"><a href="../burns.html">繁</a><i>|</i><a href="../cn/burns.html">简</a><i>|</i><span class="active">EN</span></div></header>
+<nav><ul><li><a href="index.html">Home</a></li><li><a href="healing.html">Wound Healing</a></li><li><a href="acute.html">Acute Wounds</a></li><li><a href="chronic.html">Chronic Wounds</a></li><li><a href="staging.html">Staging Systems</a></li><li><a href="management.html">Treatment & Alerts</a></li><li><a href="dressing_principles.html">Dressings & Wet Gauze</a></li><li><a href="dressings.html">Dressing Center</a></li></ul>
+<ul><li><a href="tools.html">Calculators</a></li><li><a href="burns.html" class="active">Burn TBSA</a></li><li><a href="decision.html">Decision Tree</a></li><li><a href="selector.html">Dressing Selector</a></li><li><a href="tetanus.html">Tetanus</a></li></ul>
+<ul><li><a href="library.html">Guidelines Library</a></li><li><a href="../education.html">Education</a></li><li><a href="../updates.html">Guideline Updates</a></li><li><a href="../about.html">About</a></li></ul>
+<ul class="pub"><li class="lbl">🩷 Patient Education</li><li><a href="../public_healing.html">Wound Healing</a></li><li><a href="../public_acute.html">Common Acute Wounds</a></li><li><a href="../public_chronic.html">Common Chronic Wounds</a></li><li><a href="../public_dressing_change.html">Dressings & Wet Gauze</a></li><li><a href="../public_warning.html">Warning Signs</a></li><li><a href="../public_triage.html">When to Seek Care</a></li></ul></nav>
+<main>
+<div class="crumb">Home / Burn TBSA Estimation</div>
+<h1>Burn Area (TBSA) Estimator</h1>
+<div class="warn">⚠️ TBSA counts only <b>second-degree (partial-thickness) or deeper</b> burns; first-degree burns (erythema only) are excluded. For scattered small areas use the patient's palm method: the whole palm (including fingers) ≈ 1% TBSA.</div>
+
+<div class="tool">
+<h2 style="margin-top:0">1. Select Age Group (Lund-Browder Adjustment)</h2>
+<div class="agegrp" id="ageGrp">
+<label><input type="radio" name="age" value="adult" checked onchange="setAge()"><span>Adult (≥15 years) = Rule of 9s</span></label>
+<label><input type="radio" name="age" value="child" onchange="setAge()"><span>Child (5–14 years)</span></label>
+<label><input type="radio" name="age" value="infant" onchange="setAge()"><span>Infant (1–4 years)</span></label>
+<label><input type="radio" name="age" value="baby" onchange="setAge()"><span>Baby (&lt;1 year)</span></label>
+</div>
+
+<h2>2. Drag the Sliders: Burned Proportion of Each Body Region</h2>
+<p class="small">Example: entire right upper limb burned → drag to 100%; half of the right upper limb burned → 50%. The system converts to TBSA automatically.</p>
+<table class="bsa" id="bsaTable"></table>
+
+<div class="wt">
+<span>Body weight (kg, optional, for Parkland fluid calculation):</span>
+<input type="number" id="wt" min="1" max="250" placeholder="kg" oninput="update()">
+<button class="reset" onclick="resetAll()">Reset All</button>
+</div>
+</div>
+
+<div class="totalbar" id="totalBar">
+<div>Total TBSA: <span class="big" id="tot">0.0%</span></div>
+<div id="sev"></div>
+<div class="parkland" id="pk"></div>
+</div>
+
+<div class="refer" id="referBox" style="display:none"></div>
+
+<div class="card">
+<h2 style="margin-top:0">ABA Burn Center Referral Criteria (Summary)</h2>
+<ul style="padding-left:20px;font-size:.92rem">
+<li>Partial-thickness burns <b>&gt;10% TBSA</b></li>
+<li>Burns involving the face, hands, feet, genitalia, perineum, or major joints</li>
+<li><b>Any third-degree (full-thickness) burn</b></li>
+<li>Electrical burns (including lightning), chemical burns</li>
+<li>Inhalation injury</li>
+<li>Significant comorbidities or concomitant trauma, children, special social/rehabilitation needs</li>
+</ul>
+<div class="ref">Source: American Burn Association referral criteria; ISBI Practice Guidelines 2016/2018 (DOI:10.1016/j.burns.2016.05.013 / j.burns.2018.09.012)</div>
+</div>
+
+<p class="small">Lund-Browder proportions follow the standard table (head and thigh adjusted by age). Parkland: 4 mL × kg × %TBSA, give half in the first 8 hours (counted from the time of injury); fluid resuscitation should be titrated to urine output. Last updated: 2026-08-16 ・ Phase 2 v1.3</p>
+</main>
+<footer>Wound Care Evidence-Based Guide (MVP prototype) © 2026 ・ <a href="index.html">Back to Home</a></footer>
+
+<script>
+/* Lund-Browder region percentages by age group.
+   adult = Rule of 9s equivalent; child/infant/baby use Lund-Browder head/thigh/leg adjustments. */
+const REGIONS = [
+ // [key, label, {adult, child, infant, baby}]
+ ['head','Head & neck',{adult:9, child:13, infant:17, baby:19}],
+ ['trunk_f','Anterior trunk',{adult:18, child:18, infant:18, baby:18}],
+ ['trunk_b','Posterior trunk (incl. buttocks)',{adult:18, child:18, infant:18, baby:18}],
+ ['arm_r','Right upper limb (entire)',{adult:9, child:9, infant:9, baby:9}],
+ ['arm_l','Left upper limb (entire)',{adult:9, child:9, infant:9, baby:9}],
+ ['leg_r','Right lower limb (entire)',{adult:18, child:16, infant:14, baby:13}],
+ ['leg_l','Left lower limb (entire)',{adult:18, child:16, infant:14, baby:13}],
+ ['genital','Perineum & genitalia',{adult:1, child:1, infant:1, baby:1}]
+];
+let ageKey='adult';
+
+function buildTable(){
+  const tb=document.getElementById('bsaTable');
+  tb.innerHTML='<tr><th>Region</th><th style="width:52%">Burned proportion (% of that region)</th><th>Converted TBSA</th></tr>'+
+  REGIONS.map(r=>{
+    const max=r[2][ageKey];
+    return '<tr><td class="region">'+r[1]+'<div class="pct">Region maximum '+max+'%</div></td>'+
+    '<td><div class="sl"><input type="range" id="sl_'+r[0]+'" min="0" max="100" step="5" value="0" oninput="update()">'+
+    '<span class="val" id="v_'+r[0]+'">0%</span></div></td>'+
+    '<td style="white-space:nowrap"><b id="t_'+r[0]+'">0.0</b> %</td></tr>';
+  }).join('');
+}
+function setAge(){
+  ageKey=document.querySelector('input[name=age]:checked').value;
+  // preserve slider values
+  const vals={};
+  REGIONS.forEach(r=>{const el=document.getElementById('sl_'+r[0]); if(el) vals[r[0]]=el.value;});
+  buildTable();
+  REGIONS.forEach(r=>{if(vals[r[0]]!==undefined){document.getElementById('sl_'+r[0]).value=vals[r[0]];}});
+  update();
+}
+function update(){
+  let total=0;
+  REGIONS.forEach(r=>{
+    const pct=parseInt(document.getElementById('sl_'+r[0]).value);
+    const tbsa=r[2][ageKey]*pct/100;
+    document.getElementById('v_'+r[0]).textContent=pct+'%';
+    document.getElementById('t_'+r[0]).textContent=tbsa.toFixed(1);
+    total+=tbsa;
+  });
+  document.getElementById('tot').textContent=total.toFixed(1)+'%';
+  // severity badge
+  const sev=document.getElementById('sev');
+  if(total===0){sev.innerHTML='';}
+  else if(total<10){sev.innerHTML='<span class="badge b-green">Minor area</span>';}
+  else if(total<20){sev.innerHTML='<span class="badge b-yellow">Moderate area</span>';}
+  else{sev.innerHTML='<span class="badge b-red">Major area</span>';}
+  // Parkland
+  const wt=parseFloat(document.getElementById('wt').value);
+  const pk=document.getElementById('pk');
+  if(wt>0&&total>0){
+    const vol=4*wt*total;
+    pk.innerHTML='Parkland 24h fluid estimate: <b>'+Math.round(vol).toLocaleString()+' mL</b> (first 8 hours '+Math.round(vol/2).toLocaleString()+' mL, next 16 hours '+Math.round(vol/2).toLocaleString()+' mL) — titrate to urine output';
+  }else{pk.innerHTML='';}
+  // referral hints
+  const rb=document.getElementById('referBox');
+  const hints=[];
+  if(total>10) hints.push('Partial-thickness burn >10% TBSA');
+  if(total>=20) hints.push('Extensive burn: initiate burn fluid resuscitation and critical-care pathway');
+  if(hints.length){
+    rb.style.display='block';
+    rb.innerHTML='🏥 <b>Meets referral / escalation-of-care criteria:</b> '+hints.join('; ')+' (also check the site/depth/mechanism items of the ABA criteria)';
+  }else{rb.style.display='none';}
+}
+function resetAll(){
+  REGIONS.forEach(r=>{document.getElementById('sl_'+r[0]).value=0;});
+  document.getElementById('wt').value='';
+  update();
+}
+buildTable();update();
+</script>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

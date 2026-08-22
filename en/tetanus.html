@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tetanus Decision Tool | Wound Care Evidence-Based Guide</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+.tool{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;margin:16px 0}
+.q{margin:14px 0;padding-bottom:12px;border-bottom:1px dashed var(--line)}
+.q:last-of-type{border-bottom:0}
+.q .qt{font-weight:700;color:var(--navy);margin-bottom:6px}
+.q .qh{font-size:.83rem;color:var(--mid);margin-bottom:8px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts label{display:block;border:1.5px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer;font-size:.92rem;background:#fff;transition:.12s}
+.opts input{display:none}
+.opts label:has(input:checked){background:var(--blue);border-color:var(--blue);color:#fff}
+.opts label:hover{border-color:var(--blue)}
+.btnrow{margin-top:14px}
+button.calc{background:var(--navy);color:#fff;border:0;border-radius:8px;padding:10px 22px;font-size:1rem;cursor:pointer}
+button.calc:hover{background:var(--blue)}
+button.reset{background:#fff;color:var(--mid);border:1px solid var(--line);border-radius:8px;padding:10px 16px;font-size:.9rem;cursor:pointer;margin-left:8px}
+.result{border-radius:10px;padding:18px 22px;margin-top:16px;display:none}
+.result.show{display:block}
+.result h2{margin:0 0 10px;border:0;padding:0}
+.rx{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0}
+.rx .item{border-radius:10px;padding:14px 18px;flex:1;min-width:200px;text-align:center}
+.rx .yes{background:#e8f5e9;border:2px solid #2e7d32;color:#1b5e20}
+.rx .no{background:#f5f5f5;border:2px solid #bbb;color:#777}
+.rx .item .big{font-size:1.25rem;font-weight:800;display:block;margin-bottom:4px}
+.r-green{background:#e8f5e9;border-left:6px solid #2e7d32}
+.r-blue{background:var(--pale);border-left:6px solid var(--blue)}
+.r-orange{background:#fff3e0;border-left:6px solid #ef6c00}
+@media (prefers-color-scheme: dark){
+  .tool{background:#1e2330;border-color:#39405a}
+  .opts label{background:#252b3b;border-color:#39405a;color:#dfe3ea}
+  .rx .no{background:#252b3b;border-color:#555;color:#999}
+}
+</style>
+</head>
+<body>
+<header><div class="brand">🩹 Wound Care Evidence-Based Guide</div><div class="langsw"><a href="../tetanus.html">繁</a><i>|</i><a href="../cn/tetanus.html">简</a><i>|</i><span class="active">EN</span></div></header>
+<nav><ul><li><a href="index.html">Home</a></li><li><a href="healing.html">Wound Healing</a></li><li><a href="acute.html">Acute Wounds</a></li><li><a href="chronic.html">Chronic Wounds</a></li><li><a href="staging.html">Staging Systems</a></li><li><a href="management.html">Treatment & Alerts</a></li><li><a href="dressing_principles.html">Dressings & Wet Gauze</a></li><li><a href="dressings.html">Dressing Center</a></li></ul>
+<ul><li><a href="tools.html">Calculators</a></li><li><a href="burns.html">Burn TBSA</a></li><li><a href="decision.html">Decision Tree</a></li><li><a href="selector.html">Dressing Selector</a></li><li><a href="tetanus.html" class="active">Tetanus</a></li></ul>
+<ul><li><a href="library.html">Guidelines Library</a></li><li><a href="../education.html">Education</a></li><li><a href="../updates.html">Guideline Updates</a></li><li><a href="../about.html">About</a></li></ul>
+<ul class="pub"><li class="lbl">🩷 Patient Education</li><li><a href="../public_healing.html">Wound Healing</a></li><li><a href="../public_acute.html">Common Acute Wounds</a></li><li><a href="../public_chronic.html">Common Chronic Wounds</a></li><li><a href="../public_dressing_change.html">Dressings & Wet Gauze</a></li><li><a href="../public_warning.html">Warning Signs</a></li><li><a href="../public_triage.html">When to Seek Care</a></li></ul></nav>
+<main>
+<div class="crumb">Home / Tetanus Decision Tool</div>
+<h1>Tetanus Prophylaxis Decision Tool</h1>
+<div class="warn">⚠️ The first step for every wound is <b>thorough cleansing and debridement</b>. This tool generates vaccine / immunoglobulin advice per CDC wound-management recommendations; for pregnancy, immunocompromise and other special situations, involve specialist judgment in parallel.</div>
+
+<div class="tool">
+
+<div class="q"><div class="qt">1. Wound type</div>
+<div class="qh">"Tetanus-prone wounds" = contaminated (soil/feces/saliva), puncture wounds, avulsions, crush injuries, burns/frostbite, necrotic tissue, missile injuries, and wounds unattended for more than 6 hours.</div>
+<div class="opts">
+<label><input type="radio" name="wound" value="clean"><span>Clean, minor wound</span></label>
+<label><input type="radio" name="wound" value="dirty"><span>All other wounds (contaminated/puncture/crush/burn…)</span></label>
+</div></div>
+
+<div class="q"><div class="qt">2. Tetanus vaccination history (completed a primary series of ≥3 doses?)</div>
+<div class="qh">Taiwan routine schedule: multiple childhood DTaP doses plus a school-age booster — most adults have completed the primary series; if uncertain, treat as "incomplete / unknown".</div>
+<div class="opts">
+<label><input type="radio" name="hx" value="lt3"><span>Fewer than 3 doses / history unknown</span></label>
+<label><input type="radio" name="hx" value="ge3"><span>Completed ≥3 doses</span></label>
+</div></div>
+
+<div class="q"><div class="qt">3. Time since the last tetanus vaccine dose?</div>
+<div class="qh">If vaccination history is unknown, this question can be skipped (the most conservative approach will be used).</div>
+<div class="opts">
+<label><input type="radio" name="last" value="lt5"><span>&lt; 5 years</span></label>
+<label><input type="radio" name="last" value="y5to10"><span>5–10 years</span></label>
+<label><input type="radio" name="last" value="gt10"><span>&gt; 10 years</span></label>
+<label><input type="radio" name="last" value="unk"><span>Can't remember</span></label>
+</div></div>
+
+<div class="q"><div class="qt">4. Special situations (select all that apply)</div>
+<div class="opts">
+<label><input type="checkbox" name="sp" value="immuno"><span>Immunocompromised / HIV (low CD4)</span></label>
+<label><input type="checkbox" name="sp" value="preg"><span>Pregnancy</span></label>
+<label><input type="checkbox" name="sp" value="noTdap"><span>Never received Tdap as an adult (pertussis-containing)</span></label>
+</div></div>
+
+<div class="btnrow">
+<button class="calc" onclick="calcTet()">Generate advice</button>
+<button class="reset" onclick="resetTet()">Reset</button>
+</div>
+
+<div class="result" id="tetResult"></div>
+</div>
+
+<h2>CDC Standard Reference Table (quick lookup)</h2>
+<table>
+<tr><th rowspan="2">Vaccine history</th><th colspan="2">Clean minor wound</th><th colspan="2">All other wounds※</th></tr>
+<tr><th>Vaccine (Td/Tdap)</th><th>TIG</th><th>Vaccine (Td/Tdap)</th><th>TIG</th></tr>
+<tr><td>&lt;3 doses or unknown</td><td>✅ Give</td><td>❌ Not needed</td><td>✅ Give</td><td>✅ <b>Give</b></td></tr>
+<tr><td>≥3 doses, last dose &lt;5 years</td><td>❌ Not needed</td><td>❌ Not needed</td><td>❌ Not needed</td><td>❌ Not needed</td></tr>
+<tr><td>≥3 doses, last dose 5–10 years</td><td>❌ Not needed</td><td>❌ Not needed</td><td>✅ Give</td><td>❌ Not needed</td></tr>
+<tr><td>≥3 doses, last dose &gt;10 years</td><td>✅ Give</td><td>❌ Not needed</td><td>✅ Give</td><td>❌ Not needed</td></tr>
+</table>
+<p class="small">※ Contaminated, puncture, avulsion, crush, burn/frostbite, necrotic, missile wounds, etc. TIG = tetanus immune globulin (human, usually 250 IU IM, at a different site from the vaccine). For adults, prefer Tdap (if a pertussis-containing adult dose has never been given); otherwise use Td.</p>
+<div class="ref">Based on: CDC — Tetanus: For Clinicians / Wound management guidance; WHO tetanus position paper (see the <a href="library.html">Guidelines Library</a>)</div>
+
+<p class="small">Last updated: 2026-08-16 · Phase 2 v1.4 (all Phase 2 tools complete 🎉)</p>
+</main>
+<footer>Wound Care Evidence-Based Guide (MVP prototype) © 2026 · <a href="index.html">Back to Home</a></footer>
+
+<script>
+function calcTet(){
+  const wound=document.querySelector('input[name=wound]:checked');
+  const hx=document.querySelector('input[name=hx]:checked');
+  const last=document.querySelector('input[name=last]:checked');
+  const res=document.getElementById('tetResult');
+  if(!wound||!hx){
+    res.className='result show r-orange';
+    res.innerHTML='⚠️ Please complete at least questions 1 and 2.';
+    return;
+  }
+  const w=wound.value, h=hx.value;
+  const l=last?last.value:'unk';
+  const sp=[...document.querySelectorAll('input[name=sp]:checked')].map(x=>x.value);
+
+  let vaccine=false, tig=false, cls='r-green', extra=[];
+
+  if(h==='lt3'){
+    vaccine=true;
+    tig=(w==='dirty');
+    cls=tig?'r-orange':'r-blue';
+  }else{
+    // >=3 doses
+    if(w==='clean'){
+      vaccine=(l==='gt10'||l==='unk');
+    }else{
+      vaccine=(l==='y5to10'||l==='gt10'||l==='unk');
+    }
+    tig=false;
+    cls=vaccine?'r-blue':'r-green';
+  }
+
+  // special situations
+  if(sp.includes('immuno')&&w==='dirty'){
+    if(!tig){extra.push('Immunocompromised patient with a tetanus-prone wound: even with a completed primary series, <b>consider adding TIG</b> (antibody response may be inadequate; CDC advises case-by-case decisions).');}
+  }
+  if(sp.includes('noTdap')&&vaccine){
+    extra.push('For this dose, use <b>Tdap</b> (to add the pertussis component — at least one dose in adulthood).');
+  }
+  if(sp.includes('preg')){
+    extra.push('Pregnancy: Tdap is recommended at <b>27–36 weeks of every pregnancy</b> (regardless of prior history); if tetanus protection is needed now, Tdap can be given directly.');
+  }
+
+  let html='<h2>'+(vaccine||tig?'💉 Action needed':'✅ Immune protection is adequate')+'</h2>';
+  html+='<div class="rx">';
+  html+='<div class="item '+(vaccine?'yes':'no')+'"><span class="big">'+(vaccine?'✅ Give vaccine':'❌ Vaccine not needed')+'</span>'+(vaccine?(sp.includes('noTdap')?'Tdap':'Td / Tdap'):'')+'</div>';
+  html+='<div class="item '+(tig?'yes':'no')+'"><span class="big">'+(tig?'✅ Give TIG':'❌ TIG not needed')+'</span>'+(tig?'250 IU IM (at a different site from the vaccine)':'')+'</div>';
+  html+='</div>';
+  if(h==='lt3'){html+='<p>Incomplete vaccination history: after this dose, <b>arrange completion of the primary series</b> (3 doses total: day 0, 4 weeks later, and 6–12 months later).</p>';}
+  if(extra.length){html+='<ul style="padding-left:20px">'+extra.map(x=>'<li>'+x+'</li>').join('')+'</ul>';}
+  html+='<p class="small">The wound itself: thorough irrigation + debridement is the foundation of tetanus prevention; consider delayed closure for high-risk wounds.</p>';
+
+  res.className='result show '+cls;
+  res.innerHTML=html;
+  res.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function resetTet(){
+  document.querySelectorAll('#tetResult, input[type=radio], input[type=checkbox]').forEach(x=>{if(x.tagName==='INPUT')x.checked=false;});
+  const res=document.getElementById('tetResult');
+  res.className='result'; res.innerHTML='';
+}
+</script>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

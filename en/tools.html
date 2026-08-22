@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculators | Wound Care Evidence-Based Guide</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+.tool{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;margin:18px 0}
+.q{margin:14px 0;padding-bottom:12px;border-bottom:1px dashed var(--line)}
+.q .qt{font-weight:700;color:var(--navy);margin-bottom:6px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts label{display:block;border:1.5px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer;font-size:.92rem;background:#fff;transition:.12s}
+.opts input{display:none}
+.opts input:checked+span{color:#fff}
+.opts label:has(input:checked){background:var(--blue);border-color:var(--blue);color:#fff}
+.opts label:hover{border-color:var(--blue)}
+.result{border-radius:10px;padding:16px 20px;margin-top:14px;font-size:1rem;display:none}
+.result.show{display:block}
+.result .score{font-size:1.9rem;font-weight:800}
+.r-green{background:#e8f5e9;border-left:6px solid #2e7d32;color:#1b5e20}
+.r-yellow{background:#fff8e1;border-left:6px solid #f9a825;color:#7a5c00}
+.r-orange{background:#fff3e0;border-left:6px solid #ef6c00;color:#8a4500}
+.r-red{background:#ffebee;border-left:6px solid #c62828;color:#8e1b1b}
+.btnrow{margin-top:12px}
+button.calc{background:var(--navy);color:#fff;border:0;border-radius:8px;padding:10px 22px;font-size:1rem;cursor:pointer}
+button.calc:hover{background:var(--blue)}
+button.reset{background:#fff;color:var(--mid);border:1px solid var(--line);border-radius:8px;padding:10px 16px;font-size:.9rem;cursor:pointer;margin-left:8px}
+@media (prefers-color-scheme: dark){
+  .tool{background:#1e2330;border-color:#39405a}
+  .opts label{background:#252b3b;border-color:#39405a;color:#dfe3ea}
+}
+</style>
+</head>
+<body>
+<header><div class="brand">🩹 Wound Care Evidence-Based Guide</div><div class="langsw"><a href="../tools.html">繁</a><i>|</i><a href="../cn/tools.html">简</a><i>|</i><span class="active">EN</span></div></header>
+<nav><ul><li><a href="index.html">Home</a></li><li><a href="healing.html">Wound Healing</a></li><li><a href="acute.html">Acute Wounds</a></li><li><a href="chronic.html">Chronic Wounds</a></li><li><a href="staging.html">Staging Systems</a></li><li><a href="management.html">Treatment & Alerts</a></li><li><a href="dressing_principles.html">Dressings & Wet Gauze</a></li><li><a href="dressings.html">Dressing Center</a></li></ul>
+<ul><li><a href="tools.html" class="active">Calculators</a></li><li><a href="burns.html">Burn TBSA</a></li><li><a href="decision.html">Decision Tree</a></li><li><a href="selector.html">Dressing Selector</a></li><li><a href="tetanus.html">Tetanus</a></li></ul>
+<ul><li><a href="library.html">Guidelines Library</a></li><li><a href="../education.html">Education</a></li><li><a href="../updates.html">Guideline Updates</a></li><li><a href="../about.html">About</a></li></ul>
+<ul class="pub"><li class="lbl">🩷 Patient Education</li><li><a href="../public_healing.html">Wound Healing</a></li><li><a href="../public_acute.html">Common Acute Wounds</a></li><li><a href="../public_chronic.html">Common Chronic Wounds</a></li><li><a href="../public_dressing_change.html">Dressings & Wet Gauze</a></li><li><a href="../public_warning.html">Warning Signs</a></li><li><a href="../public_triage.html">When to Seek Care</a></li></ul></nav>
+<main>
+<div class="crumb">Home / Calculators</div>
+<h1>WIfI / SINBAD Calculators</h1>
+<div class="warn">⚠️ These tools are for teaching and clinical decision support only; results cannot replace a complete clinical assessment and professional judgment.</div>
+
+<!-- ==================== SINBAD ==================== -->
+<div class="tool" id="sinbad">
+<h2 style="margin-top:0">SINBAD Calculator (Diabetic Foot Ulcer)</h2>
+<p class="small">Six items scored 0–1 each, total 0–6. Used for communication, audit, and prognostic stratification (the basic classification recommended by IWGDF 2023).</p>
+
+<div class="q"><div class="qt">S — Site</div>
+<div class="opts">
+<label><input type="radio" name="s_site" value="0"><span>Forefoot (0 points)</span></label>
+<label><input type="radio" name="s_site" value="1"><span>Midfoot / hindfoot (1 point)</span></label>
+</div></div>
+
+<div class="q"><div class="qt">I — Ischemia</div>
+<div class="opts">
+<label><input type="radio" name="s_isch" value="0"><span>Pedal blood flow intact, at least one palpable pulse (0 points)</span></label>
+<label><input type="radio" name="s_isch" value="1"><span>Clinical evidence of ischemia (1 point)</span></label>
+</div></div>
+
+<div class="q"><div class="qt">N — Neuropathy</div>
+<div class="opts">
+<label><input type="radio" name="s_neuro" value="0"><span>Protective sensation intact (0 points)</span></label>
+<label><input type="radio" name="s_neuro" value="1"><span>Protective sensation lost (1 point)</span></label>
+</div></div>
+
+<div class="q"><div class="qt">B — Bacterial infection</div>
+<div class="opts">
+<label><input type="radio" name="s_inf" value="0"><span>No infection (0 points)</span></label>
+<label><input type="radio" name="s_inf" value="1"><span>Infection present (1 point)</span></label>
+</div></div>
+
+<div class="q"><div class="qt">A — Area</div>
+<div class="opts">
+<label><input type="radio" name="s_area" value="0"><span>&lt; 1 cm² (0 points)</span></label>
+<label><input type="radio" name="s_area" value="1"><span>≥ 1 cm² (1 point)</span></label>
+</div></div>
+
+<div class="q" style="border-bottom:0"><div class="qt">D — Depth</div>
+<div class="opts">
+<label><input type="radio" name="s_depth" value="0"><span>Confined to skin / subcutaneous tissue (0 points)</span></label>
+<label><input type="radio" name="s_depth" value="1"><span>Reaching muscle / tendon / bone (1 point)</span></label>
+</div></div>
+
+<div class="btnrow">
+<button class="calc" onclick="calcSINBAD()">Calculate SINBAD Score</button>
+<button class="reset" onclick="resetForm('sinbad')">Reset</button>
+</div>
+<div class="result" id="sinbad_result"></div>
+<div class="ref">Source: Monteiro-Soares M, et al. IWGDF 2023 classification update. DOI:10.1002/dmrr.3648</div>
+</div>
+
+<!-- ==================== WIfI ==================== -->
+<div class="tool" id="wifi">
+<h2 style="margin-top:0">WIfI Calculator (SVS Threatened Limb Classification)</h2>
+<p class="small">Wound / Ischemia / foot Infection each graded 0–3 → estimates the 1-year amputation-risk stage and benefit of revascularization (SVS 2014).</p>
+
+<div class="q"><div class="qt">W — Wound</div>
+<div class="opts">
+<label><input type="radio" name="w_w" value="0"><span>0: No ulcer, no gangrene</span></label>
+<label><input type="radio" name="w_w" value="1"><span>1: Small, shallow ulcer, no gangrene</span></label>
+<label><input type="radio" name="w_w" value="2"><span>2: Deep ulcer with exposed bone/joint/tendon ± gangrene limited to toes</span></label>
+<label><input type="radio" name="w_w" value="3"><span>3: Extensive deep ulcer or gangrene extending to forefoot/midfoot</span></label>
+</div></div>
+
+<div class="q"><div class="qt">I — Ischemia (ABI / toe pressure / TcPO₂, whichever available)</div>
+<div class="opts">
+<label><input type="radio" name="w_i" value="0"><span>0: ABI ≥ 0.80 (toe pressure/TcPO₂ ≥ 60 mmHg)</span></label>
+<label><input type="radio" name="w_i" value="1"><span>1: ABI 0.60–0.79 (40–59 mmHg)</span></label>
+<label><input type="radio" name="w_i" value="2"><span>2: ABI 0.40–0.59 (30–39 mmHg)</span></label>
+<label><input type="radio" name="w_i" value="3"><span>3: ABI &lt; 0.40 (&lt; 30 mmHg)</span></label>
+</div></div>
+
+<div class="q" style="border-bottom:0"><div class="qt">fI — foot Infection (IWGDF/IDSA correspondence)</div>
+<div class="opts">
+<label><input type="radio" name="w_fi" value="0"><span>0: No infection</span></label>
+<label><input type="radio" name="w_fi" value="1"><span>1: Mild (skin/subcutaneous only, erythema ≤ 2 cm)</span></label>
+<label><input type="radio" name="w_fi" value="2"><span>2: Moderate (erythema &gt; 2 cm or deep structures)</span></label>
+<label><input type="radio" name="w_fi" value="3"><span>3: Severe (with systemic inflammatory response, SIRS)</span></label>
+</div></div>
+
+<div class="btnrow">
+<button class="calc" onclick="calcWIfI()">Calculate WIfI Stage</button>
+<button class="reset" onclick="resetForm('wifi')">Reset</button>
+</div>
+<div class="result" id="wifi_result"></div>
+<div class="ref">Source: Mills JL Sr, et al. SVS WIfI. J Vasc Surg. 2014;59(1):220–234. DOI:10.1016/j.jvs.2013.08.003 (stage lookup summarized from Table 6 of the original article)</div>
+</div>
+
+<p class="small">Last updated: 2026-08-16 ・ Phase 2 v1.0</p>
+</main>
+<footer>Wound Care Evidence-Based Guide (MVP prototype) © 2026 ・ <a href="index.html">Back to Home</a></footer>
+
+<script>
+function getVal(name){
+  const el = document.querySelector('input[name="'+name+'"]:checked');
+  return el ? parseInt(el.value) : null;
+}
+function resetForm(toolId){
+  document.querySelectorAll('#'+toolId+' input[type=radio]').forEach(r=>r.checked=false);
+  const res = document.querySelector('#'+toolId+' .result');
+  res.className='result'; res.innerHTML='';
+}
+
+/* ---------- SINBAD ---------- */
+function calcSINBAD(){
+  const keys=['s_site','s_isch','s_neuro','s_inf','s_area','s_depth'];
+  const vals=keys.map(getVal);
+  const res=document.getElementById('sinbad_result');
+  if(vals.includes(null)){
+    res.className='result show r-yellow';
+    res.innerHTML='⚠️ Please complete all 6 items before calculating.';
+    return;
+  }
+  const total=vals.reduce((a,b)=>a+b,0);
+  let cls, msg;
+  if(total<=1){cls='r-green'; msg='Low-risk group: relatively better prognosis. Complete care is still required (offloading, glycemic control, follow-up).';}
+  else if(total===2){cls='r-yellow'; msg='Intermediate score: address the management corresponding to each positive item.';}
+  else{cls='r-red'; msg='Score ≥3: the literature shows slower healing and poorer prognosis in this high-risk group. Actively manage the positive items (vascular assessment / infection treatment / offloading) and consider referral to a multidisciplinary foot team.';}
+  const detail=['Site','Ischemia','Neuropathy','Infection','Area','Depth'].map((n,i)=>vals[i]?'<span class="tag red">'+n+' +1</span>':'').join(' ');
+  res.className='result show '+cls;
+  res.innerHTML='<div class="score">SINBAD ＝ '+total+' / 6</div><div style="margin:6px 0">'+detail+'</div><div>'+msg+'</div>';
+}
+
+/* ---------- WIfI ---------- */
+/* Clinical stage lookup per SVS 2014 Table (amputation-risk stage 1-4).
+   Index order: [W][I][fI] → stage (1=Very Low, 2=Low, 3=Moderate, 4=High) */
+const WIFI_STAGE = {
+  '0':{'0':{'0':1,'1':1,'2':2,'3':3},'1':{'0':1,'1':2,'2':3,'3':3},'2':{'0':2,'1':2,'2':3,'3':4},'3':{'0':2,'1':3,'2':3,'3':4}},
+  '1':{'0':{'0':1,'1':1,'2':2,'3':3},'1':{'0':2,'1':2,'2':3,'3':4},'2':{'0':3,'1':3,'2':4,'3':4},'3':{'0':3,'1':3,'2':4,'3':4}},
+  '2':{'0':{'0':2,'1':2,'2':3,'3':4},'1':{'0':3,'1':3,'2':4,'3':4},'2':{'0':3,'1':4,'2':4,'3':4},'3':{'0':4,'1':4,'2':4,'3':4}},
+  '3':{'0':{'0':3,'1':3,'2':4,'3':4},'1':{'0':4,'1':4,'2':4,'3':4},'2':{'0':4,'1':4,'2':4,'3':4},'3':{'0':4,'1':4,'2':4,'3':4}}
+};
+const STAGE_INFO={
+  1:{name:'Stage 1 (Very Low risk)',cls:'r-green',msg:'Very low 1-year amputation risk. Treat by etiology and follow up; benefit of revascularization is usually low.'},
+  2:{name:'Stage 2 (Low risk)',cls:'r-yellow',msg:'Low 1-year amputation risk. Optimize wound care and risk-factor control; selectively evaluate for vascular intervention.'},
+  3:{name:'Stage 3 (Moderate risk)',cls:'r-orange',msg:'Moderate 1-year amputation risk. Vascular team evaluation is recommended; in moderate-to-severe ischemia the benefit of revascularization is moderate to high.'},
+  4:{name:'Stage 4 (High risk)',cls:'r-red',msg:'High 1-year amputation risk. Prompt multidisciplinary management (revascularization + infection source control + debridement); severe infection combined with ischemia is an emergency.'}
+};
+function calcWIfI(){
+  const w=getVal('w_w'), i=getVal('w_i'), fi=getVal('w_fi');
+  const res=document.getElementById('wifi_result');
+  if(w===null||i===null||fi===null){
+    res.className='result show r-yellow';
+    res.innerHTML='⚠️ Please complete all three items (W, I, fI) before calculating.';
+    return;
+  }
+  const st=WIFI_STAGE[w][i][fi];
+  const info=STAGE_INFO[st];
+  res.className='result show '+info.cls;
+  res.innerHTML='<div class="score">W'+w+' I'+i+' fI'+fi+' → '+info.name+'</div>'+
+    '<div>'+info.msg+'</div>'+
+    '<div class="small" style="margin-top:6px">Note: the stage lookup is a summary of the SVS 2014 consensus table; individual cases still require integrated clinical assessment.</div>';
+}
+</script>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

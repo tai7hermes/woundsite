@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>烧伤面积估算 | 伤口照护循证指南</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+.tool{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;margin:16px 0}
+.agegrp{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.agegrp label{display:block;border:1.5px solid var(--line);border-radius:8px;padding:8px 16px;cursor:pointer;font-size:.95rem;background:#fff}
+.agegrp input{display:none}
+.agegrp label:has(input:checked){background:var(--blue);border-color:var(--blue);color:#fff}
+table.bsa{font-size:.9rem}
+table.bsa td{vertical-align:middle}
+table.bsa .region{font-weight:600;color:var(--navy)}
+table.bsa .pct{color:var(--mid);font-size:.82rem;white-space:nowrap}
+.sl{display:flex;align-items:center;gap:10px}
+.sl input[type=range]{flex:1;accent-color:var(--blue)}
+.sl .val{min-width:52px;text-align:right;font-weight:700;color:var(--navy)}
+.totalbar{position:sticky;bottom:0;background:var(--navy);color:#fff;border-radius:10px;padding:14px 20px;margin-top:16px;display:flex;flex-wrap:wrap;align-items:center;gap:14px;box-shadow:0 -2px 12px rgba(0,0,0,.15)}
+.totalbar .big{font-size:1.7rem;font-weight:800}
+.totalbar .parkland{font-size:.9rem;line-height:1.5}
+.badge{border-radius:16px;padding:2px 12px;font-size:.82rem;font-weight:700}
+.b-green{background:#2e7d32}.b-yellow{background:#f9a825;color:#4d3800}.b-red{background:#c62828}
+.refer{background:#fff3e0;border-left:6px solid #ef6c00;border-radius:0 8px 8px 0;padding:12px 16px;margin:12px 0;font-size:.9rem}
+button.reset{background:#fff;color:var(--mid);border:1px solid var(--line);border-radius:8px;padding:8px 16px;font-size:.9rem;cursor:pointer}
+.wt{display:flex;align-items:center;gap:8px;margin:10px 0}
+.wt input{width:90px;padding:6px 10px;border:1.5px solid var(--line);border-radius:8px;font-size:1rem}
+@media (prefers-color-scheme: dark){
+  .tool{background:#1e2330;border-color:#39405a}
+  .agegrp label{background:#252b3b;border-color:#39405a;color:#dfe3ea}
+  .wt input{background:#252b3b;color:#dfe3ea;border-color:#39405a}
+}
+</style>
+</head>
+<body>
+<header><div class="brand">🩹 伤口照护循证指南</div><div class="langsw"><a href="../burns.html">繁</a><i>|</i><span class="active">简</span><i>|</i><a href="../en/burns.html">EN</a></div></header>
+<nav><ul><li><a href="index.html">首页</a></li><li><a href="healing.html">愈合原理</a></li><li><a href="acute.html">急性伤口</a></li><li><a href="chronic.html">慢性伤口</a></li><li><a href="staging.html">分期系统</a></li><li><a href="management.html">治疗与警示</a></li><li><a href="dressing_principles.html">敷料与湿敷换药</a></li><li><a href="dressings.html">敷料中心</a></li></ul>
+<ul><li><a href="tools.html">计分工具</a></li><li><a href="burns.html" class="active">烧伤面积</a></li><li><a href="decision.html">决策树</a></li><li><a href="selector.html">敷料选择器</a></li><li><a href="tetanus.html">破伤风</a></li></ul>
+<ul><li><a href="library.html">指南文献库</a></li><li><a href="../education.html">教学专区</a></li><li><a href="../updates.html">指南更新追踪</a></li><li><a href="../about.html">关于本站</a></li></ul>
+<ul class="pub"><li class="lbl">🩷 民众伤口卫教</li><li><a href="../public_healing.html">伤口愈合</a></li><li><a href="../public_acute.html">常见急性伤口</a></li><li><a href="../public_chronic.html">常见慢性伤口</a></li><li><a href="../public_dressing_change.html">敷料与湿敷换药</a></li><li><a href="../public_warning.html">伤口恶化警讯</a></li><li><a href="../public_triage.html">三级就医警示</a></li></ul></nav>
+<main>
+<div class="crumb">首页 / 烧伤面积估算</div>
+<h1>烧伤面积（TBSA）估算器</h1>
+<div class="warn">⚠️ TBSA 仅计入<b>二度（部分层）以上</b>之烧伤；一度（仅红斑）不列入。零星小面积可用病人手掌法：整个手掌（含手指）≈ 1% TBSA。</div>
+
+<div class="tool">
+<h2 style="margin-top:0">1. 选择年龄组（Lund-Browder 校正）</h2>
+<div class="agegrp" id="ageGrp">
+<label><input type="radio" name="age" value="adult" checked onchange="setAge()"><span>成人（≥15 岁）＝ Rule of 9s</span></label>
+<label><input type="radio" name="age" value="child" onchange="setAge()"><span>儿童（5–14 岁）</span></label>
+<label><input type="radio" name="age" value="infant" onchange="setAge()"><span>婴幼儿（1–4 岁）</span></label>
+<label><input type="radio" name="age" value="baby" onchange="setAge()"><span>婴儿（&lt;1 岁）</span></label>
+</div>
+
+<h2>2. 拖动滑杆：各部位烧伤「占该部位的比例」</h2>
+<p class="small">例：整只右上肢全烧 → 拉到 100%；右上肢烧一半 → 50%。系统自动换算 TBSA。</p>
+<table class="bsa" id="bsaTable"></table>
+
+<div class="wt">
+<span>体重（kg，选填，计算 Parkland 输液）：</span>
+<input type="number" id="wt" min="1" max="250" placeholder="kg" oninput="update()">
+<button class="reset" onclick="resetAll()">全部归零</button>
+</div>
+</div>
+
+<div class="totalbar" id="totalBar">
+<div>TBSA 总计：<span class="big" id="tot">0.0%</span></div>
+<div id="sev"></div>
+<div class="parkland" id="pk"></div>
+</div>
+
+<div class="refer" id="referBox" style="display:none"></div>
+
+<div class="card">
+<h2 style="margin-top:0">ABA 烧伤中心转诊准则（摘要）</h2>
+<ul style="padding-left:20px;font-size:.92rem">
+<li>部分层烧伤 <b>&gt;10% TBSA</b></li>
+<li>颜面、手、足、生殖器、会阴或主要关节之烧伤</li>
+<li><b>任何三度（全层）烧伤</b></li>
+<li>电烧伤（含闪电）、化学烧伤</li>
+<li>吸入性损伤</li>
+<li>合并重大共病或外伤、儿童、特殊社会/复健需求</li>
+</ul>
+<div class="ref">依据：American Burn Association referral criteria；ISBI Practice Guidelines 2016/2018（DOI:10.1016/j.burns.2016.05.013／j.burns.2018.09.012）</div>
+</div>
+
+<p class="small">Lund-Browder 比例采标准表（头与大腿随年龄调整）。Parkland：4 mL × kg × %TBSA，前 8 小时给一半（自受伤时间起算），输液应依尿量滴定。最后更新：2026-08-16 ・ Phase 2 v1.3</p>
+</main>
+<footer>伤口照护循证指南（MVP 原型）© 2026 ・ <a href="index.html">回首页</a></footer>
+
+<script>
+/* Lund-Browder region percentages by age group.
+   adult = Rule of 9s equivalent; child/infant/baby use Lund-Browder head/thigh/leg adjustments. */
+const REGIONS = [
+ // [key, label, {adult, child, infant, baby}]
+ ['head','头颈部',{adult:9, child:13, infant:17, baby:19}],
+ ['trunk_f','躯干前侧',{adult:18, child:18, infant:18, baby:18}],
+ ['trunk_b','躯干后侧（含臀）',{adult:18, child:18, infant:18, baby:18}],
+ ['arm_r','右上肢（全）',{adult:9, child:9, infant:9, baby:9}],
+ ['arm_l','左上肢（全）',{adult:9, child:9, infant:9, baby:9}],
+ ['leg_r','右下肢（全）',{adult:18, child:16, infant:14, baby:13}],
+ ['leg_l','左下肢（全）',{adult:18, child:16, infant:14, baby:13}],
+ ['genital','会阴生殖器',{adult:1, child:1, infant:1, baby:1}]
+];
+let ageKey='adult';
+
+function buildTable(){
+  const tb=document.getElementById('bsaTable');
+  tb.innerHTML='<tr><th>部位</th><th style="width:52%">烧伤比例（该部位的 %）</th><th>换算 TBSA</th></tr>'+
+  REGIONS.map(r=>{
+    const max=r[2][ageKey];
+    return '<tr><td class="region">'+r[1]+'<div class="pct">部位满分 '+max+'%</div></td>'+
+    '<td><div class="sl"><input type="range" id="sl_'+r[0]+'" min="0" max="100" step="5" value="0" oninput="update()">'+
+    '<span class="val" id="v_'+r[0]+'">0%</span></div></td>'+
+    '<td style="white-space:nowrap"><b id="t_'+r[0]+'">0.0</b> %</td></tr>';
+  }).join('');
+}
+function setAge(){
+  ageKey=document.querySelector('input[name=age]:checked').value;
+  // preserve slider values
+  const vals={};
+  REGIONS.forEach(r=>{const el=document.getElementById('sl_'+r[0]); if(el) vals[r[0]]=el.value;});
+  buildTable();
+  REGIONS.forEach(r=>{if(vals[r[0]]!==undefined){document.getElementById('sl_'+r[0]).value=vals[r[0]];}});
+  update();
+}
+function update(){
+  let total=0;
+  REGIONS.forEach(r=>{
+    const pct=parseInt(document.getElementById('sl_'+r[0]).value);
+    const tbsa=r[2][ageKey]*pct/100;
+    document.getElementById('v_'+r[0]).textContent=pct+'%';
+    document.getElementById('t_'+r[0]).textContent=tbsa.toFixed(1);
+    total+=tbsa;
+  });
+  document.getElementById('tot').textContent=total.toFixed(1)+'%';
+  // severity badge
+  const sev=document.getElementById('sev');
+  if(total===0){sev.innerHTML='';}
+  else if(total<10){sev.innerHTML='<span class="badge b-green">轻度面积</span>';}
+  else if(total<20){sev.innerHTML='<span class="badge b-yellow">中度面积</span>';}
+  else{sev.innerHTML='<span class="badge b-red">重度面积</span>';}
+  // Parkland
+  const wt=parseFloat(document.getElementById('wt').value);
+  const pk=document.getElementById('pk');
+  if(wt>0&&total>0){
+    const vol=4*wt*total;
+    pk.innerHTML='Parkland 24h 输液估算：<b>'+Math.round(vol).toLocaleString()+' mL</b>（前 8 小时 '+Math.round(vol/2).toLocaleString()+' mL，其后 16 小时 '+Math.round(vol/2).toLocaleString()+' mL）— 以尿量滴定';
+  }else{pk.innerHTML='';}
+  // referral hints
+  const rb=document.getElementById('referBox');
+  const hints=[];
+  if(total>10) hints.push('部分层烧伤 >10% TBSA');
+  if(total>=20) hints.push('大面积烧伤：启动烧伤输液与重症流程');
+  if(hints.length){
+    rb.style.display='block';
+    rb.innerHTML='🏥 <b>符合转诊/升级照护指针：</b>'+hints.join('；')+'（另请核对 ABA 准则之部位/深度/机转项目）';
+  }else{rb.style.display='none';}
+}
+function resetAll(){
+  REGIONS.forEach(r=>{document.getElementById('sl_'+r[0]).value=0;});
+  document.getElementById('wt').value='';
+  update();
+}
+buildTable();update();
+</script>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

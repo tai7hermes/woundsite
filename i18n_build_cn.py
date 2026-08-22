@@ -9,7 +9,9 @@ from opencc import OpenCC
 
 CC = OpenCC('tw2sp')
 
-PHASE_PAGES = ['index.html', 'healing.html', 'acute.html', 'chronic.html', 'staging.html']
+PHASE_PAGES = ['index.html', 'healing.html', 'acute.html', 'chronic.html', 'staging.html',
+               'management.html', 'dressing_principles.html', 'dressings.html', 'library.html',
+               'tools.html', 'burns.html', 'decision.html', 'selector.html', 'tetanus.html']
 
 # Post-OpenCC medical/term corrections (TW->CN clinical usage), applied on simplified text
 TERM_FIX = [

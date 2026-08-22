@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>破伤风决策表 | 伤口照护循证指南</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+.tool{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;margin:16px 0}
+.q{margin:14px 0;padding-bottom:12px;border-bottom:1px dashed var(--line)}
+.q:last-of-type{border-bottom:0}
+.q .qt{font-weight:700;color:var(--navy);margin-bottom:6px}
+.q .qh{font-size:.83rem;color:var(--mid);margin-bottom:8px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts label{display:block;border:1.5px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer;font-size:.92rem;background:#fff;transition:.12s}
+.opts input{display:none}
+.opts label:has(input:checked){background:var(--blue);border-color:var(--blue);color:#fff}
+.opts label:hover{border-color:var(--blue)}
+.btnrow{margin-top:14px}
+button.calc{background:var(--navy);color:#fff;border:0;border-radius:8px;padding:10px 22px;font-size:1rem;cursor:pointer}
+button.calc:hover{background:var(--blue)}
+button.reset{background:#fff;color:var(--mid);border:1px solid var(--line);border-radius:8px;padding:10px 16px;font-size:.9rem;cursor:pointer;margin-left:8px}
+.result{border-radius:10px;padding:18px 22px;margin-top:16px;display:none}
+.result.show{display:block}
+.result h2{margin:0 0 10px;border:0;padding:0}
+.rx{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0}
+.rx .item{border-radius:10px;padding:14px 18px;flex:1;min-width:200px;text-align:center}
+.rx .yes{background:#e8f5e9;border:2px solid #2e7d32;color:#1b5e20}
+.rx .no{background:#f5f5f5;border:2px solid #bbb;color:#777}
+.rx .item .big{font-size:1.25rem;font-weight:800;display:block;margin-bottom:4px}
+.r-green{background:#e8f5e9;border-left:6px solid #2e7d32}
+.r-blue{background:var(--pale);border-left:6px solid var(--blue)}
+.r-orange{background:#fff3e0;border-left:6px solid #ef6c00}
+@media (prefers-color-scheme: dark){
+  .tool{background:#1e2330;border-color:#39405a}
+  .opts label{background:#252b3b;border-color:#39405a;color:#dfe3ea}
+  .rx .no{background:#252b3b;border-color:#555;color:#999}
+}
+</style>
+</head>
+<body>
+<header><div class="brand">🩹 伤口照护循证指南</div><div class="langsw"><a href="../tetanus.html">繁</a><i>|</i><span class="active">简</span><i>|</i><a href="../en/tetanus.html">EN</a></div></header>
+<nav><ul><li><a href="index.html">首页</a></li><li><a href="healing.html">愈合原理</a></li><li><a href="acute.html">急性伤口</a></li><li><a href="chronic.html">慢性伤口</a></li><li><a href="staging.html">分期系统</a></li><li><a href="management.html">治疗与警示</a></li><li><a href="dressing_principles.html">敷料与湿敷换药</a></li><li><a href="dressings.html">敷料中心</a></li></ul>
+<ul><li><a href="tools.html">计分工具</a></li><li><a href="burns.html">烧伤面积</a></li><li><a href="decision.html">决策树</a></li><li><a href="selector.html">敷料选择器</a></li><li><a href="tetanus.html" class="active">破伤风</a></li></ul>
+<ul><li><a href="library.html">指南文献库</a></li><li><a href="../education.html">教学专区</a></li><li><a href="../updates.html">指南更新追踪</a></li><li><a href="../about.html">关于本站</a></li></ul>
+<ul class="pub"><li class="lbl">🩷 民众伤口卫教</li><li><a href="../public_healing.html">伤口愈合</a></li><li><a href="../public_acute.html">常见急性伤口</a></li><li><a href="../public_chronic.html">常见慢性伤口</a></li><li><a href="../public_dressing_change.html">敷料与湿敷换药</a></li><li><a href="../public_warning.html">伤口恶化警讯</a></li><li><a href="../public_triage.html">三级就医警示</a></li></ul></nav>
+<main>
+<div class="crumb">首页 / 破伤风决策表</div>
+<h1>破伤风预防决策器</h1>
+<div class="warn">⚠️ 所有伤口的第一步都是<b>彻底清洁与清创</b>。本工具依 CDC 伤口处置建议产出疫苗／免疫球蛋白建议；孕妇、免疫不全与特殊情况请并行专科判断。</div>
+
+<div class="tool">
+
+<div class="q"><div class="qt">1. 伤口型态</div>
+<div class="qh">「破伤风高风险伤口」＝污染（土壤/粪便/唾液）、穿刺伤、撕脱伤、压砸伤、烧烫/冻伤、坏死组织、弹伤，以及超过 6 小时未处理的伤口。</div>
+<div class="opts">
+<label><input type="radio" name="wound" value="clean"><span>干净的小伤口（clean, minor）</span></label>
+<label><input type="radio" name="wound" value="dirty"><span>其他所有伤口（污染/穿刺/压砸/烧伤…）</span></label>
+</div></div>
+
+<div class="q"><div class="qt">2. 破伤风疫苗接种史（完成基础 3 剂以上？）</div>
+<div class="qh">台湾常规：幼儿 DTaP 多剂＋国小追加，多数成人已完成基础剂；不确定者视同「未完成／不明」。</div>
+<div class="opts">
+<label><input type="radio" name="hx" value="lt3"><span>未完成 3 剂／接种史不明</span></label>
+<label><input type="radio" name="hx" value="ge3"><span>已完成 ≥3 剂</span></label>
+</div></div>
+
+<div class="q"><div class="qt">3. 距离「最后一剂」破伤风疫苗多久？</div>
+<div class="qh">接种史不明者此题可略过（将以最保守处理）。</div>
+<div class="opts">
+<label><input type="radio" name="last" value="lt5"><span>&lt; 5 年</span></label>
+<label><input type="radio" name="last" value="y5to10"><span>5–10 年</span></label>
+<label><input type="radio" name="last" value="gt10"><span>&gt; 10 年</span></label>
+<label><input type="radio" name="last" value="unk"><span>不记得</span></label>
+</div></div>
+
+<div class="q"><div class="qt">4. 特殊状况（可复选）</div>
+<div class="opts">
+<label><input type="checkbox" name="sp" value="immuno"><span>免疫不全／HIV（CD4 低）</span></label>
+<label><input type="checkbox" name="sp" value="preg"><span>怀孕</span></label>
+<label><input type="checkbox" name="sp" value="noTdap"><span>成人后从未接种过 Tdap（含百日咳）</span></label>
+</div></div>
+
+<div class="btnrow">
+<button class="calc" onclick="calcTet()">产生建议</button>
+<button class="reset" onclick="resetTet()">重设</button>
+</div>
+
+<div class="result" id="tetResult"></div>
+</div>
+
+<h2>CDC 标准对照表（速查）</h2>
+<table>
+<tr><th rowspan="2">疫苗史</th><th colspan="2">干净小伤口</th><th colspan="2">其他所有伤口※</th></tr>
+<tr><th>疫苗（Td/Tdap）</th><th>TIG</th><th>疫苗（Td/Tdap）</th><th>TIG</th></tr>
+<tr><td>&lt;3 剂或不明</td><td>✅ 给</td><td>❌ 不用</td><td>✅ 给</td><td>✅ <b>给</b></td></tr>
+<tr><td>≥3 剂，最后一剂 &lt;5 年</td><td>❌ 不用</td><td>❌ 不用</td><td>❌ 不用</td><td>❌ 不用</td></tr>
+<tr><td>≥3 剂，最后一剂 5–10 年</td><td>❌ 不用</td><td>❌ 不用</td><td>✅ 给</td><td>❌ 不用</td></tr>
+<tr><td>≥3 剂，最后一剂 &gt;10 年</td><td>✅ 给</td><td>❌ 不用</td><td>✅ 给</td><td>❌ 不用</td></tr>
+</table>
+<p class="small">※ 污染、穿刺、撕脱、压砸、烧烫/冻伤、坏死、弹伤等。TIG＝破伤风免疫球蛋白（人类，通常 250 IU IM，与疫苗不同部位）。成人疫苗优先选 Tdap（若从未打过含百日咳之成人剂型），其余用 Td。</p>
+<div class="ref">依据：CDC — Tetanus: For Clinicians／Wound management guidance；WHO tetanus position paper（详<a href="library.html">文献库</a>）</div>
+
+<p class="small">最后更新：2026-08-16 ・ Phase 2 v1.4（Phase 2 全部工具完成 🎉）</p>
+</main>
+<footer>伤口照护循证指南（MVP 原型）© 2026 ・ <a href="index.html">回首页</a></footer>
+
+<script>
+function calcTet(){
+  const wound=document.querySelector('input[name=wound]:checked');
+  const hx=document.querySelector('input[name=hx]:checked');
+  const last=document.querySelector('input[name=last]:checked');
+  const res=document.getElementById('tetResult');
+  if(!wound||!hx){
+    res.className='result show r-orange';
+    res.innerHTML='⚠️ 请至少完成第 1、2 题。';
+    return;
+  }
+  const w=wound.value, h=hx.value;
+  const l=last?last.value:'unk';
+  const sp=[...document.querySelectorAll('input[name=sp]:checked')].map(x=>x.value);
+
+  let vaccine=false, tig=false, cls='r-green', extra=[];
+
+  if(h==='lt3'){
+    vaccine=true;
+    tig=(w==='dirty');
+    cls=tig?'r-orange':'r-blue';
+  }else{
+    // >=3 doses
+    if(w==='clean'){
+      vaccine=(l==='gt10'||l==='unk');
+    }else{
+      vaccine=(l==='y5to10'||l==='gt10'||l==='unk');
+    }
+    tig=false;
+    cls=vaccine?'r-blue':'r-green';
+  }
+
+  // special situations
+  if(sp.includes('immuno')&&w==='dirty'){
+    if(!tig){extra.push('免疫不全者遇高风险伤口：即使已完成基础剂，仍<b>考虑加给 TIG</b>（抗体反应可能不足，CDC 建议个案化）。');}
+  }
+  if(sp.includes('noTdap')&&vaccine){
+    extra.push('本次疫苗建议使用 <b>Tdap</b>（补足百日咳成分，成人一生至少一剂）。');
+  }
+  if(sp.includes('preg')){
+    extra.push('孕妇：Tdap 建议于<b>每次怀孕 27–36 周</b>接种（不论过去接种史）；本次如需破伤风保护可直接用 Tdap。');
+  }
+
+  let html='<h2>'+(vaccine||tig?'💉 需要处置':'✅ 免疫保护足够')+'</h2>';
+  html+='<div class="rx">';
+  html+='<div class="item '+(vaccine?'yes':'no')+'"><span class="big">'+(vaccine?'✅ 接种疫苗':'❌ 疫苗免')+'</span>'+(vaccine?(sp.includes('noTdap')?'Tdap':'Td／Tdap'):'')+'</div>';
+  html+='<div class="item '+(tig?'yes':'no')+'"><span class="big">'+(tig?'✅ 给 TIG':'❌ TIG 免')+'</span>'+(tig?'250 IU IM（与疫苗不同部位）':'')+'</div>';
+  html+='</div>';
+  if(h==='lt3'){html+='<p>接种史不完整：本次接种后请<b>安排完成基础系列</b>（0、4 周后、6–12 个月后共 3 剂）。</p>';}
+  if(extra.length){html+='<ul style="padding-left:20px">'+extra.map(x=>'<li>'+x+'</li>').join('')+'</ul>';}
+  html+='<p class="small">伤口本身：彻底冲洗＋清创是破伤风预防的根本；高风险伤口留意延迟缝合。</p>';
+
+  res.className='result show '+cls;
+  res.innerHTML=html;
+  res.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function resetTet(){
+  document.querySelectorAll('#tetResult, input[type=radio], input[type=checkbox]').forEach(x=>{if(x.tagName==='INPUT')x.checked=false;});
+  const res=document.getElementById('tetResult');
+  res.className='result'; res.innerHTML='';
+}
+</script>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

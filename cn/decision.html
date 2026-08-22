@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>伤口决策树 | 伤口照护循证指南</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+.dt-box{background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px;margin:18px 0;min-height:260px}
+.dt-q{font-size:1.2rem;font-weight:700;color:var(--navy);margin-bottom:6px}
+.dt-hint{font-size:.88rem;color:var(--mid);margin-bottom:14px}
+.dt-opts{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.dt-opts button{background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:14px 16px;font-size:.98rem;cursor:pointer;text-align:left;transition:.12s;color:var(--dark);line-height:1.5}
+.dt-opts button:hover{border-color:var(--blue);background:var(--pale)}
+.dt-opts button b{color:var(--navy)}
+.dt-opts button .sub{display:block;font-size:.8rem;color:var(--mid);margin-top:2px}
+.dt-path{margin:10px 0;font-size:.82rem}
+.dt-path span{display:inline-block;background:var(--sky);color:var(--navy);border-radius:14px;padding:2px 10px;margin:2px 3px 2px 0}
+.dt-result{border-radius:10px;padding:18px 22px}
+.dt-result h2{margin:0 0 8px;border:0;padding:0}
+.dt-result .links a{display:inline-block;background:var(--navy);color:#fff;border-radius:8px;padding:8px 16px;margin:6px 8px 0 0;font-size:.9rem}
+.dt-result .links a:hover{background:var(--blue);text-decoration:none}
+.dt-ctrl{margin-top:16px}
+.dt-ctrl button{background:#fff;border:1px solid var(--line);color:var(--mid);border-radius:8px;padding:8px 16px;font-size:.88rem;cursor:pointer;margin-right:8px}
+.dt-ctrl button:hover{border-color:var(--blue);color:var(--blue)}
+.res-green{background:#e8f5e9;border-left:6px solid #2e7d32}
+.res-blue{background:var(--pale);border-left:6px solid var(--blue)}
+.res-orange{background:#fff3e0;border-left:6px solid #ef6c00}
+.res-red{background:#ffebee;border-left:6px solid #c62828}
+@media (prefers-color-scheme: dark){
+  .dt-box{background:#1e2330;border-color:#39405a}
+  .dt-opts button{background:#252b3b;border-color:#39405a;color:#dfe3ea}
+  .dt-opts button:hover{background:#2c3550}
+}
+</style>
+</head>
+<body>
+<header><div class="brand">🩹 伤口照护循证指南</div><div class="langsw"><a href="../decision.html">繁</a><i>|</i><span class="active">简</span><i>|</i><a href="../en/decision.html">EN</a></div></header>
+<nav><ul><li><a href="index.html">首页</a></li><li><a href="healing.html">愈合原理</a></li><li><a href="acute.html">急性伤口</a></li><li><a href="chronic.html">慢性伤口</a></li><li><a href="staging.html">分期系统</a></li><li><a href="management.html">治疗与警示</a></li><li><a href="dressing_principles.html">敷料与湿敷换药</a></li><li><a href="dressings.html">敷料中心</a></li></ul>
+<ul><li><a href="tools.html">计分工具</a></li><li><a href="burns.html">烧伤面积</a></li><li><a href="decision.html" class="active">决策树</a></li><li><a href="selector.html">敷料选择器</a></li><li><a href="tetanus.html">破伤风</a></li></ul>
+<ul><li><a href="library.html">指南文献库</a></li><li><a href="../education.html">教学专区</a></li><li><a href="../updates.html">指南更新追踪</a></li><li><a href="../about.html">关于本站</a></li></ul>
+<ul class="pub"><li class="lbl">🩷 民众伤口卫教</li><li><a href="../public_healing.html">伤口愈合</a></li><li><a href="../public_acute.html">常见急性伤口</a></li><li><a href="../public_chronic.html">常见慢性伤口</a></li><li><a href="../public_dressing_change.html">敷料与湿敷换药</a></li><li><a href="../public_warning.html">伤口恶化警讯</a></li><li><a href="../public_triage.html">三级就医警示</a></li></ul></nav>
+<main>
+<div class="crumb">首页 / 伤口决策树</div>
+<h1>伤口决策树：这是什么伤口？</h1>
+<div class="warn">⚠️ 本工具为分类导引之教学辅助；红旗征象（大出血、坏死性筋膜炎疑虑、重度感染合并缺血、SIRS）请直接启动急症流程。</div>
+
+<div class="dt-path" id="dtPath"></div>
+<div class="dt-box" id="dtBox"></div>
+<div class="dt-ctrl">
+<button onclick="goBack()" id="btnBack" disabled>← 上一步</button>
+<button onclick="restart()">↺ 重新开始</button>
+</div>
+
+<p class="small">最后更新：2026-08-31 ・ Phase 2 v1.1 ・ 依据：EWMA Lower Leg Ulcer 2023、IWGDF 2023、EPUAP/NPIAP/PPPIA 2019、WHS 2023–2024、ISTAP 2018、ISBI 2016/2018、CDC/WHO（详<a href="library.html">文献库</a>）</p>
+</main>
+<footer>伤口照护循证指南（MVP 原型）© 2026 ・ <a href="index.html">回首页</a></footer>
+
+<script>
+/* ---------- 决策树定义 ---------- */
+const NODES = {
+  start:{
+    q:'伤口的病程？',
+    hint:'慢性伤口一般指经适当治疗 4–6 周仍未愈合，或愈合停滞的伤口。',
+    opts:[
+      {t:'<b>急性伤口</b><span class="sub">新发生：外伤、烧伤、手术、咬伤…</span>', next:'acute'},
+      {t:'<b>慢性／不愈合伤口</b><span class="sub">4–6 周未愈或反复复发</span>', next:'chronic'}
+    ]
+  },
+  /* ---------- 急性 ---------- */
+  acute:{
+    q:'急性伤口的成因？',
+    opts:[
+      {t:'<b>烧烫伤／化学／电烧伤</b>', next:'r_burn'},
+      {t:'<b>手术伤口</b><span class="sub">术后切口的分级或愈合问题</span>', next:'r_surgical'},
+      {t:'<b>动物或人咬伤／脏污穿刺伤</b>', next:'r_bite'},
+      {t:'<b>一般外伤</b><span class="sub">撕裂、切割、擦伤、撕脱、压砸</span>', next:'acute_trauma'}
+    ]
+  },
+  acute_trauma:{
+    q:'外伤是否合并以下状况？',
+    opts:[
+      {t:'<b>合并骨折或骨外露</b>', next:'r_fracture'},
+      {t:'<b>老年／脆弱皮肤的皮瓣状撕裂</b><span class="sub">薄皮肤被剪力掀起成瓣</span>', next:'r_skintear'},
+      {t:'<b>皆无</b><span class="sub">单纯软组织外伤</span>', next:'r_trauma'}
+    ]
+  },
+  /* ---------- 慢性 ---------- */
+  chronic:{
+    q:'伤口位置与病人背景？',
+    opts:[
+      {t:'<b>足部溃疡＋糖尿病</b>', next:'r_dfu'},
+      {t:'<b>骨突处＋活动受限／卧床／轮椅</b><span class="sub">荐骨、坐骨、足跟、大转子…或医疗设备下</span>', next:'r_pi'},
+      {t:'<b>小腿溃疡（非糖足、非骨突处）</b>', next:'leg'},
+      {t:'<b>放射治疗照野内</b>', next:'r_radiation'},
+      {t:'<b>已知恶性肿瘤、蕈状增生外观</b>', next:'r_malignant'},
+      {t:'<b>以上皆不符／型态怪异</b><span class="sub">位置非典型、剧痛、边缘紫红、治疗无反应</span>', next:'r_atypical'}
+    ]
+  },
+  leg:{
+    q:'小腿溃疡：血管评估结果？',
+    hint:'所有小腿溃疡在压迫治疗前都必须先做动脉评估（ABI／脉搏）。',
+    opts:[
+      {t:'<b>动脉性表现</b><span class="sub">ABI 低、远程/足趾、苍白床、剧痛、脉搏消失</span>', next:'r_arterial'},
+      {t:'<b>静脉性表现</b><span class="sub">内踝上方、水肿、色素沉着、渗液多、ABI 正常</span>', next:'r_venous'},
+      {t:'<b>动静脉表现皆有</b><span class="sub">静脉外观但 ABI 下降（约 0.5–0.8）</span>', next:'r_mixed'},
+      {t:'<b>皆不典型</b>', next:'r_atypical'}
+    ]
+  },
+  /* ---------- 结果节点 ---------- */
+  r_burn:{result:true, cls:'res-orange', icon:'🔥', name:'烧伤',
+    body:'先冷却（流动冷水约 20 分钟，勿用冰）→ 评估深度（浅层/部分层/全层）与面积 → 依 ABA 准则评估烧伤中心转诊 → 非黏附覆盖±抗菌烧伤敷料；深度伤口早期切痂植皮。',
+    links:[['classification.html','分类：烧伤'],['staging.html','烧伤厚度分级'],['dressings.html','敷料中心']],
+    ref:'ISBI 2016/2018；ABA；WHO'},
+  r_surgical:{result:true, cls:'res-blue', icon:'🔪', name:'手术伤口',
+    body:'依 CDC 四级污染分级（Clean／Clean-contaminated／Contaminated／Dirty）记录；监测 SSI 征象。裂开或感染之切口转为开放性伤口处理（清创＋依渗出选敷料±NPWT）。',
+    links:[['classification.html','分类：手术伤口'],['staging.html','CDC 污染分级']],
+    ref:'CDC NHSN SSI Manual'},
+  r_bite:{result:true, cls:'res-orange', icon:'🐕', name:'咬伤／脏污穿刺伤',
+    body:'立即大量清水/肥皂水冲洗 → 评估破伤风疫苗史（Td/Tdap±TIG）→ 动物咬伤评估狂犬病 PEP → 高感染风险伤口通常延迟缝合，考虑预防性抗生素（如人咬、手部、深穿刺）。',
+    links:[['classification.html','分类：破伤风/咬伤']],
+    ref:'CDC tetanus／rabies PEP'},
+  r_fracture:{result:true, cls:'res-red', icon:'🦴', name:'开放性骨折',
+    body:'Gustilo–Anderson 分级（I／II／IIIA-C）→ 尽早静脉抗生素＋破伤风预防 → 手术冲洗清创 → 骨固定与软组织覆盖计划（IIIB 需皮瓣、IIIC 合并血管修复）。',
+    links:[['classification.html','分类：开放性骨折'],['staging.html','Gustilo 分级']],
+    ref:'Gustilo 1976/1984；AO'},
+  r_skintear:{result:true, cls:'res-blue', icon:'🩹', name:'皮肤撕裂（Skin Tear）',
+    body:'ISTAP 分型（Type 1–3）→ 轻柔冲洗、止血 → 可存活皮瓣复位 → 硅胶接触层／低创伤敷料，敷料上标示拆除方向（顺皮瓣）→ 避免强黏性产品。',
+    links:[['classification.html','分类：皮肤撕裂'],['staging.html','ISTAP 分型'],['dressings.html','硅胶接触层']],
+    ref:'ISTAP 2018；Van Tiggelen 2020'},
+  r_trauma:{result:true, cls:'res-green', icon:'🚑', name:'一般外伤性伤口',
+    body:'评估（机转/深度/神经血管肌腱/异物）→ 等张液充分冲洗 → 必要清创 → 依污染与时间选择一期缝合、延迟缝合或二期愈合 → 破伤风评估；单纯伤口不常规使用抗生素。',
+    links:[['classification.html','分类：外伤性伤口']],
+    ref:'Nicks 2010；Forsch 2017；WHO'},
+  r_dfu:{result:true, cls:'res-red', icon:'🦶', name:'糖尿病足溃疡（DFU）',
+    body:'四大评估：神经（单丝）＋血管（ABI，缺血用 WIfI）＋感染（IWGDF/IDSA 分级；未感染不给抗生素）＋骨髓炎 → 分类用 SINBAD → 内核治疗：减压（不可被敷料取代）＋清创＋感染控制；标准照护优化后才考虑高端治疗。薄层松散腐肉可短期湿敷（wet-to-moist）辅助自溶——先确认血流，勿用 wet-to-dry。',
+    links:[['management.html','糖足治疗路径'],['tools.html','SINBAD／WIfI 计分器'],['dressing_principles.html#wetgauze','湿敷换药技术']],
+    ref:'IWGDF 2023；IWGDF/IDSA 2023；Lavery 2024 WHS'},
+  r_pi:{result:true, cls:'res-orange', icon:'🛏️', name:'压力性损伤',
+    body:'NPIAP 分期（1–4／Unstageable／DTPI；黏膜不可分期）→ 内核治疗：减压翻身＋支持面＋营养 → 清创、感染/骨髓炎处理 → 依分期与渗出选敷料（见对照表）；少量松散腐肉可短期湿敷辅助自溶（干燥前更换、勿塞紧）→ 大面积 Stage 3–4 备妥后考虑 NPWT。',
+    links:[['staging.html','NPIAP 分期'],['management.html','压疮治疗路径'],['dressing_principles.html','敷料与湿敷换药']],
+    ref:'EPUAP/NPIAP/PPPIA 2019；Gould 2024 WHS'},
+  r_arterial:{result:true, cls:'res-red', icon:'🫀', name:'动脉性溃疡',
+    body:'客观灌流评估（ABI/趾压/TcPO₂）＋WIfI 分期 → 可行时优先血行重建 → 灌流未恢复前：稳定干性坏死保持干燥保护、勿积极清创、勿湿敷软化 → 避免不当压迫。',
+    links:[['tools.html','WIfI 计分器'],['management.html','动脉治疗路径']],
+    ref:'Federman 2024 WHS；Conte 2019 GVG；Mills 2014'},
+  r_venous:{result:true, cls:'res-green', icon:'🦵', name:'静脉性溃疡',
+    body:'CEAP 分类（C6 活动性溃疡）→ 内核治疗：压力治疗（多层弹绷/压力袜）→ 渗液管理与周边皮肤保护 → 评估静脉介入（矫正逆流）→ 长期压力袜防复发。',
+    links:[['staging.html','CEAP 分类'],['management.html','静脉治疗路径'],['dressing_principles.html','敷料使用原则']],
+    ref:'Marston 2016 WHS；Franks 2016 EWMA；Lurie 2020'},
+  r_mixed:{result:true, cls:'res-orange', icon:'⚖️', name:'混合型动静脉溃疡',
+    body:'先确立动脉严重度（ABI／WIfI）：显著缺血先处理动脉问题；ABI 允许时采「调降强度之压迫」并密切监测；动脉改善后回归静脉治疗路径。',
+    links:[['management.html','治疗原则'],['tools.html','WIfI 计分器']],
+    ref:'EWMA Lower Leg Ulcer 2023；WOCN LEAD 2024'},
+  r_radiation:{result:true, cls:'res-orange', icon:'☢️', name:'放射性伤口',
+    body:'急性放射性皮肤炎依 MASCC 2023／CTCAE v5.0 分级 → 温和清洁与保湿、避免刺激 → 慢性放射性溃疡：务必排除复发恶性（切片）与骨坏死；照护以低创伤敷料为主。',
+    links:[['classification.html','分类：放射性伤口']],
+    ref:'Behroozian 2023 MASCC；NCI CTCAE'},
+  r_malignant:{result:true, cls:'res-red', icon:'🎗️', name:'恶性／蕈状伤口（缓和导向）',
+    body:'确认肿瘤诊断与治疗计划 → 伤口目标转为症状控制：渗液（超吸收）、异味（活性碳/抗菌）、出血（藻酸盐/止血）、疼痛（低创伤更换）、周边皮肤保护 → 以生活品质为内核。',
+    links:[['management.html','缓和路径'],['dressings.html','症状导向敷料']],
+    ref:'EWMA Palliative 2025；NCI PDQ'},
+  r_atypical:{result:true, cls:'res-red', icon:'🔬', name:'非典型伤口——需要切片！',
+    body:'红旗：位置非典型、型态怪异、边缘紫红/潜行、剧痛不成比例、治疗 4–6 周无反应 → 切片＋病因检查（PG、血管炎、钙化防御、恶性、感染性）→ 活动期 PG 避免积极清创（pathergy）→ 疾病特异治疗优先。',
+    links:[['classification.html','分类：非典型伤口'],['management.html','非典型路径']],
+    ref:'Isoherranen 2019 EWMA；Maverakis 2020；Nigwekar 2018'}
+};
+
+/* ---------- 引擎 ---------- */
+let stack = ['start'];
+let labels = [];
+
+function render(){
+  const id = stack[stack.length-1];
+  const n = NODES[id];
+  const box = document.getElementById('dtBox');
+  document.getElementById('btnBack').disabled = stack.length<=1;
+  document.getElementById('dtPath').innerHTML = labels.map(l=>'<span>'+l+'</span>').join(' ▸ ');
+  if(n.result){
+    box.innerHTML = '<div class="dt-result '+n.cls+'">'+
+      '<h2>'+n.icon+' 判定方向：'+n.name+'</h2>'+
+      '<p>'+n.body+'</p>'+
+      '<div class="links">'+n.links.map(l=>'<a href="../'+l[0]+'">'+l[1]+' →</a>').join('')+'</div>'+
+      '<p class="small" style="margin-top:10px">依据：'+n.ref+'</p></div>';
+  }else{
+    box.innerHTML = '<div class="dt-q">'+n.q+'</div>'+
+      (n.hint?'<div class="dt-hint">💡 '+n.hint+'</div>':'')+
+      '<div class="dt-opts">'+n.opts.map((o,i)=>'<button onclick="choose(\''+id+'\','+i+')">'+o.t+'</button>').join('')+'</div>';
+  }
+}
+function choose(id, i){
+  const o = NODES[id].opts[i];
+  const tmp = document.createElement('div'); tmp.innerHTML = o.t;
+  labels.push(tmp.querySelector('b') ? tmp.querySelector('b').textContent : tmp.textContent.trim());
+  stack.push(o.next);
+  render();
+}
+function goBack(){
+  if(stack.length>1){ stack.pop(); labels.pop(); render(); }
+}
+function restart(){ stack=['start']; labels=[]; render(); }
+render();
+</script>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

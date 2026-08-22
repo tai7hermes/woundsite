@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wound Decision Tree | Wound Care Evidence-Based Guide</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+.dt-box{background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px;margin:18px 0;min-height:260px}
+.dt-q{font-size:1.2rem;font-weight:700;color:var(--navy);margin-bottom:6px}
+.dt-hint{font-size:.88rem;color:var(--mid);margin-bottom:14px}
+.dt-opts{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.dt-opts button{background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:14px 16px;font-size:.98rem;cursor:pointer;text-align:left;transition:.12s;color:var(--dark);line-height:1.5}
+.dt-opts button:hover{border-color:var(--blue);background:var(--pale)}
+.dt-opts button b{color:var(--navy)}
+.dt-opts button .sub{display:block;font-size:.8rem;color:var(--mid);margin-top:2px}
+.dt-path{margin:10px 0;font-size:.82rem}
+.dt-path span{display:inline-block;background:var(--sky);color:var(--navy);border-radius:14px;padding:2px 10px;margin:2px 3px 2px 0}
+.dt-result{border-radius:10px;padding:18px 22px}
+.dt-result h2{margin:0 0 8px;border:0;padding:0}
+.dt-result .links a{display:inline-block;background:var(--navy);color:#fff;border-radius:8px;padding:8px 16px;margin:6px 8px 0 0;font-size:.9rem}
+.dt-result .links a:hover{background:var(--blue);text-decoration:none}
+.dt-ctrl{margin-top:16px}
+.dt-ctrl button{background:#fff;border:1px solid var(--line);color:var(--mid);border-radius:8px;padding:8px 16px;font-size:.88rem;cursor:pointer;margin-right:8px}
+.dt-ctrl button:hover{border-color:var(--blue);color:var(--blue)}
+.res-green{background:#e8f5e9;border-left:6px solid #2e7d32}
+.res-blue{background:var(--pale);border-left:6px solid var(--blue)}
+.res-orange{background:#fff3e0;border-left:6px solid #ef6c00}
+.res-red{background:#ffebee;border-left:6px solid #c62828}
+@media (prefers-color-scheme: dark){
+  .dt-box{background:#1e2330;border-color:#39405a}
+  .dt-opts button{background:#252b3b;border-color:#39405a;color:#dfe3ea}
+  .dt-opts button:hover{background:#2c3550}
+}
+</style>
+</head>
+<body>
+<header><div class="brand">🩹 Wound Care Evidence-Based Guide</div><div class="langsw"><a href="../decision.html">繁</a><i>|</i><a href="../cn/decision.html">简</a><i>|</i><span class="active">EN</span></div></header>
+<nav><ul><li><a href="index.html">Home</a></li><li><a href="healing.html">Wound Healing</a></li><li><a href="acute.html">Acute Wounds</a></li><li><a href="chronic.html">Chronic Wounds</a></li><li><a href="staging.html">Staging Systems</a></li><li><a href="management.html">Treatment &amp; Alerts</a></li><li><a href="dressing_principles.html">Dressings &amp; Wet Gauze</a></li><li><a href="dressings.html">Dressing Center</a></li></ul>
+<ul><li><a href="tools.html">Calculators</a></li><li><a href="burns.html">Burn TBSA</a></li><li><a href="decision.html" class="active">Decision Tree</a></li><li><a href="selector.html">Dressing Selector</a></li><li><a href="tetanus.html">Tetanus</a></li></ul>
+<ul><li><a href="library.html">Guidelines Library</a></li><li><a href="../education.html">Education</a></li><li><a href="../updates.html">Guideline Updates</a></li><li><a href="../about.html">About</a></li></ul>
+<ul class="pub"><li class="lbl">🩷 Patient Education</li><li><a href="../public_healing.html">Wound Healing</a></li><li><a href="../public_acute.html">Common Acute Wounds</a></li><li><a href="../public_chronic.html">Common Chronic Wounds</a></li><li><a href="../public_dressing_change.html">Dressings &amp; Wet Gauze</a></li><li><a href="../public_warning.html">Warning Signs</a></li><li><a href="../public_triage.html">When to Seek Care</a></li></ul></nav>
+<main>
+<div class="crumb">Home / Wound Decision Tree</div>
+<h1>Wound Decision Tree: What Kind of Wound Is This?</h1>
+<div class="warn">⚠️ This tool is a teaching aid for classification guidance. For red flags (major hemorrhage, suspected necrotizing fasciitis, severe infection with ischemia, SIRS), activate the emergency pathway directly.</div>
+
+<div class="dt-path" id="dtPath"></div>
+<div class="dt-box" id="dtBox"></div>
+<div class="dt-ctrl">
+<button onclick="goBack()" id="btnBack" disabled>← Back</button>
+<button onclick="restart()">↺ Restart</button>
+</div>
+
+<p class="small">Last updated: 2026-08-31 ・ Phase 2 v1.1 ・ References: EWMA Lower Leg Ulcer 2023, IWGDF 2023, EPUAP/NPIAP/PPPIA 2019, WHS 2023–2024, ISTAP 2018, ISBI 2016/2018, CDC/WHO (see <a href="library.html">Guidelines Library</a>)</p>
+</main>
+<footer>Wound Care Evidence-Based Guide (MVP Prototype) © 2026 ・ <a href="index.html">Back to Home</a></footer>
+
+<script>
+/* ---------- Decision tree definition ---------- */
+const NODES = {
+  start:{
+    q:'How long has the wound been present?',
+    hint:'A chronic wound generally refers to one that has not healed after 4–6 weeks of appropriate treatment, or one with stalled healing.',
+    opts:[
+      {t:'<b>Acute wound</b><span class="sub">New onset: trauma, burn, surgery, bite…</span>', next:'acute'},
+      {t:'<b>Chronic / non-healing wound</b><span class="sub">Unhealed at 4–6 weeks or recurrent</span>', next:'chronic'}
+    ]
+  },
+  /* ---------- Acute ---------- */
+  acute:{
+    q:'What caused the acute wound?',
+    opts:[
+      {t:'<b>Burn / chemical / electrical injury</b>', next:'r_burn'},
+      {t:'<b>Surgical wound</b><span class="sub">Classification or healing problems of a postoperative incision</span>', next:'r_surgical'},
+      {t:'<b>Animal or human bite / contaminated puncture</b>', next:'r_bite'},
+      {t:'<b>General trauma</b><span class="sub">Laceration, cut, abrasion, avulsion, crush</span>', next:'acute_trauma'}
+    ]
+  },
+  acute_trauma:{
+    q:'Is the trauma associated with any of the following?',
+    opts:[
+      {t:'<b>Associated fracture or exposed bone</b>', next:'r_fracture'},
+      {t:'<b>Flap-like tear of elderly / fragile skin</b><span class="sub">Thin skin lifted into a flap by shear force</span>', next:'r_skintear'},
+      {t:'<b>Neither</b><span class="sub">Simple soft tissue trauma</span>', next:'r_trauma'}
+    ]
+  },
+  /* ---------- Chronic ---------- */
+  chronic:{
+    q:'Wound location and patient background?',
+    opts:[
+      {t:'<b>Foot ulcer + diabetes</b>', next:'r_dfu'},
+      {t:'<b>Bony prominence + limited mobility / bedridden / wheelchair</b><span class="sub">Sacrum, ischium, heel, greater trochanter… or under a medical device</span>', next:'r_pi'},
+      {t:'<b>Lower leg ulcer (not diabetic foot, not over a bony prominence)</b>', next:'leg'},
+      {t:'<b>Within a radiation therapy field</b>', next:'r_radiation'},
+      {t:'<b>Known malignancy, fungating appearance</b>', next:'r_malignant'},
+      {t:'<b>None of the above / unusual morphology</b><span class="sub">Atypical location, severe pain, violaceous edges, unresponsive to treatment</span>', next:'r_atypical'}
+    ]
+  },
+  leg:{
+    q:'Lower leg ulcer: what does the vascular assessment show?',
+    hint:'Every lower leg ulcer must have arterial assessment (ABI / pulses) before compression therapy.',
+    opts:[
+      {t:'<b>Arterial features</b><span class="sub">Low ABI, distal/toes, pale wound bed, severe pain, absent pulses</span>', next:'r_arterial'},
+      {t:'<b>Venous features</b><span class="sub">Above the medial malleolus, edema, pigmentation, heavy exudate, normal ABI</span>', next:'r_venous'},
+      {t:'<b>Both arterial and venous features</b><span class="sub">Venous appearance but reduced ABI (approx. 0.5–0.8)</span>', next:'r_mixed'},
+      {t:'<b>Neither is typical</b>', next:'r_atypical'}
+    ]
+  },
+  /* ---------- Result nodes ---------- */
+  r_burn:{result:true, cls:'res-orange', icon:'🔥', name:'Burn',
+    body:'Cool first (running cool water for about 20 minutes; do not use ice) → assess depth (superficial / partial-thickness / full-thickness) and area → evaluate burn center referral per ABA criteria → non-adherent cover ± antimicrobial burn dressing; early excision and grafting for deep wounds.',
+    links:[['../classification.html','Classification: Burns'],['staging.html','Burn Depth Grading'],['dressings.html','Dressing Center']],
+    ref:'ISBI 2016/2018; ABA; WHO'},
+  r_surgical:{result:true, cls:'res-blue', icon:'🔪', name:'Surgical Wound',
+    body:'Document per the four CDC contamination classes (Clean / Clean-contaminated / Contaminated / Dirty); monitor for SSI signs. Manage dehisced or infected incisions as open wounds (debridement + exudate-based dressing selection ± NPWT).',
+    links:[['../classification.html','Classification: Surgical Wounds'],['staging.html','CDC Contamination Classes']],
+    ref:'CDC NHSN SSI Manual'},
+  r_bite:{result:true, cls:'res-orange', icon:'🐕', name:'Bite / Contaminated Puncture Wound',
+    body:'Immediately irrigate copiously with clean water/soapy water → review tetanus vaccination history (Td/Tdap ± TIG) → assess rabies PEP for animal bites → high-infection-risk wounds are usually closed by delayed closure; consider prophylactic antibiotics (e.g., human bites, hand wounds, deep punctures).',
+    links:[['../classification.html','Classification: Tetanus / Bites']],
+    ref:'CDC tetanus / rabies PEP'},
+  r_fracture:{result:true, cls:'res-red', icon:'🦴', name:'Open Fracture',
+    body:'Gustilo–Anderson classification (I / II / IIIA-C) → early IV antibiotics + tetanus prophylaxis → surgical irrigation and debridement → bone fixation and soft tissue coverage plan (IIIB requires a flap; IIIC includes vascular repair).',
+    links:[['../classification.html','Classification: Open Fractures'],['staging.html','Gustilo Classification']],
+    ref:'Gustilo 1976/1984; AO'},
+  r_skintear:{result:true, cls:'res-blue', icon:'🩹', name:'Skin Tear',
+    body:'ISTAP classification (Type 1–3) → gentle irrigation, hemostasis → reposition viable skin flap → silicone contact layer / atraumatic dressing, mark the removal direction on the dressing (with the flap) → avoid strongly adhesive products.',
+    links:[['../classification.html','Classification: Skin Tears'],['staging.html','ISTAP Classification'],['dressings.html','Silicone Contact Layers']],
+    ref:'ISTAP 2018; Van Tiggelen 2020'},
+  r_trauma:{result:true, cls:'res-green', icon:'🚑', name:'General Traumatic Wound',
+    body:'Assess (mechanism / depth / neurovascular-tendon status / foreign bodies) → thorough irrigation with isotonic solution → debridement as needed → choose primary closure, delayed closure, or secondary intention healing based on contamination and time → tetanus assessment; antibiotics are not routine for simple wounds.',
+    links:[['../classification.html','Classification: Traumatic Wounds']],
+    ref:'Nicks 2010; Forsch 2017; WHO'},
+  r_dfu:{result:true, cls:'res-red', icon:'🦶', name:'Diabetic Foot Ulcer (DFU)',
+    body:'Four core assessments: neuropathy (monofilament) + vascular (ABI; use WIfI for ischemia) + infection (IWGDF/IDSA grading; no antibiotics if uninfected) + osteomyelitis → classify with SINBAD → core treatment: offloading (cannot be replaced by any dressing) + debridement + infection control; consider advanced therapies only after standard care is optimized. Thin loose slough may be managed with short-term wet-to-moist gauze to assist autolysis — confirm perfusion first; do not use wet-to-dry.',
+    links:[['management.html','DFU Treatment Pathway'],['tools.html','SINBAD / WIfI Calculators'],['dressing_principles.html#wetgauze','Wet Gauze Dressing Technique']],
+    ref:'IWGDF 2023; IWGDF/IDSA 2023; Lavery 2024 WHS'},
+  r_pi:{result:true, cls:'res-orange', icon:'🛏️', name:'Pressure Injury',
+    body:'NPIAP staging (1–4 / Unstageable / DTPI; mucosal injuries are not staged) → core treatment: pressure redistribution and repositioning + support surfaces + nutrition → debridement, infection/osteomyelitis management → select dressings by stage and exudate (see comparison table); a small amount of loose slough may be managed with short-term wet-to-moist gauze to assist autolysis (change before drying, do not pack tightly) → consider NPWT for large Stage 3–4 wounds after adequate preparation.',
+    links:[['staging.html','NPIAP Staging'],['management.html','Pressure Injury Treatment Pathway'],['dressing_principles.html','Dressings & Wet Gauze']],
+    ref:'EPUAP/NPIAP/PPPIA 2019; Gould 2024 WHS'},
+  r_arterial:{result:true, cls:'res-red', icon:'🫀', name:'Arterial Ulcer',
+    body:'Objective perfusion assessment (ABI / toe pressure / TcPO₂) + WIfI staging → prioritize revascularization when feasible → before perfusion is restored: keep stable dry necrosis dry and protected, no aggressive debridement, no moist dressings to soften it → avoid inappropriate compression.',
+    links:[['tools.html','WIfI Calculator'],['management.html','Arterial Treatment Pathway']],
+    ref:'Federman 2024 WHS; Conte 2019 GVG; Mills 2014'},
+  r_venous:{result:true, cls:'res-green', icon:'🦵', name:'Venous Ulcer',
+    body:'CEAP classification (C6 active ulcer) → core treatment: compression therapy (multilayer bandaging / compression stockings) → exudate management and periwound skin protection → evaluate venous intervention (correct reflux) → long-term compression stockings to prevent recurrence.',
+    links:[['staging.html','CEAP Classification'],['management.html','Venous Treatment Pathway'],['dressing_principles.html','Dressing Use Principles']],
+    ref:'Marston 2016 WHS; Franks 2016 EWMA; Lurie 2020'},
+  r_mixed:{result:true, cls:'res-orange', icon:'⚖️', name:'Mixed Arteriovenous Ulcer',
+    body:'First establish arterial severity (ABI / WIfI): treat significant ischemia first; when ABI permits, use reduced-strength compression with close monitoring; return to the venous treatment pathway once the arterial status improves.',
+    links:[['management.html','Treatment Principles'],['tools.html','WIfI Calculator']],
+    ref:'EWMA Lower Leg Ulcer 2023; WOCN LEAD 2024'},
+  r_radiation:{result:true, cls:'res-orange', icon:'☢️', name:'Radiation Wound',
+    body:'Grade acute radiation dermatitis per MASCC 2023 / CTCAE v5.0 → gentle cleansing and moisturization, avoid irritants → chronic radiation ulcers: always exclude recurrent malignancy (biopsy) and osteoradionecrosis; care is based on atraumatic dressings.',
+    links:[['../classification.html','Classification: Radiation Wounds']],
+    ref:'Behroozian 2023 MASCC; NCI CTCAE'},
+  r_malignant:{result:true, cls:'res-red', icon:'🎗️', name:'Malignant / Fungating Wound (Palliative-Oriented)',
+    body:'Confirm the tumor diagnosis and treatment plan → shift wound goals to symptom control: exudate (superabsorbents), odor (activated charcoal / antimicrobials), bleeding (alginates / hemostatics), pain (atraumatic dressing changes), periwound skin protection → quality of life is the core focus.',
+    links:[['management.html','Palliative Pathway'],['dressings.html','Symptom-Oriented Dressings']],
+    ref:'EWMA Palliative 2025; NCI PDQ'},
+  r_atypical:{result:true, cls:'res-red', icon:'🔬', name:'Atypical Wound — Biopsy Required!',
+    body:'Red flags: atypical location, unusual morphology, violaceous/undermined edges, pain out of proportion, no response after 4–6 weeks of treatment → biopsy + etiologic workup (PG, vasculitis, calciphylaxis, malignancy, infectious) → avoid aggressive debridement in active PG (pathergy) → disease-specific therapy takes priority.',
+    links:[['../classification.html','Classification: Atypical Wounds'],['management.html','Atypical Pathway']],
+    ref:'Isoherranen 2019 EWMA; Maverakis 2020; Nigwekar 2018'}
+};
+
+/* ---------- Engine ---------- */
+let stack = ['start'];
+let labels = [];
+
+function render(){
+  const id = stack[stack.length-1];
+  const n = NODES[id];
+  const box = document.getElementById('dtBox');
+  document.getElementById('btnBack').disabled = stack.length<=1;
+  document.getElementById('dtPath').innerHTML = labels.map(l=>'<span>'+l+'</span>').join(' ▸ ');
+  if(n.result){
+    box.innerHTML = '<div class="dt-result '+n.cls+'">'+
+      '<h2>'+n.icon+' Suggested direction: '+n.name+'</h2>'+
+      '<p>'+n.body+'</p>'+
+      '<div class="links">'+n.links.map(l=>'<a href="'+l[0]+'">'+l[1]+' →</a>').join('')+'</div>'+
+      '<p class="small" style="margin-top:10px">References: '+n.ref+'</p></div>';
+  }else{
+    box.innerHTML = '<div class="dt-q">'+n.q+'</div>'+
+      (n.hint?'<div class="dt-hint">💡 '+n.hint+'</div>':'')+
+      '<div class="dt-opts">'+n.opts.map((o,i)=>'<button onclick="choose(\''+id+'\','+i+')">'+o.t+'</button>').join('')+'</div>';
+  }
+}
+function choose(id, i){
+  const o = NODES[id].opts[i];
+  const tmp = document.createElement('div'); tmp.innerHTML = o.t;
+  labels.push(tmp.querySelector('b') ? tmp.querySelector('b').textContent : tmp.textContent.trim());
+  stack.push(o.next);
+  render();
+}
+function goBack(){
+  if(stack.length>1){ stack.pop(); labels.pop(); render(); }
+}
+function restart(){ stack=['start']; labels=[]; render(); }
+render();
+</script>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>敷料选择器 | 伤口照护循证指南</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+.sel-box{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;margin:16px 0}
+.q{margin:14px 0;padding-bottom:12px;border-bottom:1px dashed var(--line)}
+.q:last-of-type{border-bottom:0}
+.q .qt{font-weight:700;color:var(--navy);margin-bottom:6px}
+.q .qh{font-size:.82rem;color:var(--mid);margin-bottom:8px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts label{display:block;border:1.5px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer;font-size:.92rem;background:#fff;transition:.12s}
+.opts input{display:none}
+.opts label:has(input:checked){background:var(--blue);border-color:var(--blue);color:#fff}
+.opts label:hover{border-color:var(--blue)}
+.opts.multi label:has(input:checked){background:var(--navy);border-color:var(--navy)}
+.btnrow{margin-top:14px}
+button.calc{background:var(--navy);color:#fff;border:0;border-radius:8px;padding:10px 22px;font-size:1rem;cursor:pointer}
+button.calc:hover{background:var(--blue)}
+button.reset{background:#fff;color:var(--mid);border:1px solid var(--line);border-radius:8px;padding:10px 16px;font-size:.9rem;cursor:pointer;margin-left:8px}
+.rec{display:none;margin-top:18px}
+.rec.show{display:block}
+.rec-card{background:var(--pale);border-left:6px solid var(--blue);border-radius:0 10px 10px 0;padding:14px 18px;margin:10px 0}
+.rec-card.primary{background:#e8f5e9;border-left-color:#2e7d32}
+.rec-card h3{margin:0 0 4px;color:var(--navy)}
+.rec-card .why{font-size:.85rem;color:var(--mid)}
+.rec-card .brands{font-size:.83rem;margin-top:6px}
+.rec-card .brands b{color:var(--darkred)}
+.alertbox{background:#ffebee;border-left:6px solid #c62828;border-radius:0 10px 10px 0;padding:12px 18px;margin:10px 0;font-size:.93rem}
+.notebox{background:#fff8e1;border-left:6px solid #f9a825;border-radius:0 10px 10px 0;padding:12px 18px;margin:10px 0;font-size:.9rem}
+@media (prefers-color-scheme: dark){
+  .sel-box{background:#1e2330;border-color:#39405a}
+  .opts label{background:#252b3b;border-color:#39405a;color:#dfe3ea}
+  .rec-card{background:#232a3a}
+}
+</style>
+</head>
+<body>
+<header><div class="brand">🩹 伤口照护循证指南</div><div class="langsw"><a href="../selector.html">繁</a><i>|</i><span class="active">简</span><i>|</i><a href="../en/selector.html">EN</a></div></header>
+<nav><ul><li><a href="index.html">首页</a></li><li><a href="healing.html">愈合原理</a></li><li><a href="acute.html">急性伤口</a></li><li><a href="chronic.html">慢性伤口</a></li><li><a href="staging.html">分期系统</a></li><li><a href="management.html">治疗与警示</a></li><li><a href="dressing_principles.html">敷料与湿敷换药</a></li><li><a href="dressings.html">敷料中心</a></li></ul>
+<ul><li><a href="tools.html">计分工具</a></li><li><a href="burns.html">烧伤面积</a></li><li><a href="decision.html">决策树</a></li><li><a href="selector.html" class="active">敷料选择器</a></li><li><a href="tetanus.html">破伤风</a></li></ul>
+<ul><li><a href="library.html">指南文献库</a></li><li><a href="../education.html">教学专区</a></li><li><a href="../updates.html">指南更新追踪</a></li><li><a href="../about.html">关于本站</a></li></ul>
+<ul class="pub"><li class="lbl">🩷 民众伤口卫教</li><li><a href="../public_healing.html">伤口愈合</a></li><li><a href="../public_acute.html">常见急性伤口</a></li><li><a href="../public_chronic.html">常见慢性伤口</a></li><li><a href="../public_dressing_change.html">敷料与湿敷换药</a></li><li><a href="../public_warning.html">伤口恶化警讯</a></li><li><a href="../public_triage.html">三级就医警示</a></li></ul></nav>
+<main>
+<div class="crumb">首页 / 敷料选择器</div>
+<h1>敷料选择器：该用什么敷料？</h1>
+<div class="warn">⚠️ 敷料是配角——请先确认病因治疗已到位（糖足减压、静脉压迫、动脉重建、压疮减压）。本工具输出为「类别」建议；品牌例仅供辨识，非优劣排序。</div>
+<div class="key">八字口诀（详<a href="dressing_principles.html">敷料与湿敷换药</a>）：<b>干要保湿・湿要吸收・脏要清创・臭要控菌・深要填塞・痛要不沾・皮肤要保护・缺血先看血流</b>。选择顺序：先排除严重缺血与感染 → 渗液量 → 深度死腔 → 疼痛出血与周边皮肤 → 频率与追踪。</div>
+
+<div class="sel-box">
+
+<div class="q"><div class="qt">1. 渗出量</div>
+<div class="opts">
+<label><input type="radio" name="exu" value="none"><span>干燥／坏死（无渗出）</span></label>
+<label><input type="radio" name="exu" value="low"><span>少量</span></label>
+<label><input type="radio" name="exu" value="mod"><span>中量</span></label>
+<label><input type="radio" name="exu" value="high"><span>大量</span></label>
+<label><input type="radio" name="exu" value="vhigh"><span>极大量（一天湿透多次）</span></label>
+</div></div>
+
+<div class="q"><div class="qt">2. 伤口床主要组织</div>
+<div class="opts">
+<label><input type="radio" name="tissue" value="granul"><span>红色肉芽</span></label>
+<label><input type="radio" name="tissue" value="slough"><span>黄色腐肉</span></label>
+<label><input type="radio" name="tissue" value="necro"><span>黑色坏死／焦痂</span></label>
+<label><input type="radio" name="tissue" value="epith"><span>粉色上皮化中</span></label>
+</div></div>
+
+<div class="q"><div class="qt">3. 深度／形状</div>
+<div class="opts">
+<label><input type="radio" name="depth" value="shallow"><span>表浅</span></label>
+<label><input type="radio" name="depth" value="deep"><span>深或有腔隙／潜行／窦道</span></label>
+</div></div>
+
+<div class="q"><div class="qt">4. 其他状况（可复选）</div>
+<div class="qh">没有就不勾。</div>
+<div class="opts multi">
+<label><input type="checkbox" name="flag" value="infect"><span>局部感染征象／生物负荷高</span></label>
+<label><input type="checkbox" name="flag" value="odor"><span>明显异味</span></label>
+<label><input type="checkbox" name="flag" value="bleed"><span>易少量出血</span></label>
+<label><input type="checkbox" name="flag" value="fragile"><span>周边皮肤脆弱（老年／类固醇／撕裂伤）</span></label>
+<label><input type="checkbox" name="flag" value="pain"><span>更换时剧痛</span></label>
+<label><input type="checkbox" name="flag" value="ischemic"><span>疑似缺血肢体（ABI 未明或低）</span></label>
+<label><input type="checkbox" name="flag" value="malig"><span>恶性／缓和照护伤口</span></label>
+</div></div>
+
+<div class="btnrow">
+<button class="calc" onclick="recommend()">产生敷料建议</button>
+<button class="reset" onclick="resetSel()">重设</button>
+</div>
+</div>
+
+<div class="rec" id="rec"></div>
+
+<p class="small">依据：EPUAP/NPIAP/PPPIA 2019、IWGDF Interventions 2023、EWMA/WOCN 文档、ISTAP 2018（汇整，详<a href="library.html">文献库</a>）。最后更新：2026-08-31 ・ Phase 2 v1.2</p>
+</main>
+<footer>伤口照护循证指南（MVP 原型）© 2026 ・ <a href="index.html">回首页</a></footer>
+
+<script>
+const BRANDS={
+  film:'Tegaderm（Solventum）、Hydrofilm（HARTMANN）、OPSITE（S+N）',
+  hydrogel:'INTRASITE（S+N）、Purilon（Coloplast）、Askina Gel（B.Braun）',
+  hydrocolloid:'DuoDERM（Convatec）、Comfeel（Coloplast）、Hydrocoll（HARTMANN）',
+  foam:'Mepilex／Border（Mölnlycke）、ALLEVYN（S+N）、Biatain（Coloplast）、HydroTac（HARTMANN）',
+  thinfoam:'Mepilex Lite（Mölnlycke）、ALLEVYN Thin／Lite（S+N）',
+  alginate:'KALTOSTAT（Convatec）、Melgisorb（Mölnlycke）、Sorbalgon（HARTMANN）、Suprasorb A（L&R）',
+  fiber:'AQUACEL（Convatec）、Exufiber（Mölnlycke）、DURAFIBER（S+N）',
+  superabs:'Zetuvit Plus（HARTMANN）、Vliwasorb（L&R）、ConvaMax（Convatec）、Cutimed Sorbion（Essity）',
+  silicone:'Mepitel（Mölnlycke）、ADAPTIC Touch（Solventum）、UrgoTul（Urgo）',
+  silver:'ACTICOAT（S+N）、AQUACEL Ag（Convatec）、Askina Calgitrol Ag（B.Braun）、UrgoClean Ag（Urgo）',
+  iodine:'IODOSORB／IODOFLEX（S+N）',
+  charcoal:'CarboFlex（Convatec）、Vliwaktiv（L&R）',
+  ropes:'AQUACEL Ribbon（Convatec）、藻酸盐绳 KALTOSTAT Rope、DURAFIBER 带状（S+N）'
+};
+
+function card(title, why, brandKey, primary){
+  return '<div class="rec-card'+(primary?' primary':'')+'"><h3>'+(primary?'⭐ 主要建议：':'')+title+'</h3>'+
+    '<div class="why">'+why+'</div>'+
+    (brandKey?'<div class="brands"><b>品牌例</b>：'+BRANDS[brandKey]+'</div>':'')+'</div>';
+}
+
+function recommend(){
+  const exu=document.querySelector('input[name=exu]:checked');
+  const tissue=document.querySelector('input[name=tissue]:checked');
+  const depth=document.querySelector('input[name=depth]:checked');
+  const rec=document.getElementById('rec');
+  if(!exu||!tissue||!depth){
+    rec.className='rec show';
+    rec.innerHTML='<div class="notebox">⚠️ 请完成第 1–3 题（渗出量、组织、深度）再产生建议。</div>';
+    return;
+  }
+  const e=exu.value,t=tissue.value,d=depth.value;
+  const flags=[...document.querySelectorAll('input[name=flag]:checked')].map(x=>x.value);
+  let html='';
+
+  /* ---------- 红旗与前置警告 ---------- */
+  if(flags.includes('ischemic')&&(t==='necro'||t==='slough')){
+    html+='<div class="alertbox">🚨 <b>疑似缺血＋坏死组织</b>：先做客观灌流评估（ABI／WIfI）。灌流未确认前，稳定干性坏死应「保持干燥保护」，<b>不要用水胶/密闭敷料促自溶</b>，也勿积极清创（Federman 2024 WHS）。以下建议仅在血流已确认可接受时适用。</div>';
+  }
+  if(t==='necro'&&!flags.includes('ischemic')){
+    html+='<div class="notebox">💡 黑色坏死的主要处置是「清创」（尖锐/自溶/酵素…见<a href="management.html">清创决策</a>）；敷料是配合清创策略选的。湿敷仅适合薄层松散腐肉短期软化，厚硬坏死单靠湿纱布不足（<a href="dressing_principles.html#wetgauze">湿敷原则</a>）。</div>';
+  }
+  if(flags.includes('malig')){
+    html+='<div class="notebox">🎗️ 缓和导向：目标是症状控制与舒适，非愈合。优先低创伤接触层＋吸收层，并针对异味/出血/疼痛处理（EWMA Palliative 2025）。</div>';
+  }
+
+  /* ---------- 主敷料选择 ---------- */
+  let primaryDone=false;
+  if(e==='none'){
+    if(t==='necro'||t==='slough'){
+      html+=card('水胶 Hydrogel 或 湿润纱布（wet-to-moist）','干燥坏死/腐肉：补水促自溶清创（缺血未排除前禁用）。湿敷限短期：拧至湿润不滴水、干燥前更换、勿用 wet-to-dry 硬撕。','hydrogel',true);
+    }else{
+      html+=card('水胶或薄水胶体＋保湿','干燥床维持湿润愈合环境。','hydrogel',true);
+    }
+    primaryDone=true;
+  }
+  if(e==='low'&&!primaryDone){
+    if(t==='epith'){
+      html+=card('薄型泡棉或透气薄膜','上皮化中、少量渗出：保护与低创伤。脆弱皮肤选硅胶款。','thinfoam',true);
+    }else{
+      html+=card('薄型泡棉／选择性水胶体','少量渗出的浅层伤口；水胶体限非感染、非脆弱皮肤。','thinfoam',true);
+    }
+    primaryDone=true;
+  }
+  if(e==='mod'&&!primaryDone){
+    html+=card('泡棉、藻酸盐或凝胶纤维','中量渗出的标准选择；依部位服贴性与更换频率取舍。','foam',true);
+    primaryDone=true;
+  }
+  if(e==='high'&&!primaryDone){
+    html+=card('凝胶纤维（Hydrofiber）／藻酸盐＋泡棉外层','大量渗出：吸收成胶锁液，减少周边浸润。','fiber',true);
+    primaryDone=true;
+  }
+  if(e==='vhigh'&&!primaryDone){
+    html+=card('超吸收敷料 Superabsorbent','极大量渗出（静脉溃疡/瘘管周边常见）；并检讨病因控制（压迫治疗是否到位？）。','superabs',true);
+    primaryDone=true;
+  }
+
+  /* ---------- 深腔 ---------- */
+  if(d==='deep'){
+    html+=card('腔隙填充：藻酸盐绳／凝胶纤维带（或依医嘱湿纱布松填）','松填勿塞紧；需可完整取出（记录填入数量）；勿盲目填入看不到底部的窦道。','ropes');
+    if(e==='high'||e==='vhigh'){
+      html+=card('考虑 NPWT 负压治疗','大而深、已清创备妥之创面。禁忌：未清创坏死、未控制感染、暴露血管脏器、恶性伤口。',null);
+    }
+  }
+
+  /* ---------- flags 加配 ---------- */
+  if(flags.includes('infect')){
+    html+=card('限期抗菌敷料（银／碘／PHMB）','限期使用，1–2 周重新评估：有效则续用一轮，无效即停换策略；不作常规预防。全身性感染征象→系统性抗生素（IWGDF/IDSA 2023）。','silver');
+  }
+  if(flags.includes('odor')){
+    html+=card('活性碳敷料（±抗菌）','异味控制；恶性伤口常需合并渗液管理。','charcoal');
+  }
+  if(flags.includes('bleed')){
+    html+=card('钙藻酸盐','接触出血面有止血辅助作用。','alginate');
+  }
+  if(flags.includes('fragile')||flags.includes('pain')){
+    html+=card('硅胶接触层＋硅胶边框敷料','低创伤黏着、换药不撕皮不剧痛；皮肤撕裂标示拆除方向（ISTAP）。','silicone');
+  }
+
+  /* ---------- 通用提醒 ---------- */
+  html+='<div class="notebox">📋 <b>再评估</b>：每一次换药都是一次重新评估——观察渗出/组织/感染变化并调整类别；使用湿纱布者若每日须换 3–4 次仍干掉或渗漏，改用高吸收敷料；<b>2–4 周未明显改善→重新评估血流、感染、压力、营养、恶性变化与敷料策略</b>（<a href="decision.html">决策树</a>／<a href="dressing_principles.html">敷料使用原则</a>）。健保给付与院内品项请依贵院处方集。</div>';
+
+  rec.className='rec show';
+  rec.innerHTML=html;
+  rec.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function resetSel(){
+  document.querySelectorAll('input[type=radio],input[type=checkbox]').forEach(x=>x.checked=false);
+  const rec=document.getElementById('rec');
+  rec.className='rec'; rec.innerHTML='';
+}
+</script>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>

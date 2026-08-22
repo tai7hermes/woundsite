@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dressing Selector | Wound Care Evidence-Based Guide</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+.sel-box{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;margin:16px 0}
+.q{margin:14px 0;padding-bottom:12px;border-bottom:1px dashed var(--line)}
+.q:last-of-type{border-bottom:0}
+.q .qt{font-weight:700;color:var(--navy);margin-bottom:6px}
+.q .qh{font-size:.82rem;color:var(--mid);margin-bottom:8px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts label{display:block;border:1.5px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer;font-size:.92rem;background:#fff;transition:.12s}
+.opts input{display:none}
+.opts label:has(input:checked){background:var(--blue);border-color:var(--blue);color:#fff}
+.opts label:hover{border-color:var(--blue)}
+.opts.multi label:has(input:checked){background:var(--navy);border-color:var(--navy)}
+.btnrow{margin-top:14px}
+button.calc{background:var(--navy);color:#fff;border:0;border-radius:8px;padding:10px 22px;font-size:1rem;cursor:pointer}
+button.calc:hover{background:var(--blue)}
+button.reset{background:#fff;color:var(--mid);border:1px solid var(--line);border-radius:8px;padding:10px 16px;font-size:.9rem;cursor:pointer;margin-left:8px}
+.rec{display:none;margin-top:18px}
+.rec.show{display:block}
+.rec-card{background:var(--pale);border-left:6px solid var(--blue);border-radius:0 10px 10px 0;padding:14px 18px;margin:10px 0}
+.rec-card.primary{background:#e8f5e9;border-left-color:#2e7d32}
+.rec-card h3{margin:0 0 4px;color:var(--navy)}
+.rec-card .why{font-size:.85rem;color:var(--mid)}
+.rec-card .brands{font-size:.83rem;margin-top:6px}
+.rec-card .brands b{color:var(--darkred)}
+.alertbox{background:#ffebee;border-left:6px solid #c62828;border-radius:0 10px 10px 0;padding:12px 18px;margin:10px 0;font-size:.93rem}
+.notebox{background:#fff8e1;border-left:6px solid #f9a825;border-radius:0 10px 10px 0;padding:12px 18px;margin:10px 0;font-size:.9rem}
+@media (prefers-color-scheme: dark){
+  .sel-box{background:#1e2330;border-color:#39405a}
+  .opts label{background:#252b3b;border-color:#39405a;color:#dfe3ea}
+  .rec-card{background:#232a3a}
+}
+</style>
+</head>
+<body>
+<header><div class="brand">🩹 Wound Care Evidence-Based Guide</div><div class="langsw"><a href="../selector.html">繁</a><i>|</i><a href="../cn/selector.html">简</a><i>|</i><span class="active">EN</span></div></header>
+<nav><ul><li><a href="index.html">Home</a></li><li><a href="healing.html">Wound Healing</a></li><li><a href="acute.html">Acute Wounds</a></li><li><a href="chronic.html">Chronic Wounds</a></li><li><a href="staging.html">Staging Systems</a></li><li><a href="management.html">Treatment & Alerts</a></li><li><a href="dressing_principles.html">Dressings & Wet Gauze</a></li><li><a href="dressings.html">Dressing Center</a></li></ul>
+<ul><li><a href="tools.html">Calculators</a></li><li><a href="burns.html">Burn TBSA</a></li><li><a href="decision.html">Decision Tree</a></li><li><a href="selector.html" class="active">Dressing Selector</a></li><li><a href="tetanus.html">Tetanus</a></li></ul>
+<ul><li><a href="library.html">Guidelines Library</a></li><li><a href="../education.html">Education</a></li><li><a href="../updates.html">Guideline Updates</a></li><li><a href="../about.html">About</a></li></ul>
+<ul class="pub"><li class="lbl">🩷 Patient Education</li><li><a href="../public_healing.html">Wound Healing</a></li><li><a href="../public_acute.html">Common Acute Wounds</a></li><li><a href="../public_chronic.html">Common Chronic Wounds</a></li><li><a href="../public_dressing_change.html">Dressings & Wet Gauze</a></li><li><a href="../public_warning.html">Warning Signs</a></li><li><a href="../public_triage.html">When to Seek Care</a></li></ul></nav>
+<main>
+<div class="crumb">Home / Dressing Selector</div>
+<h1>Dressing Selector: Which Dressing Should I Use?</h1>
+<div class="warn">⚠️ Dressings are the supporting act — first make sure etiologic treatment is in place (diabetic foot offloading, venous compression, arterial revascularization, pressure redistribution). This tool outputs <b>category</b>-level suggestions; brand examples are for recognition only, not a ranking of quality.</div>
+<div class="key">Eight-rule mnemonic (see <a href="dressing_principles.html">Dressings & Wet Gauze</a>): <b>Dry: rehydrate · Wet: absorb · Dirty: debride · Odor: control bioburden · Deep: pack loosely · Painful: non-adherent · Protect periwound skin · Ischemic: assess perfusion first</b>. Selection order: first rule out critical ischemia and infection → exudate level → depth/dead space → pain, bleeding & periwound skin → change frequency and follow-up.</div>
+
+<div class="sel-box">
+
+<div class="q"><div class="qt">1. Exudate level</div>
+<div class="opts">
+<label><input type="radio" name="exu" value="none"><span>Dry / necrotic (no exudate)</span></label>
+<label><input type="radio" name="exu" value="low"><span>Low</span></label>
+<label><input type="radio" name="exu" value="mod"><span>Moderate</span></label>
+<label><input type="radio" name="exu" value="high"><span>High</span></label>
+<label><input type="radio" name="exu" value="vhigh"><span>Very high (soaks through several times a day)</span></label>
+</div></div>
+
+<div class="q"><div class="qt">2. Predominant wound bed tissue</div>
+<div class="opts">
+<label><input type="radio" name="tissue" value="granul"><span>Red granulation</span></label>
+<label><input type="radio" name="tissue" value="slough"><span>Yellow slough</span></label>
+<label><input type="radio" name="tissue" value="necro"><span>Black necrosis / eschar</span></label>
+<label><input type="radio" name="tissue" value="epith"><span>Pink, epithelializing</span></label>
+</div></div>
+
+<div class="q"><div class="qt">3. Depth / shape</div>
+<div class="opts">
+<label><input type="radio" name="depth" value="shallow"><span>Superficial</span></label>
+<label><input type="radio" name="depth" value="deep"><span>Deep or cavity / undermining / sinus tract</span></label>
+</div></div>
+
+<div class="q"><div class="qt">4. Other conditions (select all that apply)</div>
+<div class="qh">Leave unchecked if none apply.</div>
+<div class="opts multi">
+<label><input type="checkbox" name="flag" value="infect"><span>Local infection signs / high bioburden</span></label>
+<label><input type="checkbox" name="flag" value="odor"><span>Marked odor</span></label>
+<label><input type="checkbox" name="flag" value="bleed"><span>Bleeds easily (minor bleeding)</span></label>
+<label><input type="checkbox" name="flag" value="fragile"><span>Fragile periwound skin (elderly / steroids / skin tears)</span></label>
+<label><input type="checkbox" name="flag" value="pain"><span>Severe pain at dressing changes</span></label>
+<label><input type="checkbox" name="flag" value="ischemic"><span>Suspected ischemic limb (ABI unknown or low)</span></label>
+<label><input type="checkbox" name="flag" value="malig"><span>Malignant / palliative-care wound</span></label>
+</div></div>
+
+<div class="btnrow">
+<button class="calc" onclick="recommend()">Generate dressing suggestions</button>
+<button class="reset" onclick="resetSel()">Reset</button>
+</div>
+</div>
+
+<div class="rec" id="rec"></div>
+
+<p class="small">Based on: EPUAP/NPIAP/PPPIA 2019, IWGDF Interventions 2023, EWMA/WOCN documents, ISTAP 2018 (synthesized — see the <a href="library.html">Guidelines Library</a>). Last updated: 2026-08-31 · Phase 2 v1.2</p>
+</main>
+<footer>Wound Care Evidence-Based Guide (MVP prototype) © 2026 · <a href="index.html">Back to Home</a></footer>
+
+<script>
+const BRANDS={
+  film:'Tegaderm (Solventum), Hydrofilm (HARTMANN), OPSITE (S+N)',
+  hydrogel:'INTRASITE (S+N), Purilon (Coloplast), Askina Gel (B.Braun)',
+  hydrocolloid:'DuoDERM (Convatec), Comfeel (Coloplast), Hydrocoll (HARTMANN)',
+  foam:'Mepilex / Border (Mölnlycke), ALLEVYN (S+N), Biatain (Coloplast), HydroTac (HARTMANN)',
+  thinfoam:'Mepilex Lite (Mölnlycke), ALLEVYN Thin / Lite (S+N)',
+  alginate:'KALTOSTAT (Convatec), Melgisorb (Mölnlycke), Sorbalgon (HARTMANN), Suprasorb A (L&R)',
+  fiber:'AQUACEL (Convatec), Exufiber (Mölnlycke), DURAFIBER (S+N)',
+  superabs:'Zetuvit Plus (HARTMANN), Vliwasorb (L&R), ConvaMax (Convatec), Cutimed Sorbion (Essity)',
+  silicone:'Mepitel (Mölnlycke), ADAPTIC Touch (Solventum), UrgoTul (Urgo)',
+  silver:'ACTICOAT (S+N), AQUACEL Ag (Convatec), Askina Calgitrol Ag (B.Braun), UrgoClean Ag (Urgo)',
+  iodine:'IODOSORB / IODOFLEX (S+N)',
+  charcoal:'CarboFlex (Convatec), Vliwaktiv (L&R)',
+  ropes:'AQUACEL Ribbon (Convatec), alginate rope KALTOSTAT Rope, DURAFIBER ribbon (S+N)'
+};
+
+function card(title, why, brandKey, primary){
+  return '<div class="rec-card'+(primary?' primary':'')+'"><h3>'+(primary?'⭐ Primary suggestion: ':'')+title+'</h3>'+
+    '<div class="why">'+why+'</div>'+
+    (brandKey?'<div class="brands"><b>Brand examples</b>: '+BRANDS[brandKey]+'</div>':'')+'</div>';
+}
+
+function recommend(){
+  const exu=document.querySelector('input[name=exu]:checked');
+  const tissue=document.querySelector('input[name=tissue]:checked');
+  const depth=document.querySelector('input[name=depth]:checked');
+  const rec=document.getElementById('rec');
+  if(!exu||!tissue||!depth){
+    rec.className='rec show';
+    rec.innerHTML='<div class="notebox">⚠️ Please complete questions 1–3 (exudate, tissue, depth) before generating suggestions.</div>';
+    return;
+  }
+  const e=exu.value,t=tissue.value,d=depth.value;
+  const flags=[...document.querySelectorAll('input[name=flag]:checked')].map(x=>x.value);
+  let html='';
+
+  /* ---------- Red flags & upfront warnings ---------- */
+  if(flags.includes('ischemic')&&(t==='necro'||t==='slough')){
+    html+='<div class="alertbox">🚨 <b>Suspected ischemia + necrotic tissue</b>: obtain objective perfusion assessment first (ABI / WIfI). Until perfusion is confirmed, stable dry necrosis should be <b>kept dry and protected</b> — <b>do NOT use hydrogel/occlusive dressings to promote autolysis</b>, and avoid aggressive debridement (Federman 2024 WHS). The suggestions below apply only once blood flow has been confirmed as acceptable.</div>';
+  }
+  if(t==='necro'&&!flags.includes('ischemic')){
+    html+='<div class="notebox">💡 The mainstay for black necrosis is <b>debridement</b> (sharp/autolytic/enzymatic… see <a href="management.html">debridement decisions</a>); the dressing is chosen to support the debridement strategy. Wet gauze is only suitable for short-term softening of thin, loose slough — thick hard necrosis cannot be managed with moist gauze alone (<a href="dressing_principles.html#wetgauze">wet-gauze principles</a>).</div>';
+  }
+  if(flags.includes('malig')){
+    html+='<div class="notebox">🎗️ Palliative orientation: the goal is symptom control and comfort, not healing. Prioritize a low-trauma contact layer plus an absorbent layer, and target odor/bleeding/pain (EWMA Palliative 2025).</div>';
+  }
+
+  /* ---------- Primary dressing choice ---------- */
+  let primaryDone=false;
+  if(e==='none'){
+    if(t==='necro'||t==='slough'){
+      html+=card('Hydrogel or moist gauze (wet-to-moist)','Dry necrosis/slough: rehydrate to promote autolytic debridement (contraindicated until ischemia is ruled out). Wet gauze short-term only: wring until moist but not dripping, change before it dries out, never rip off dried wet-to-dry gauze.','hydrogel',true);
+    }else{
+      html+=card('Hydrogel or thin hydrocolloid + moisture retention','Dry wound bed: maintain a moist healing environment.','hydrogel',true);
+    }
+    primaryDone=true;
+  }
+  if(e==='low'&&!primaryDone){
+    if(t==='epith'){
+      html+=card('Thin foam or breathable film','Epithelializing with low exudate: protection and low trauma. Choose a silicone version for fragile skin.','thinfoam',true);
+    }else{
+      html+=card('Thin foam / selective hydrocolloid','Shallow wounds with low exudate; hydrocolloid only if non-infected and skin is not fragile.','thinfoam',true);
+    }
+    primaryDone=true;
+  }
+  if(e==='mod'&&!primaryDone){
+    html+=card('Foam, alginate or gelling fiber','Standard choice for moderate exudate; trade off conformability by site and change frequency.','foam',true);
+    primaryDone=true;
+  }
+  if(e==='high'&&!primaryDone){
+    html+=card('Gelling fiber (Hydrofiber) / alginate + foam cover','High exudate: absorbs and gels to lock in fluid, reducing periwound maceration.','fiber',true);
+    primaryDone=true;
+  }
+  if(e==='vhigh'&&!primaryDone){
+    html+=card('Superabsorbent dressing','Very high exudate (common in venous ulcers / peri-fistula skin); also revisit etiologic control (is compression therapy in place?).','superabs',true);
+    primaryDone=true;
+  }
+
+  /* ---------- Deep cavity ---------- */
+  if(d==='deep'){
+    html+=card('Cavity packing: alginate rope / gelling-fiber ribbon (or loosely packed moist gauze per orders)','Pack loosely, never tightly; must be fully retrievable (document the number of pieces inserted); never blindly pack a sinus tract whose base cannot be seen.','ropes');
+    if(e==='high'||e==='vhigh'){
+      html+=card('Consider NPWT (negative-pressure wound therapy)','Large, deep, debrided and prepared wound beds. Contraindications: undebrided necrosis, uncontrolled infection, exposed vessels/organs, malignant wounds.',null);
+    }
+  }
+
+  /* ---------- Flag add-ons ---------- */
+  if(flags.includes('infect')){
+    html+=card('Time-limited antimicrobial dressing (silver / iodine / PHMB)','Use for a defined period and reassess at 1–2 weeks: continue one more cycle if effective, stop and change strategy if not; not for routine prophylaxis. Systemic infection signs → systemic antibiotics (IWGDF/IDSA 2023).','silver');
+  }
+  if(flags.includes('odor')){
+    html+=card('Activated-charcoal dressing (± antimicrobial)','Odor control; malignant wounds often also need exudate management.','charcoal');
+  }
+  if(flags.includes('bleed')){
+    html+=card('Calcium alginate','Provides a hemostatic aid in contact with bleeding surfaces.','alginate');
+  }
+  if(flags.includes('fragile')||flags.includes('pain')){
+    html+=card('Silicone contact layer + silicone-bordered dressing','Low-trauma adhesion — dressing changes without skin stripping or severe pain; for skin tears, mark the removal direction (ISTAP).','silicone');
+  }
+
+  /* ---------- General reminder ---------- */
+  html+='<div class="notebox">📋 <b>Reassess</b>: every dressing change is a fresh reassessment — watch for changes in exudate/tissue/infection and adjust the category; if wet gauze must be changed 3–4 times a day yet still dries out or leaks, switch to a high-absorbency dressing; <b>no clear improvement in 2–4 weeks → reassess perfusion, infection, pressure, nutrition, malignant change and the dressing strategy</b> (<a href="decision.html">Decision Tree</a> / <a href="dressing_principles.html">dressing-use principles</a>). For reimbursement and on-formulary items, follow your institution\'s formulary.</div>';
+
+  rec.className='rec show';
+  rec.innerHTML=html;
+  rec.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function resetSel(){
+  document.querySelectorAll('input[type=radio],input[type=checkbox]').forEach(x=>x.checked=false);
+  const rec=document.getElementById('rec');
+  rec.className='rec'; rec.innerHTML='';
+}
+</script>
+<script src="../search-index.js"></script>
+<script src="../search.js"></script>
+</body>
+</html>
