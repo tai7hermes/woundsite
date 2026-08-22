@@ -79,7 +79,8 @@ def build_cn(page):
     for a, b in ASSET_REWRITES:
         out = out.replace(a, b)
     out = rewrite_internal_links(out, set(PHASE_PAGES))
-    # inject language switcher into header
+    # remove any switcher copied from the TC source, then inject the cn one
+    out = re.sub(r'<div class="langsw">.*?</div>', '', out, flags=re.S)
     out = re.sub(r'(<header><div class="brand">[^<]*</div>)', r'\1' + lang_switcher(page, 'cn'), out, count=1)
     # add disclaimer note about partial translation for non-phase links
     os.makedirs('cn', exist_ok=True)
