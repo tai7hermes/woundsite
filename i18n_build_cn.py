@@ -46,6 +46,7 @@ IMG_LANG_SWAP = [
     ('pressure_edu_tw.webp', 'pressure_edu_cn.webp'),
     ('arterial_edu_tw.webp', 'arterial_edu_cn.webp'),
     ('venous_edu_tw.webp', 'venous_edu_cn.webp'),
+    ('radiation_edu_tw.webp', 'radiation_edu_cn.webp'),
 ]
 
 SITE = 'https://wound7.com'
