@@ -44,7 +44,7 @@ button.reset{background:#fff;color:var(--mid);border:1px solid var(--line);borde
 <ul class="pub"><li class="lbl">🩷 民众伤口卫教</li><li><a href="public_healing.html">伤口愈合</a></li><li><a href="public_acute.html">常见急性伤口</a></li><li><a href="public_chronic.html">常见慢性伤口</a></li><li><a href="public_dressing_change.html">敷料与湿敷换药</a></li><li><a href="public_warning.html">伤口恶化警讯</a></li><li><a href="public_triage.html">三级就医警示</a></li></ul></nav>
 <main>
 <div class="crumb">首页 / 计分工具</div>
-<h1>WIfI／SINBAD 计分器</h1>
+<h1>WIfI／SINBAD／UT 计分器</h1>
 <div class="warn">⚠️ 本工具为教学与临床辅助用途，结果不能取代完整临床评估与专业判断。</div>
 
 <!-- ==================== SINBAD ==================== -->
@@ -133,7 +133,36 @@ button.reset{background:#fff;color:var(--mid);border:1px solid var(--line);borde
 <div class="ref">依据：Mills JL Sr, et al. SVS WIfI. J Vasc Surg. 2014;59(1):220–234. DOI:10.1016/j.jvs.2013.08.003（分期对照表依原文 Table 6 摘要）</div>
 </div>
 
-<p class="small">最后更新：2026-08-16 ・ Phase 2 v1.0</p>
+<!-- ==================== UT ==================== -->
+<div class="tool" id="ut">
+<h2 style="margin-top:0">University of Texas（UT）分级器（糖尿病足溃疡）</h2>
+<p class="small">深度 Grade 0–3 × 感染/缺血 Stage A–D 之 4×4 矩阵（1996）。深度愈深、合并感染/缺血愈多，截肢风险愈高。详见<a href="staging.html">分期系统</a>第 4 节。</p>
+
+<div class="q"><div class="qt">Grade — 深度（0～3 级）</div>
+<div class="opts">
+<label><input type="radio" name="ut_g" value="0"><span>Grade 0：前期或愈合伤口（皮肤完整）</span></label>
+<label><input type="radio" name="ut_g" value="1"><span>Grade 1：浅表伤口，未侵犯肌腱、关节囊或骨头</span></label>
+<label><input type="radio" name="ut_g" value="2"><span>Grade 2：穿透至肌腱或关节囊</span></label>
+<label><input type="radio" name="ut_g" value="3"><span>Grade 3：穿透至骨头或关节</span></label>
+</div></div>
+
+<div class="q" style="border-bottom:0"><div class="qt">Stage — 感染与缺血（A～D 期）</div>
+<div class="opts">
+<label><input type="radio" name="ut_s" value="0"><span>Stage A：无感染或缺血</span></label>
+<label><input type="radio" name="ut_s" value="1"><span>Stage B：合并感染（Infection）</span></label>
+<label><input type="radio" name="ut_s" value="2"><span>Stage C：合并缺血（Ischemia）</span></label>
+<label><input type="radio" name="ut_s" value="3"><span>Stage D：同时合并感染与缺血</span></label>
+</div></div>
+
+<div class="btnrow">
+<button class="calc" onclick="calcUT()">判定 UT 分级</button>
+<button class="reset" onclick="resetForm('ut')">重设</button>
+</div>
+<div class="result" id="ut_result"></div>
+<div class="ref">依据：Lavery LA, Armstrong DG, Harkless LB. 1996 (DOI:10.1016/s1067-2516(96)80125-6)；Armstrong DG, et al. Diabetes Care 1998;21(5):855–859 (DOI:10.2337/diacare.21.5.855)（验证研究：深度与感染/缺血皆增加截肢风险）</div>
+</div>
+
+<p class="small">最后更新：2026-08-23 ・ Phase 2 v1.1（添加 UT 分级器）</p>
 </main>
 <footer>伤口照护循证指南（MVP 原型）© 2026 ・ <a href="index.html">回首页</a></footer>
 
@@ -197,6 +226,41 @@ function calcWIfI(){
   res.innerHTML='<div class="score">W'+w+' I'+i+' fI'+fi+' → '+info.name+'</div>'+
     '<div>'+info.msg+'</div>'+
     '<div class="small" style="margin-top:6px">注：分期对照为 SVS 2014 共识表之摘要；个案仍需结合临床整体评估。</div>';
+}
+
+/* ---------- UT (University of Texas) ---------- */
+/* Risk tier by 4x4 matrix. Stage letters: 0=A,1=B,2=C,3=D.
+   Tiers follow Armstrong 1998 validation (amputation risk rises with both depth and B/C/D):
+   green = 0A/1A; yellow = 0B/0C/1B/1C/2A; orange = 0D/1D/2B/2C/3A; red = 2D/3B/3C/3D */
+const UT_TIER = [
+  /* G0 */ ['g','y','y','o'],
+  /* G1 */ ['g','y','y','o'],
+  /* G2 */ ['y','o','o','r'],
+  /* G3 */ ['o','r','r','r']
+];
+const UT_TIER_INFO = {
+  g:{cls:'r-green', name:'低风险', msg:'截肢风险低。维持标准照护：减压、血糖控制、定期追踪与足部保护教育。'},
+  y:{cls:'r-yellow', name:'中风险', msg:'风险上升。针对阳性项目处置（感染治疗／血管评估），并强化减压与追踪频率。'},
+  o:{cls:'r-orange', name:'中高风险', msg:'风险明显升高。建议转介多专科足部团队：深部评估（探骨试验/影像）、血管检查与积极感染控制。'},
+  r:{cls:'r-red', name:'高风险', msg:'截肢风险高（深部伤口合并感染/缺血）。尽速多专科处置：血行重建评估、清创/引流、住院与静脉抗生素之考量；3D 为最高风险组。'}
+};
+const UT_STAGE_LETTER=['A','B','C','D'];
+const UT_STAGE_DESC=['无感染或缺血','合并感染','合并缺血','感染＋缺血'];
+const UT_GRADE_DESC=['皮肤完整','浅表','达肌腱/关节囊','达骨/关节'];
+function calcUT(){
+  const g=getVal('ut_g'), s=getVal('ut_s');
+  const res=document.getElementById('ut_result');
+  if(g===null||s===null){
+    res.className='result show r-yellow';
+    res.innerHTML='⚠️ 请完成 Grade 与 Stage 两个项目再判定。';
+    return;
+  }
+  const tier=UT_TIER_INFO[UT_TIER[g][s]];
+  res.className='result show '+tier.cls;
+  res.innerHTML='<div class="score">UT '+g+UT_STAGE_LETTER[s]+'（'+tier.name+'）</div>'+
+    '<div style="margin:6px 0">Grade '+g+'：'+UT_GRADE_DESC[g]+' ／ Stage '+UT_STAGE_LETTER[s]+'：'+UT_STAGE_DESC[s]+'</div>'+
+    '<div>'+tier.msg+'</div>'+
+    '<div class="small" style="margin-top:6px">注：风险分层依 Armstrong 1998 验证研究之趋势摘要（深度与感染/缺血皆独立增加截肢风险）；个案仍需结合临床整体评估。</div>';
 }
 </script>
 <script src="../search-index.js"></script>

@@ -44,7 +44,7 @@ button.reset{background:#fff;color:var(--mid);border:1px solid var(--line);borde
 <ul class="pub"><li class="lbl">🩷 Patient Education</li><li><a href="public_healing.html">Wound Healing</a></li><li><a href="public_acute.html">Common Acute Wounds</a></li><li><a href="public_chronic.html">Common Chronic Wounds</a></li><li><a href="public_dressing_change.html">Dressings & Wet Gauze</a></li><li><a href="public_warning.html">Warning Signs</a></li><li><a href="public_triage.html">When to Seek Care</a></li></ul></nav>
 <main>
 <div class="crumb">Home / Calculators</div>
-<h1>WIfI / SINBAD Calculators</h1>
+<h1>WIfI / SINBAD / UT Calculators</h1>
 <div class="warn">⚠️ These tools are for teaching and clinical decision support only; results cannot replace a complete clinical assessment and professional judgment.</div>
 
 <!-- ==================== SINBAD ==================== -->
@@ -133,7 +133,36 @@ button.reset{background:#fff;color:var(--mid);border:1px solid var(--line);borde
 <div class="ref">Source: Mills JL Sr, et al. SVS WIfI. J Vasc Surg. 2014;59(1):220–234. DOI:10.1016/j.jvs.2013.08.003 (stage lookup summarized from Table 6 of the original article)</div>
 </div>
 
-<p class="small">Last updated: 2026-08-16 ・ Phase 2 v1.0</p>
+<!-- ==================== UT ==================== -->
+<div class="tool" id="ut">
+<h2 style="margin-top:0">University of Texas (UT) Classifier (Diabetic Foot Ulcer)</h2>
+<p class="small">A 4×4 matrix of depth Grade 0–3 × infection/ischemia Stage A–D (1996). Deeper wounds with infection/ischemia carry higher amputation risk. See <a href="staging.html">Staging Systems</a>, section 4.</p>
+
+<div class="q"><div class="qt">Grade — depth (0–3)</div>
+<div class="opts">
+<label><input type="radio" name="ut_g" value="0"><span>Grade 0: pre- or post-ulcerative lesion (intact skin)</span></label>
+<label><input type="radio" name="ut_g" value="1"><span>Grade 1: superficial wound not involving tendon, capsule, or bone</span></label>
+<label><input type="radio" name="ut_g" value="2"><span>Grade 2: penetrating to tendon or joint capsule</span></label>
+<label><input type="radio" name="ut_g" value="3"><span>Grade 3: penetrating to bone or joint</span></label>
+</div></div>
+
+<div class="q" style="border-bottom:0"><div class="qt">Stage — infection and ischemia (A–D)</div>
+<div class="opts">
+<label><input type="radio" name="ut_s" value="0"><span>Stage A: no infection or ischemia</span></label>
+<label><input type="radio" name="ut_s" value="1"><span>Stage B: with infection</span></label>
+<label><input type="radio" name="ut_s" value="2"><span>Stage C: with ischemia</span></label>
+<label><input type="radio" name="ut_s" value="3"><span>Stage D: with both infection and ischemia</span></label>
+</div></div>
+
+<div class="btnrow">
+<button class="calc" onclick="calcUT()">Determine UT Class</button>
+<button class="reset" onclick="resetForm('ut')">Reset</button>
+</div>
+<div class="result" id="ut_result"></div>
+<div class="ref">Source: Lavery LA, Armstrong DG, Harkless LB. 1996 (DOI:10.1016/s1067-2516(96)80125-6); Armstrong DG, et al. Diabetes Care 1998;21(5):855–859 (DOI:10.2337/diacare.21.5.855) (validation study: depth and infection/ischemia each increase amputation risk)</div>
+</div>
+
+<p class="small">Last updated: 2026-08-23 ・ Phase 2 v1.1 (UT classifier added)</p>
 </main>
 <footer>Wound Care Evidence-Based Guide (MVP prototype) © 2026 ・ <a href="index.html">Back to Home</a></footer>
 
@@ -197,6 +226,41 @@ function calcWIfI(){
   res.innerHTML='<div class="score">W'+w+' I'+i+' fI'+fi+' → '+info.name+'</div>'+
     '<div>'+info.msg+'</div>'+
     '<div class="small" style="margin-top:6px">Note: the stage lookup is a summary of the SVS 2014 consensus table; individual cases still require integrated clinical assessment.</div>';
+}
+
+/* ---------- UT (University of Texas) ---------- */
+/* Risk tier by 4x4 matrix. Stage letters: 0=A,1=B,2=C,3=D.
+   Tiers follow Armstrong 1998 validation (amputation risk rises with both depth and B/C/D):
+   green = 0A/1A; yellow = 0B/0C/1B/1C/2A; orange = 0D/1D/2B/2C/3A; red = 2D/3B/3C/3D */
+const UT_TIER = [
+  /* G0 */ ['g','y','y','o'],
+  /* G1 */ ['g','y','y','o'],
+  /* G2 */ ['y','o','o','r'],
+  /* G3 */ ['o','r','r','r']
+];
+const UT_TIER_INFO = {
+  g:{cls:'r-green', name:'Low risk', msg:'Low amputation risk. Maintain standard care: offloading, glycemic control, regular follow-up, and foot-protection education.'},
+  y:{cls:'r-yellow', name:'Intermediate risk', msg:'Risk is elevated. Address the positive component (infection treatment / vascular assessment) and intensify offloading and follow-up frequency.'},
+  o:{cls:'r-orange', name:'Moderate-high risk', msg:'Clearly elevated risk. Refer to a multidisciplinary foot team: deep assessment (probe-to-bone / imaging), vascular workup, and aggressive infection control.'},
+  r:{cls:'r-red', name:'High risk', msg:'High amputation risk (deep wound with infection/ischemia). Urgent multidisciplinary management: revascularization assessment, debridement/drainage, and consideration of admission with IV antibiotics; 3D is the highest-risk group.'}
+};
+const UT_STAGE_LETTER=['A','B','C','D'];
+const UT_STAGE_DESC=['no infection or ischemia','with infection','with ischemia','infection + ischemia'];
+const UT_GRADE_DESC=['intact skin','superficial','to tendon/capsule','to bone/joint'];
+function calcUT(){
+  const g=getVal('ut_g'), s=getVal('ut_s');
+  const res=document.getElementById('ut_result');
+  if(g===null||s===null){
+    res.className='result show r-yellow';
+    res.innerHTML='⚠️ Please complete both Grade and Stage before determining the class.';
+    return;
+  }
+  const tier=UT_TIER_INFO[UT_TIER[g][s]];
+  res.className='result show '+tier.cls;
+  res.innerHTML='<div class="score">UT '+g+UT_STAGE_LETTER[s]+' ('+tier.name+')</div>'+
+    '<div style="margin:6px 0">Grade '+g+': '+UT_GRADE_DESC[g]+' / Stage '+UT_STAGE_LETTER[s]+': '+UT_STAGE_DESC[s]+'</div>'+
+    '<div>'+tier.msg+'</div>'+
+    '<div class="small" style="margin-top:6px">Note: risk tiers summarize the trend in the Armstrong 1998 validation study (depth and infection/ischemia each independently increase amputation risk); individual cases still require integrated clinical assessment.</div>';
 }
 </script>
 <script src="../search-index.js"></script>
