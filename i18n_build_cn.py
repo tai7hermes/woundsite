@@ -39,6 +39,11 @@ ASSET_REWRITES = [
     ('href="cards/', 'href="../cards/'),
 ]
 
+# Language-specific image variants: TC filename -> SC filename (applied only in cn/ build)
+IMG_LANG_SWAP = [
+    ('four_phases_tw.webp', 'four_phases_cn.webp'),
+]
+
 SITE = 'https://wound7.com'
 
 
@@ -99,6 +104,8 @@ def build_cn(page):
         out = out.replace(a, b)
     out = out.replace('lang="zh-Hant"', 'lang="zh-CN"')
     for a, b in ASSET_REWRITES:
+        out = out.replace(a, b)
+    for a, b in IMG_LANG_SWAP:
         out = out.replace(a, b)
     out = rewrite_internal_links(out, set(PHASE_PAGES))
     # remove any switcher copied from the TC source, then inject the cn one
