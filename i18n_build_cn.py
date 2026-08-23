@@ -43,6 +43,7 @@ ASSET_REWRITES = [
 IMG_LANG_SWAP = [
     ('four_phases_tw.webp', 'four_phases_cn.webp'),
     ('dfu_edu_tw.webp', 'dfu_edu_cn.webp'),
+    ('pressure_edu_tw.webp', 'pressure_edu_cn.webp'),
 ]
 
 SITE = 'https://wound7.com'
