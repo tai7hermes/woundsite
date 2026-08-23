@@ -42,6 +42,7 @@ ASSET_REWRITES = [
 # Language-specific image variants: TC filename -> SC filename (applied only in cn/ build)
 IMG_LANG_SWAP = [
     ('four_phases_tw.webp', 'four_phases_cn.webp'),
+    ('dfu_edu_tw.webp', 'dfu_edu_cn.webp'),
 ]
 
 SITE = 'https://wound7.com'
