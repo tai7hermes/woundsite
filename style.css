@@ -45,9 +45,11 @@ tr:nth-child(even) td{background:var(--pale)}
 footer{background:var(--navy);color:#c9d6ea;text-align:center;padding:20px;font-size:.82rem;margin-top:40px}
 footer a{color:#9fc0ee}
 /* 回首頁大按鈕：加大觸碰面積＋高對比底色（暖橘，與 navy footer 對比） */
-a.home-btn{display:inline-block;background:#F2A03D;color:#1C2B4C !important;font-size:1.05rem;font-weight:800;padding:12px 34px;border-radius:12px;margin:12px auto 4px;text-decoration:none;letter-spacing:.06em;box-shadow:0 2px 8px rgba(0,0,0,.25);min-width:180px}
+a.home-btn{display:inline-block;background:#F2A03D;color:#1C2B4C !important;font-size:.95rem;font-weight:800;padding:8px 22px;border-radius:10px;margin:8px auto 2px;text-decoration:none;letter-spacing:.05em;box-shadow:0 2px 6px rgba(0,0,0,.22);min-width:130px;text-align:center}
 a.home-btn:hover{background:#FFB65A;text-decoration:none}
 a.home-btn:active{transform:translateY(1px)}
+/* 導覽列內的首頁鈕再縮一點，與其他 nav 項目高度協調 */
+nav a.home-btn{font-size:.9rem;padding:6px 16px;min-width:0;margin:2px 0}
 details{background:#fff;border:1px solid var(--line);border-radius:8px;margin:8px 0;padding:10px 14px}
 summary{cursor:pointer;font-weight:600;color:var(--navy)}
 .crumb{font-size:.85rem;color:var(--mid);margin:6px 0}
