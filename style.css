@@ -28,6 +28,14 @@ p{margin:8px 0}
 .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px;margin:14px 0;box-shadow:0 1px 3px rgba(28,43,76,.06)}
 .grid{display:grid;gap:14px}
 .grid.c3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+/* 手機版：入口卡一列二欄（對齊 App 首頁） */
+@media (max-width:700px){
+  .grid.c3{grid-template-columns:repeat(2,1fr);gap:10px}
+  .entry{padding:14px 10px}
+  .entry .icon{font-size:1.6rem}
+  .entry h3{font-size:.98rem;margin-top:6px}
+  .entry p.small{font-size:.78rem}
+}
 .entry{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px;text-align:center;transition:.15s}
 .entry:hover{border-color:var(--blue);box-shadow:0 4px 12px rgba(48,92,155,.15)}
 .entry .icon{font-size:2rem}
