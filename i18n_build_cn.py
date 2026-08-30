@@ -117,7 +117,7 @@ def build_cn(page):
     out = rewrite_internal_links(out, set(PHASE_PAGES))
     # remove any switcher copied from the TC source, then inject the cn one
     out = re.sub(r'<div class="langsw">.*?</div>', '', out, flags=re.S)
-    out = re.sub(r'(<header><div class="brand">[^<]*</div>)', r'\1' + lang_switcher(page, 'cn'), out, count=1)
+    out = re.sub(r'(<header><div class="brand">.*?</div>)', r'\1' + lang_switcher(page, 'cn'), out, count=1, flags=re.S)
     out = inject_hreflang(out, page)
     # add disclaimer note about partial translation for non-phase links
     os.makedirs('cn', exist_ok=True)
@@ -129,7 +129,7 @@ def inject_switcher_tw(page):
     """Add/refresh language switcher + hreflang on the TC original page."""
     s = open(page, encoding='utf-8').read()
     s = re.sub(r'<div class="langsw">.*?</div>', '', s, flags=re.S)
-    s = re.sub(r'(<header><div class="brand">[^<]*</div>)', r'\1' + lang_switcher(page, 'tw'), s, count=1)
+    s = re.sub(r'(<header><div class="brand">.*?</div>)', r'\1' + lang_switcher(page, 'tw'), s, count=1, flags=re.S)
     s = inject_hreflang(s, page)
     open(page, 'w', encoding='utf-8').write(s)
 
