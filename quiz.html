@@ -46,7 +46,7 @@
 <header><div class="brand">🩹 <span class="w7">Wound7</span> 傷口循證指引</div><div class="langsw"><a href="en/quiz.html">EN</a><i>|</i><span class="active">繁</span><i>|</i><a href="cn/quiz.html">简</a></div></header>
 <nav><ul><li><a class="home-btn" href="index.html">🏠 首頁</a></li><li><a href="healing.html">癒合原理</a></li><li><a href="acute.html">急性傷口</a></li><li><a href="chronic.html">慢性傷口</a></li><li><a href="staging.html">分期與紀錄</a></li><li><a href="management.html">治療與警示</a></li><li><a href="dressing_principles.html">敷料與濕敷換藥</a></li><li><a href="dressings.html">敷料中心</a></li></ul>
 <ul><li><a href="tools.html">計分工具</a></li><li><a href="burns.html">燒傷面積</a></li><li><a href="decision.html">決策樹</a></li><li><a href="selector.html">敷料選擇器</a></li><li><a href="tetanus.html">破傷風</a></li></ul>
-<ul><li><a href="library.html">指引文獻庫</a></li><li><a href="education.html" class="active">教學專區</a></li><li><a href="updates.html">指南更新追蹤</a></li><li><a href="about.html">關於本站</a></li></ul>
+<ul><li><a href="library.html">指引文獻庫</a></li><li><a href="education.html" class="active">教學專區</a></li><li><a href="updates.html">指引更新追蹤</a></li><li><a href="about.html">關於本站</a></li></ul>
 <ul class="pub"><li class="lbl">🩷 民眾傷口衛教</li><li><a href="public_healing.html">傷口癒合</a></li><li><a href="public_acute.html">常見急性傷口</a></li><li><a href="public_chronic.html">常見慢性傷口</a></li><li><a href="public_dressing_change.html">敷料與濕敷換藥</a></li><li><a href="public_warning.html">傷口惡化警訊</a></li><li><a href="public_triage.html">三級就醫警示</a></li></ul></nav>
 <main>
 <div class="crumb">首頁 / <a href="education.html">教學專區</a> / 自我測驗</div>
@@ -93,7 +93,7 @@ const QB=[
 {c:'糖足',q:'糖足足底潰瘍最有效且不可被敷料取代的處置是？',o:['含銀敷料','減壓（不可拆卸行走裝置）','每日換藥','高壓氧'],a:1,e:'IWGDF：offloading 是核心，敷料不能取代（DOI:10.1002/dmrr.3647）。'},
 {c:'糖足',q:'臨床「未感染」的糖足潰瘍，抗生素使用原則是？',o:['預防性使用 1 週','培養再決定','不使用抗生素','局部抗生素藥膏'],a:2,e:'IWGDF/IDSA：未感染潰瘍不給抗生素——避免抗藥性與副作用。'},
 {c:'糖足',q:'糖足感染要升級為「重度」的關鍵是？',o:['紅斑 >2cm','深及骨頭','出現全身炎症反應（SIRS）','膿性分泌物'],a:2,e:'重度＝合併 SIRS；紅斑>2cm 或深部侵犯是「中度」。'},
-{c:'壓瘡',q:'壓瘡「極大量滲液」時指南特定支持的敷料是？',o:['水膠','水膠體','超吸收敷料','薄膜'],a:2,e:'EPUAP 2019：very heavy exudate → superabsorbent。'},
+{c:'壓瘡',q:'壓瘡「極大量滲液」時指引特定支持的敷料是？',o:['水膠','水膠體','超吸收敷料','薄膜'],a:2,e:'EPUAP 2019：very heavy exudate → superabsorbent。'},
 {c:'壓瘡',q:'高風險病人骨突處「預防」壓瘡，證據支持的敷料是？',o:['多層矽膠泡棉','水膠','藻酸鹽','活性碳'],a:0,e:'預防性多層矽膠泡棉（薦骨/足跟）有隨機試驗證據支持。'},
 {c:'血管',q:'靜脈性潰瘍開始壓力治療前，必須先做的檢查是？',o:['傷口培養','ABI／動脈評估','D-dimer','靜脈攝影'],a:1,e:'鐵律：壓迫前先排除顯著動脈疾病；ABI<0.6 一般禁全壓迫。'},
 {c:'血管',q:'WIfI 系統的三個構面是？',o:['Wound/Infection/Ischemia','Wound/Ischemia/foot Infection','Width/Ischemia/Infection','Wound/Inflammation/Function'],a:1,e:'W 傷口、I 缺血、fI 足部感染，各 0–3 級（SVS 2014）。'},
@@ -161,7 +161,7 @@ function nextQ(){
     const sc=document.getElementById('score');
     const pct=Math.round(scoreN/pool.length*100);
     let msg;
-    if(pct>=90)msg='🏆 優秀！指南掌握度非常高。';
+    if(pct>=90)msg='🏆 優秀！指引掌握度非常高。';
     else if(pct>=70)msg='👍 不錯！複習錯題解析可以更完整。';
     else if(pct>=50)msg='📖 建議搭配速查卡與各章節再複習。';
     else msg='💪 從「傷口分類」與「分期系統」章節開始系統性閱讀吧。';
