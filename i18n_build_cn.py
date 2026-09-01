@@ -15,7 +15,7 @@ PHASE_PAGES = ['index.html', 'healing.html', 'acute.html', 'chronic.html', 'stag
                'education.html', 'cases.html', 'quiz.html', 'terms.html', 'updates.html', 'about.html',
                'public_healing.html', 'public_acute.html', 'public_chronic.html',
                'public_dressing_change.html', 'public_warning.html', 'public_triage.html',
-               'classification.html']
+               'classification.html', 'privacy.html', 'terms_of_use.html']
 
 # Post-OpenCC medical/term corrections (TW->CN clinical usage), applied on simplified text
 TERM_FIX = [
