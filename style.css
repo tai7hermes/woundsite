@@ -10,7 +10,7 @@ a:hover{text-decoration:underline}
 header{background:var(--navy);color:#fff;padding:14px 20px;position:sticky;top:0;z-index:10}
 header .brand{font-size:1.6rem;font-weight:800;letter-spacing:.02em}
 header .brand span{color:#9fc0ee;font-weight:400;font-size:.85rem;margin-left:8px}
-header .brand img.mark{height:38px;width:auto;vertical-align:-11px;margin-right:4px}
+header .brand img.mark{height:48px;width:auto;vertical-align:-14px;margin-right:6px}
 .brand .w7{color:#F2A03D;font-size:1.18em;font-weight:900}
 nav{background:var(--blue)}
 nav ul{display:flex;flex-wrap:wrap;list-style:none;max-width:1100px;margin:0 auto}
