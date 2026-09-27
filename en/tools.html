@@ -44,7 +44,7 @@ button.reset{background:#fff;color:var(--mid);border:1px solid var(--line);borde
 <ul class="pub"><li class="lbl">🩷 Patient Education</li><li><a href="public_healing.html">Wound Healing</a></li><li><a href="public_acute.html">Common Acute Wounds</a></li><li><a href="public_chronic.html">Common Chronic Wounds</a></li><li><a href="public_dressing_change.html">Dressings & Wet Gauze</a></li><li><a href="public_warning.html">Warning Signs</a></li><li><a href="public_triage.html">When to Seek Care</a></li></ul></nav>
 <main>
 <div class="crumb">Home / Calculators</div>
-<h1>WIfI / SINBAD / UT Calculators</h1>
+<h1>WIfI / SINBAD / UT / MNA Calculators</h1>
 <div class="warn">⚠️ These tools are for teaching and clinical decision support only; results cannot replace a complete clinical assessment and professional judgment.</div>
 
 <!-- ==================== SINBAD ==================== -->
@@ -162,7 +162,65 @@ button.reset{background:#fff;color:var(--mid);border:1px solid var(--line);borde
 <div class="ref">Source: Lavery LA, Armstrong DG, Harkless LB. 1996 (DOI:10.1016/s1067-2516(96)80125-6); Armstrong DG, et al. Diabetes Care 1998;21(5):855–859 (DOI:10.2337/diacare.21.5.855) (validation study: depth and infection/ischemia each increase amputation risk)</div>
 </div>
 
-<p class="small">Last updated: 2026-08-23 ・ Phase 2 v1.1 (UT classifier added)</p>
+<!-- ==================== MNA ==================== -->
+<div class="tool" id="mna">
+<h2 style="margin-top:0">Mini Nutritional Assessment (MNA®-SF) Screening</h2>
+<p class="small">6-item screening tool (max 14 points). For elderly and long-term care patients to quickly screen for malnutrition risk. See <a href="../nutrition.html">Nutrition & Diet</a> for details.</p>
+
+<div class="q"><div class="qt">A. Has food intake declined over the past 3 months? (loss of appetite, digestive/chewing/swallowing difficulty)</div>
+<div class="opts">
+<label><input type="radio" name="mna_a" value="0"><span>0 = Severe decrease</span></label>
+<label><input type="radio" name="mna_a" value="1"><span>1 = Moderate decrease</span></label>
+<label><input type="radio" name="mna_a" value="2"><span>2 = No change</span></label>
+</div></div>
+
+<div class="q"><div class="qt">B. Weight loss during the past 3 months</div>
+<div class="opts">
+<label><input type="radio" name="mna_b" value="0"><span>0 = Loss &gt; 3 kg</span></label>
+<label><input type="radio" name="mna_b" value="1"><span>1 = Uncertain</span></label>
+<label><input type="radio" name="mna_b" value="2"><span>2 = Loss 1–3 kg</span></label>
+<label><input type="radio" name="mna_b" value="3"><span>3 = No loss</span></label>
+</div></div>
+
+<div class="q"><div class="qt">C. Mobility</div>
+<div class="opts">
+<label><input type="radio" name="mna_c" value="0"><span>0 = Bedridden or wheelchair-bound</span></label>
+<label><input type="radio" name="mna_c" value="1"><span>1 = Able to get out of bed/chair but does not go out</span></label>
+<label><input type="radio" name="mna_c" value="2"><span>2 = Goes out</span></label>
+</div></div>
+
+<div class="q"><div class="qt">D. Psychological stress or acute disease in the past 3 months</div>
+<div class="opts">
+<label><input type="radio" name="mna_d" value="0"><span>0 = Yes</span></label>
+<label><input type="radio" name="mna_d" value="2"><span>2 = No</span></label>
+</div></div>
+
+<div class="q"><div class="qt">E. Neuropsychological problems</div>
+<div class="opts">
+<label><input type="radio" name="mna_e" value="0"><span>0 = Severe dementia or depression</span></label>
+<label><input type="radio" name="mna_e" value="1"><span>1 = Mild dementia</span></label>
+<label><input type="radio" name="mna_e" value="2"><span>2 = No psychological problems</span></label>
+</div></div>
+
+<div class="q" style="border-bottom:0"><div class="qt">F. Body Mass Index BMI (kg/m²)</div>
+<div class="opts">
+<label><input type="radio" name="mna_f" value="0"><span>0 = BMI &lt; 19</span></label>
+<label><input type="radio" name="mna_f" value="1"><span>1 = BMI 19–&lt;21</span></label>
+<label><input type="radio" name="mna_f" value="2"><span>2 = BMI 21–&lt;23</span></label>
+<label><input type="radio" name="mna_f" value="3"><span>3 = BMI ≥ 23</span></label>
+</div>
+<p class="small" style="margin-top:6px">Alternative: if BMI cannot be measured, use calf circumference (F2) — 0 = CC &lt; 31 cm, 3 = CC ≥ 31 cm (either one may be used).</p>
+</div>
+
+<div class="btnrow">
+<button class="calc" onclick="calcMNA()">Calculate MNA Score</button>
+<button class="reset" onclick="resetForm('mna')">Reset</button>
+</div>
+<div class="result" id="mna_result"></div>
+<div class="ref">Source: Vellas B, et al. J Nutr Health Aging 2006;10:456–465; Rubenstein LZ, et al. J Geront 2001;56A:M366–377; Kaiser MJ, et al. J Nutr Health Aging 2009;13:782–788 (MNA-SF validation)</div>
+</div>
+
+<p class="small">Last updated: 2026-09-27 ・ Phase 2 v1.2 (MNA-SF nutrition screening added)</p>
 </main>
 <footer><a class="home-btn" href="index.html">🏠 Home</a><br>Wound Care Evidence-Based Guide (MVP prototype) © 2026</footer>
 
@@ -261,6 +319,25 @@ function calcUT(){
     '<div style="margin:6px 0">Grade '+g+': '+UT_GRADE_DESC[g]+' / Stage '+UT_STAGE_LETTER[s]+': '+UT_STAGE_DESC[s]+'</div>'+
     '<div>'+tier.msg+'</div>'+
     '<div class="small" style="margin-top:6px">Note: risk tiers summarize the trend in the Armstrong 1998 validation study (depth and infection/ischemia each independently increase amputation risk); individual cases still require integrated clinical assessment.</div>';
+}
+
+/* ---------- MNA-SF ---------- */
+function calcMNA(){
+  const keys=['mna_a','mna_b','mna_c','mna_d','mna_e','mna_f'];
+  const vals=keys.map(getVal);
+  const res=document.getElementById('mna_result');
+  if(vals.includes(null)){
+    res.className='result show r-yellow';
+    res.innerHTML='⚠️ Please complete all 6 items before calculating.';
+    return;
+  }
+  const total=vals.reduce((a,b)=>a+b,0);
+  let cls, msg;
+  if(total>=12){cls='r-green'; msg='Normal nutritional status. Maintain a balanced diet and regular follow-up.';}
+  else if(total>=8){cls='r-orange'; msg='At risk of malnutrition. Further full MNA assessment and nutritional intervention (calorie/protein supplementation) are recommended.';}
+  else{cls='r-red'; msg='Malnourished. Refer to a dietitian for full nutritional assessment (GLIM diagnosis) and active nutritional intervention.';}
+  res.className='result show '+cls;
+  res.innerHTML='<div class="score">MNA-SF = '+total+' / 14</div><div>'+msg+'</div>';
 }
 </script>
 <script src="../search-index.js"></script>
