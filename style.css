@@ -32,12 +32,14 @@ p{margin:8px 0}
 .grid.c3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
 /* 手機版：入口卡與網站地圖卡一列二欄（尺寸一致） */
 @media (max-width:700px){
-  .grid.c3{grid-template-columns:repeat(2,1fr);gap:10px}
+  .grid.c3{grid-template-columns:repeat(2,1fr);gap:10px;align-items:stretch}
   .entry{padding:14px 10px}
   .entry .icon{font-size:1.6rem}
   .entry h3{font-size:.98rem;margin-top:6px}
   .entry p.small{font-size:.78rem}
-  .card{padding:14px;margin:7px 0}
+  .card{padding:14px;margin:0;height:100%;box-sizing:border-box}
+  .card h3{font-size:.92rem}
+  .card p.small{font-size:.76rem;line-height:1.45}
 }
 .entry{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px;text-align:center;transition:.15s}
 .entry:hover{border-color:var(--blue);box-shadow:0 4px 12px rgba(48,92,155,.15)}
