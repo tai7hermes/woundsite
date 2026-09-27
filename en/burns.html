@@ -77,6 +77,33 @@ button.reset{background:#fff;color:var(--mid);border:1px solid var(--line);borde
 
 <div class="refer" id="referBox" style="display:none"></div>
 
+<div class="card" style="margin-top:20px">
+<h2 style="margin-top:0">Parkland Formula — 24-Hour Fluid Resuscitation Calculator</h2>
+<p class="small">The most widely used formula for estimating fluid resuscitation requirements during the initial 24 hours post-injury in major burn patients. Fluids should be titrated to urine output, blood pressure, perfusion, and lactate — do not rigidly follow the formula.</p>
+
+<div class="wt">
+<span>Body weight (kg):</span>
+<input type="number" id="pk_wt" min="1" max="250" placeholder="kg" oninput="calcParkland()">
+</div>
+<div class="wt">
+<span>Burn area TBSA (%):</span>
+<input type="number" id="pk_tbsa" min="1" max="100" placeholder="%" oninput="calcParkland()">
+</div>
+
+<div class="result show" id="pk_result" style="display:none">
+<div class="score" id="pk_total"></div>
+<div id="pk_split"></div>
+<div id="pk_fluid"></div>
+</div>
+
+<div class="ref" style="margin-top:12px">
+<p style="margin:4px 0"><b>Formula</b>: Total fluid volume (mL) = 4 mL × body weight (kg) × burn surface area (% TBSA).</p>
+<p style="margin:4px 0"><b>Infusion rate distribution</b> (from time of injury): First 8 hours — give half (1/2) of total volume; next 16 hours — give the remaining half (1/2).</p>
+<p style="margin:4px 0"><b>Fluid type</b>: First choice is isotonic crystalloid solution, particularly Lactated Ringer's solution (RL), whose ionic composition most closely resembles extracellular fluid.</p>
+<p style="margin:4px 0"><b>Monitoring</b>: Adults: maintain urine output 0.5 mL/kg/hr (~30–50 mL/hr); children (< 30 kg): 1 mL/kg/hr. Avoid over-resuscitation causing fluid creep, pulmonary edema, or compartment syndrome.</p>
+</div>
+</div>
+
 <div class="card">
 <h2 style="margin-top:0">ABA Burn Center Referral Criteria (Summary)</h2>
 <ul style="padding-left:20px;font-size:.92rem">
@@ -167,6 +194,18 @@ function resetAll(){
   REGIONS.forEach(r=>{document.getElementById('sl_'+r[0]).value=0;});
   document.getElementById('wt').value='';
   update();
+}
+/* ---------- Parkland standalone calculator ---------- */
+function calcParkland(){
+  const wt=parseFloat(document.getElementById('pk_wt').value);
+  const tbsa=parseFloat(document.getElementById('pk_tbsa').value);
+  const res=document.getElementById('pk_result');
+  if(!wt||!tbsa||wt<=0||tbsa<=0){res.style.display='none';return;}
+  const vol=4*wt*tbsa;
+  document.getElementById('pk_total').innerHTML='Parkland 24h total fluid volume: <b>'+Math.round(vol).toLocaleString()+' mL</b>';
+  document.getElementById('pk_split').innerHTML='First 8 hours: <b>'+Math.round(vol/2).toLocaleString()+' mL</b> / Next 16 hours: <b>'+Math.round(vol/2).toLocaleString()+' mL</b>';
+  document.getElementById('pk_fluid').innerHTML='First choice: <b>Lactated Ringer\u2019s (RL)</b>　Target urine output: adults 0.5 mL/kg/hr, children (< 30 kg) 1 mL/kg/hr';
+  res.style.display='block';
 }
 buildTable();update();
 </script>

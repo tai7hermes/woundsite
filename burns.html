@@ -77,8 +77,34 @@ button.reset{background:#fff;color:var(--mid);border:1px solid var(--line);borde
 
 <div class="refer" id="referBox" style="display:none"></div>
 
+<div class="card" style="margin-top:20px">
+<h2 style="margin-top:0">Parkland 公式（帕克蘭公式）—— 24 小時液體復甦計算器</h2>
+<p class="small">大面積燒燙傷病人受傷後最初 24 小時體液復甦（Fluid Resuscitation）輸液需求量最廣泛使用之公式。輸液應依尿量、血壓、灌流、乳酸動態調整，不可固守公式。</p>
+
+<div class="wt">
+<span>體重（kg）：</span>
+<input type="number" id="pk_wt" min="1" max="250" placeholder="kg" oninput="calcParkland()">
+</div>
+<div class="wt">
+<span>燒傷面積 TBSA（%）：</span>
+<input type="number" id="pk_tbsa" min="1" max="100" placeholder="%" oninput="calcParkland()">
+</div>
+
+<div class="result show" id="pk_result" style="display:none">
+<div class="score" id="pk_total"></div>
+<div id="pk_split"></div>
+<div id="pk_fluid"></div>
+</div>
+
+<div class="ref" style="margin-top:12px">
+<p style="margin:4px 0"><b>計算公式</b>：總輸液量（mL）＝ 4 mL × 體重（kg） × 燒傷面積百分比（% TBSA）。</p>
+<p style="margin:4px 0"><b>輸液速度分配</b>（自受傷時間起算）：前 8 小時給予總液體量的一半（1/2），後 16 小時給予另一半（1/2）。</p>
+<p style="margin:4px 0"><b>輸液種類</b>：首選等張晶體溶液（Crystalloid），特別是乳酸林格氏液（Lactated Ringer's solution, RL），其離子組成最接近細胞外液。</p>
+<p style="margin:4px 0"><b>監測</b>：成人尿量維持 0.5 mL/kg/hr（約 30–50 mL/hr）；兒童（< 30 kg）維持 1 mL/kg/hr。避免過度輸液造成 fluid creep、肺水腫或腔室症候群。</p>
+</div>
+</div>
+
 <div class="card">
-<h2 style="margin-top:0">ABA 燒傷中心轉診準則（摘要）</h2>
 <ul style="padding-left:20px;font-size:.92rem">
 <li>部分層燒傷 <b>&gt;10% TBSA</b></li>
 <li>顏面、手、足、生殖器、會陰或主要關節之燒傷</li>
@@ -167,6 +193,18 @@ function resetAll(){
   REGIONS.forEach(r=>{document.getElementById('sl_'+r[0]).value=0;});
   document.getElementById('wt').value='';
   update();
+}
+/* ---------- Parkland 獨立計算器 ---------- */
+function calcParkland(){
+  const wt=parseFloat(document.getElementById('pk_wt').value);
+  const tbsa=parseFloat(document.getElementById('pk_tbsa').value);
+  const res=document.getElementById('pk_result');
+  if(!wt||!tbsa||wt<=0||tbsa<=0){res.style.display='none';return;}
+  const vol=4*wt*tbsa;
+  document.getElementById('pk_total').innerHTML='Parkland 24h 總輸液量：<b>'+Math.round(vol).toLocaleString()+' mL</b>';
+  document.getElementById('pk_split').innerHTML='前 8 小時：<b>'+Math.round(vol/2).toLocaleString()+' mL</b> ／ 後 16 小時：<b>'+Math.round(vol/2).toLocaleString()+' mL</b>';
+  document.getElementById('pk_fluid').innerHTML='首選：<b>乳酸林格氏液（RL）</b>　目標尿量：成人 0.5 mL/kg/hr，兒童（< 30 kg）1 mL/kg/hr';
+  res.style.display='block';
 }
 buildTable();update();
 </script>
